@@ -14,4 +14,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'fqueryApp.views.render_login', name='render_login'),
+    url(r'^home/', include('fqueryApp.urls')),
 )
