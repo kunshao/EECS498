@@ -1,8 +1,6 @@
-{% load staticfiles %}
-
 <html>
     <head>
-        Welcome to fQuery login page!
+        Welcome to fQuery HOME page!
     </head>
     <body>
 
@@ -27,13 +25,17 @@
 
             FB.Event.subscribe('auth.authResponseChange', function(response) {
                 if (response.status === 'connected') {
-                  console.log('Logged in');
-                  window.location = "{% url 'fqueryApp:home' %}";
+                  testAPI();
+                  console.log("Logged in!");
+
                 } else {
-                  FB.login();
+                  window.location = "{% url 'fqueryApp:render_login' %}";
+                  console.log("Not loggedin");
                 }
               });
           };
+
+
 
           (function(d, s, id){
              var js, fjs = d.getElementsByTagName(s)[0];
@@ -42,6 +44,18 @@
              js.src = "//connect.facebook.net/en_US/all.js";
              fjs.parentNode.insertBefore(js, fjs);
            }(document, 'script', 'facebook-jssdk'));
+
+
+          function testAPI(){
+              console.log('Welcome!  Fetching your information.... ');
+              FB.api('/me', function(response) {
+                console.log('Good to see you, ' + response.name + '.');
+                window.my_id = response.id;
+                window.my_name = response.name;
+                console.log('ID: ', response.id);
+                
+              })
+          }
         </script>
     
     </body>
