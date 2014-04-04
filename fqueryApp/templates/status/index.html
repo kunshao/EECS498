@@ -1,0 +1,46 @@
+<html>
+<body>
+<h1> Our Awesome Statuses</h1>
+
+<script>
+function foo()
+{
+    var txt     = document.getElementById("txtKeyword").value;
+    var type    = document.getElementById("listSearchType").value;
+    alert("You searched " + txt + " of type " + type);
+}
+</script>
+<table>
+    <tr>
+        <td><label>Search</label></td>
+        <td><input type="text" name="keyword" id="txtKeyword"></td>
+        <td><label>Within</label></td>
+        <td>
+            <select id="listSearchType">
+                <option value="status">Status</option>
+            </select>
+        </td>
+        <td><button type="button" OnClick="foo()">GO</button></td>
+</table>
+
+<table>
+    {% if status_list %}
+    <tr>
+        <th>Status Post</th>
+        <th>From</th>
+        <th>Date</th>
+    </tr>
+        {% for status in status_list %}
+        <tr>
+            <td width = "200">{{status.smessage}}</td>
+            <td width = "80">{{status.sfrom}}</td>
+            <td width = "200">{{status.supdated_time}}</td>
+        </tr>
+        {% endfor%}
+    {% else %}
+        <p>No statuses are available.</p>
+    {% endif %}
+</table>
+
+<body>
+<html>

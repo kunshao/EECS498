@@ -9,5 +9,6 @@ urlpatterns = patterns('',
     url(r'^render_login/$', views.render_login, name = 'render_login'),
     
     # url(r'^render_login/$', views.render_login, name = 'render_login'),
+    url(r'^search/$', views.index, name='search')
     
 )
