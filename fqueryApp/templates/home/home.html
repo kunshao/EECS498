@@ -23,6 +23,7 @@
 
 
         <div id = "friend_list_div"></div>
+        <div id = "status_list_length"></div>
         <div id = "status_list_div"></div>
 
         <script>
@@ -57,24 +58,39 @@
             // Get user statuses and display them.
             function get_statuses () {
                 log('Fetching your statuses ...');
-                FB.api('/me/statuses', function (response) {
+                window.status_count = 0;
+                get_partial_status_list('/me/statuses');
+            }
+
+            function get_partial_status_list(fb_graph_api_url){
+                log("Fetching new page...");
+                FB.api(fb_graph_api_url, function (response) {
                     status_list = response.data;
 
-                    var status_list_ul = document.createElement("ul");
-                    for (var i = 0; i < status_list.length; ++i){
-                        
-                        // console.log("Processing " + response.data[i].name);
-                        var status_li = document.createElement("li");
-                        status_li.innerHTML = status_list[i].message;
-                        status_list_ul.appendChild(status_li);
+                    if (status_list.length > 0){
+                        window.status_count += status_list.length;
+                        var status_list_ul = document.createElement("ul");
+                        for (var i = 0; i < status_list.length; ++i){
+                            
+                            // console.log("Processing " + response.data[i].name);
+                            var status_li = document.createElement("li");
+                            status_li.innerHTML = status_list[i].message;
+                            status_list_ul.appendChild(status_li);
+                        }
+
+                        document.getElementById("status_list_div").appendChild(status_list_ul)
+                        save_statuses(status_list);
                     }
 
-                    document.getElementById("status_list_div").appendChild(status_list_ul)
-                    save_statuses(status_list);
+                    if (response.hasOwnProperty('paging')){
+                        get_partial_status_list(response.paging.next);
+                    }
+                    else{
+                        document.getElementById("status_list_length").innerHTML = window.status_count + " statuses retrieved.";
+                    }
                 })
-
-
             }
+
 
             function save_statuses (status_list) {
                 $.post(
@@ -83,7 +99,7 @@
                     function(server_response) {
                       log(server_response);
                     }
-                  );  
+                  );
             }
 
 

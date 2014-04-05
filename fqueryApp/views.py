@@ -52,7 +52,6 @@ def local_save_statuses(status_arrary):
 
 
 
-
 def index(request):
     status_list = status.objects.all()
     template = loader.get_template('status/index.html')
