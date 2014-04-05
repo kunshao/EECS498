@@ -10,12 +10,15 @@
             show-faces="false"
             width="200"
             max-rows="1"
-            autologoutlink="true">
+            autologoutlink="true"
+            scope="user_status">
           </fb:login-button>
         </div>
 
+
         <div id = "friend_list_div"></div>
-        
+        <div id = "status_list_div"></div>
+
         <script>
             // Log to console
             function log(msg) {
@@ -41,6 +44,25 @@
                     document.getElementById("friend_list_div").appendChild(friend_list_li)
 
                 });
+            }
+
+            // Get user statuses and display them.
+            function get_statuses () {
+                log('Fetching your friend list...');
+                FB.api('/me/statuses', function (response) {
+                    status_list = response.data;
+
+                    var status_list_ul = document.createElement("ul");
+                    for (var i = 0; i < status_list.length; ++i){
+                        
+                        // console.log("Processing " + response.data[i].name);
+                        var status_li = document.createElement("li");
+                        status_li.innerHTML = status_list[i].message;
+                        status_list_ul.appendChild(status_li);
+                    }
+
+                    document.getElementById("status_list_div").appendChild(status_list_ul)
+                })
             }
 
 
@@ -84,7 +106,8 @@
                 window.my_name = response.name;
                 console.log('ID: ', response.id);
               })
-              get_friend_list();
+              // get_friend_list();
+              get_statuses();
           }
         </script>
     
