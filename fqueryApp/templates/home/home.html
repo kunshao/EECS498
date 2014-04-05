@@ -59,12 +59,13 @@
             function get_statuses () {
                 log('Fetching your statuses ...');
                 window.status_count = 0;
-                get_partial_status_list('/me/statuses');
+                get_partial_status_list(100, 0);
             }
 
-            function get_partial_status_list(fb_graph_api_url){
+            function get_partial_status_list(limit, offset){
                 log("Fetching new page...");
-                FB.api(fb_graph_api_url, function (response) {
+                query = 'me/statuses?limit=' + limit + '&offset=' + offset;
+                FB.api(query, function (response) {
                     status_list = response.data;
 
                     if (status_list.length > 0){
@@ -80,14 +81,12 @@
 
                         document.getElementById("status_list_div").appendChild(status_list_ul)
                         save_statuses(status_list);
-                    }
-
-                    if (response.hasOwnProperty('paging')){
-                        get_partial_status_list(response.paging.next);
+                        get_partial_status_list(limit, offset + limit)
                     }
                     else{
-                        document.getElementById("status_list_length").innerHTML = window.status_count + " statuses retrieved.";
+                        document.getElementById("status_list_length").innerHTML = window.status_count + " statuses retrieved."
                     }
+
                 })
             }
 
