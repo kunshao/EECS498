@@ -4,7 +4,6 @@
     </head>
     <body>
 
-
         <div id="fb-root"></div>
         <div>
           <fb:login-button
@@ -14,31 +13,62 @@
             autologoutlink="true">
           </fb:login-button>
         </div>
+
+        <div id = "friend_list_div"></div>
+        
         <script>
-          window.fbAsyncInit = function() {
-            FB.init({
-              appId      : '{{ FACEBOOK_APP_ID }}',
-              status     : true,
-              xfbml      : true
-            });
+            // Log to console
+            function log(msg) {
+                console.log(msg);
+            }
+
+            function get_friend_list(){
+                log('Fetching your friend list...');
+                FB.api('/me/friends', function(response){
+                    log("Total of " + response.data.length + " friends.");
+
+                    // Display friend list.
+                    var friend_list_li = document.createElement("ul");
+                    for (var i = 0; i < response.data.length; ++i){
+                        // log("")
+                        console.log("Processing " + response.data[i].name);
+                        var one_friend_element = document.createElement("li");
+                        one_friend_element.innerHTML =  response.data[i].id + " " +
+                                                        response.data[i].name;
+                        friend_list_li.appendChild(one_friend_element);
+                    }
+
+                    document.getElementById("friend_list_div").appendChild(friend_list_li)
+
+                });
+            }
+
+
+
+            window.fbAsyncInit = function() {
+                FB.init({
+                  appId      : '{{ FACEBOOK_APP_ID }}',
+                  status     : true,
+                  xfbml      : true
+                });
           
 
-            FB.Event.subscribe('auth.authResponseChange', function(response) {
-                if (response.status === 'connected') {
-                  testAPI();
-                  console.log("Logged in!");
+                FB.Event.subscribe('auth.authResponseChange', function(response) {
+                    if (response.status === 'connected') {
+                      testAPI();
+                      console.log("Logged in!");
 
-                } else {
-                  window.location = "{% url 'fqueryApp:render_login' %}";
-                  console.log("Not loggedin");
-                }
-              });
-          };
+                    } else {
+                      window.location = "{% url 'fqueryApp:render_login' %}";
+                      console.log("Not loggedin");
+                    }
+                  });
+            };
 
 
 
           (function(d, s, id){
-             var js, fjs = d.getElementsByTagName(s)[0];
+            var js, fjs = d.getElementsByTagName(s)[0];
              if (d.getElementById(id)) {return;}
              js = d.createElement(s); js.id = id;
              js.src = "//connect.facebook.net/en_US/all.js";
@@ -53,8 +83,8 @@
                 window.my_id = response.id;
                 window.my_name = response.name;
                 console.log('ID: ', response.id);
-                
               })
+              get_friend_list();
           }
         </script>
     
