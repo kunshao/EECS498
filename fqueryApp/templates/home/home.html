@@ -11,7 +11,7 @@
             width="200"
             max-rows="1"
             autologoutlink="true"
-            scope="user_status">
+            scope="user_status, friends_status">
           </fb:login-button>
         </div>
 
@@ -46,9 +46,11 @@
                 });
             }
 
+
+
             // Get user statuses and display them.
             function get_statuses () {
-                log('Fetching your friend list...');
+                log('Fetching your statuses ...');
                 FB.api('/me/statuses', function (response) {
                     status_list = response.data;
 
@@ -62,7 +64,20 @@
                     }
 
                     document.getElementById("status_list_div").appendChild(status_list_ul)
+                    // save_statuses(status_list);
                 })
+
+
+            }
+
+            function save_statuses (status_list) {
+                $.post(
+                    "{% url 'home:store_user_statuses' %}",
+                    JSON.stringify(friend_list),
+                    function(server_response) {
+                      log(server_response);
+                    }
+                  );  
             }
 
 

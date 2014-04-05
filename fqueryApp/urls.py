@@ -7,6 +7,9 @@ urlpatterns = patterns('',
     url(r'^$', views.render_login, name = 'render_login'),
 
     url(r'^render_login/$', views.render_login, name = 'render_login'),
+
+    # url to save all statuses by the user. Shouldn't be called by user.
+    url(r'^save_statuses/$', views.save_statuses, name = 'save_statuses'),    
     
     # url(r'^render_login/$', views.render_login, name = 'render_login'),
     url(r'^search/$', views.index, name='search')
