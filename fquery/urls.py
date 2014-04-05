@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'fqueryApp.views.home', name='home'),
-    url(r'^home/', include('fqueryApp.urls', namespace = 'fqueryApp')),
-    url(r'^fqueryApp/', include('fqueryApp.urls')),
+
+	#includes all the urls from the fqueryApp project
+    (r'^fquery/', include('fqueryApp.urls', namespace = 'fqueryApp')),
 )
