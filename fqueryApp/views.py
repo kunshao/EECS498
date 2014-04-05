@@ -35,17 +35,18 @@ def save_statuses(request):
 
 def local_save_statuses(status_arrary):
     print 'local_save_statuses'
-    # print status_arrary
+    
 
     for status_json_obj in status_arrary:
         print status_json_obj
         print status_json_obj['id']
         print status_json_obj['from']['id']
         print status_json_obj['message']
+        print status_json_obj['updated_time']
         status, created = Status.objects.get_or_create(status_id = status_json_obj['id'])
         status.status_from_id = status_json_obj['from']['id']
         status.status_message = status_json_obj['message']
-        # status.status_updated_time = status_json_obj.['updated_time']
+        status.status_updated_time = status_json_obj['updated_time']
         status.save()
 
 
