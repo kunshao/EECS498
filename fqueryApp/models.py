@@ -9,3 +9,17 @@ class Status(models.Model):
 
     def __unicode__(self):
         return self.status_message
+
+
+class Comment(models.Model):
+    comment_id              = models.CharField(max_length = 30, primary_key = True)
+    comment_from_id         = models.CharField(max_length = 30, blank=True)
+    comment_message         = models.TextField(blank = True)
+    comment_can_remove      = models.NullBooleanField(null = True)
+    comment_created_time    = models.DateTimeField(blank = True, null = True)
+    comment_like_count      = models.IntegerField(null = True)
+    user_likes              = models.NullBooleanField(null = True)
+
+    def __unicode__(self):
+        return self.comment_message
+

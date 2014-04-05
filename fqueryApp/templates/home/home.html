@@ -73,9 +73,15 @@
                         var status_list_ul = document.createElement("ul");
                         for (var i = 0; i < status_list.length; ++i){
                             
-                            // console.log("Processing " + response.data[i].name);
                             var status_li = document.createElement("li");
                             status_li.innerHTML = status_list[i].message;
+                            if (status_list[i].comments){
+                                log("Making comment list...");
+                                status_li.appendChild(make_comment_list(status_list[i].comments));
+                            }
+                            else{
+                                log("No comment list...");
+                            }
                             status_list_ul.appendChild(status_li);
                         }
 
@@ -88,6 +94,21 @@
                     }
 
                 })
+            }
+
+            function make_comment_list(commment_list_obj){
+
+                comment_list = commment_list_obj.data;
+
+                var comment_list_ul = document.createElement("ul");
+                for (var i = 0; i < comment_list.length; ++i){
+                    
+                    var comment_li = document.createElement("li");
+                    comment_li.innerHTML = comment_list[i].message;
+
+                    comment_list_ul.appendChild(comment_li);
+                }
+                return comment_list_ul;
             }
 
 
