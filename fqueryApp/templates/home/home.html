@@ -1,6 +1,12 @@
 <html>
     <head>
+        <title>
+            Welcome to fQuery HOME page!    
+        </title>
         Welcome to fQuery HOME page!
+        <script
+          src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js">
+        </script>
     </head>
     <body>
 
@@ -64,7 +70,7 @@
                     }
 
                     document.getElementById("status_list_div").appendChild(status_list_ul)
-                    // save_statuses(status_list);
+                    save_statuses(status_list);
                 })
 
 
@@ -72,8 +78,8 @@
 
             function save_statuses (status_list) {
                 $.post(
-                    "{% url 'home:store_user_statuses' %}",
-                    JSON.stringify(friend_list),
+                    "{% url 'fqueryApp:save_statuses' %}",
+                    JSON.stringify(status_list),
                     function(server_response) {
                       log(server_response);
                     }

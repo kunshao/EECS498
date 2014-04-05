@@ -17,5 +17,5 @@ urlpatterns = patterns('',
     url(r'^$', 'fqueryApp.views.home', name='home'),
 
 	#includes all the urls from the fqueryApp project
-    (r'^fquery/', include('fqueryApp.urls', namespace = 'fqueryApp')),
+    url(r'^fqueryApp/', include('fqueryApp.urls', namespace = 'fqueryApp')),
 )
