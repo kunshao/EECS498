@@ -92,8 +92,8 @@
 
                 FB.Event.subscribe('auth.authResponseChange', function(response) {
                     if (response.status === 'connected') {
-                      testAPI();
                       console.log("Logged in!");
+                      testAPI();
 
                     } else {
                       window.location = "{% url 'fqueryApp:render_login' %}";
@@ -101,6 +101,8 @@
                     }
                   });
             };
+
+            
 
 
 
