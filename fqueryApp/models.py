@@ -15,10 +15,7 @@ class Comment(models.Model):
     comment_id              = models.CharField(max_length = 30, primary_key = True)
     comment_from_id         = models.CharField(max_length = 30, blank=True)
     comment_message         = models.TextField(blank = True)
-    comment_can_remove      = models.NullBooleanField(null = True)
     comment_created_time    = models.DateTimeField(blank = True, null = True)
-    comment_like_count      = models.IntegerField(null = True)
-    user_likes              = models.NullBooleanField(null = True)
 
     def __unicode__(self):
         return self.comment_message
@@ -29,7 +26,6 @@ class Link(models.Model):
     link_created_time       = models.DateTimeField(blank = True, null = True)
     link_description        = models.TextField(blank = True)
     link_from_id            = models.CharField(max_length = 30, blank=True)
-    link_icon               = models.TextField(blank = True)
     link_link               = models.TextField(blank = True)
     link_message            = models.TextField(blank = True)
     link_name               = models.TextField(blank = True)
@@ -100,9 +96,9 @@ class Question(models.Model):
 class QuestionOption(models.Model):
     question_option_id      = models.CharField(max_length = 30, primary_key = True)
     question_option_created_time = models.DateTimeField(blank = True, null = True)
-    question_option_from_id = models.CharField(max_length = 30, primary_key = True)
+    question_option_from_id = models.CharField(max_length = 30, blank=True)
     question_option_name    = models.TextField(blank = True)
     question_option_vote_count = models.IntegerField(null = True)
-    
+
     def __unicode__(self):
             return self.question_option_name

@@ -5,7 +5,8 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import simplejson
 
-from fqueryApp.models import Status, Comment
+from fqueryApp.models import Status, Comment, Photo, Link, Note, Video, Post, Question, QuestionOption
+
 from fquery import settings
 
 
@@ -37,17 +38,73 @@ def local_save_statuses(status_arrary):
     print 'local_save_statuses'
     
 
-    for status_json_obj in status_arrary:
-        print status_json_obj
-        print status_json_obj['id']
-        print status_json_obj['from']['id']
-        print status_json_obj['message']
-        print status_json_obj['updated_time']
-        status, created = Status.objects.get_or_create(status_id = status_json_obj['id'])
-        status.status_from_id = status_json_obj['from']['id']
-        status.status_message = status_json_obj['message']
-        status.status_updated_time = status_json_obj['updated_time']
+    for json_obj in status_arrary:
+        status, created = Status.objects.get_or_create(status_id = json_obj['id'])
+        status.status_from_id = json_obj['from']['id']
+        status.status_message = json_obj['message']
+        status.status_updated_time = json_obj['updated_time']
+        if ('comments' in json_obj):
+            local_save_comments(json_obj['comments']['data'])
         status.save()
+
+@csrf_exempt
+def save_photos(request):
+    print 'save_pictures'
+    json_data = simplejson.load(request)
+    local_save_photos(json_data)
+    return HttpResponse("Finished storing pictures for user")
+
+def local_save_photos(array):
+    print 'local_save_pictures'
+    
+    for json_obj in array:
+
+        photo_obj, created = Photo.objects.get_or_create(photo_id = json_obj['id'])
+        photo_obj.photo_from_id = json_obj['from']['id']
+        photo_obj.photo_link = json_obj['link']
+        if ('name' in json_obj):
+            photo_obj.photo_name = json_obj['name']
+        photo_obj.photo_created_time = json_obj['created_time']
+        if ('comments' in json_obj):
+            local_save_comments(json_obj['comments']['data'])
+        photo_obj.save()
+
+def local_save_comments(array):
+    print 'local_save_comments'
+    for json_obj in array:
+        comment_obj, created = Comment.objects.get_or_create(comment_id = json_obj['id'])
+        comment_obj.comment_from_id = json_obj['from']['id']
+        comment_obj.comment_message = json_obj['message']
+        comment_obj.comment_created_time = json_obj['created_time']
+        comment_obj.save()
+
+
+
+
+@csrf_exempt
+def save_links(request):
+    print 'save_links'
+    json_data = simplejson.load(request)
+    local_save_links(json_data)
+    return HttpResponse("Finished storing links for user")
+
+def local_save_links(array):
+    print 'local_save_links'
+    
+    for json_obj in array:
+
+        link_obj, created = Link.objects.get_or_create(link_id = json_obj['id'])
+        link_obj.link_created_time = json_obj['created_time']
+        link_obj.link_from_id = json_obj['from']['id']
+        link_obj.link_link = json_obj['link']
+        if ('message' in json_obj):
+            link_obj.link_message = json_obj['message']
+        if ('name' in json_obj):
+            link_obj.photo_name = json_obj['name']
+        if ('comments' in json_obj):
+            local_save_comments(json_obj['comments']['data'])
+        link_obj.save()
+
 
 
 

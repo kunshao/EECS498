@@ -1,3 +1,4 @@
+import os
 # Django settings for fquery project.
 
 DEBUG = True
@@ -10,17 +11,26 @@ ADMINS = (
 MANAGERS = ADMINS
 
 
+DB_PASSWORD = '123456'
+if 'Developer' in os.getcwd():
+    DB_PASSWORD = ''
+
+
+
 FACEBOOK_APP_ID = '417780338366291'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'SQLiteDatabase',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'fquery_db',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
+        'USER': 'root',
+        'PASSWORD': DB_PASSWORD,
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
+    },
+    'OPTIONS': {
+        'timeout': 20,
     }
 }
 
