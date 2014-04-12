@@ -41,7 +41,8 @@ def local_save_statuses(status_arrary):
     for json_obj in status_arrary:
         status, created = Status.objects.get_or_create(status_id = json_obj['id'])
         status.status_from_id = json_obj['from']['id']
-        status.status_message = json_obj['message']
+        if ('message' in json_obj):
+            status.status_message = json_obj['message']
         status.status_updated_time = json_obj['updated_time']
         if ('comments' in json_obj):
             local_save_comments(json_obj['comments']['data'])
@@ -74,7 +75,7 @@ def local_save_comments(array):
     for json_obj in array:
         comment_obj, created = Comment.objects.get_or_create(comment_id = json_obj['id'])
         comment_obj.comment_from_id = json_obj['from']['id']
-        comment_obj.comment_message = json_obj['message']
+        comment_obj.comment_message = json_obj['message'].encode('ascii', 'ignore')
         comment_obj.comment_created_time = json_obj['created_time']
         comment_obj.save()
 
