@@ -96,3 +96,13 @@ class Question(models.Model):
 
     def __unicode__(self):
             return self.question_question
+
+class QuestionOption(models.Model):
+    question_option_id      = models.CharField(max_length = 30, primary_key = True)
+    question_option_created_time = models.DateTimeField(blank = True, null = True)
+    question_option_from_id = models.CharField(max_length = 30, primary_key = True)
+    question_option_name    = models.TextField(blank = True)
+    question_option_vote_count = models.IntegerField(null = True)
+    
+    def __unicode__(self):
+            return self.question_option_name
