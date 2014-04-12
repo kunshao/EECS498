@@ -72,3 +72,17 @@ class Video(models.Model):
     def __unicode__(self):
             return self.video_name
 
+class Post(models.Model):
+    post_id                 = models.CharField(max_length = 30, primary_key = True)
+    post_caption            = models.TextField(blank = True)
+    post_created_time       = models.DateTimeField(blank = True, null = True)
+    post_description        = models.TextField(blank = True)
+    post_from_id            = models.CharField(max_length = 30, blank=True)
+    post_link               = models.TextField(blank = True)
+    post_message            = models.TextField(blank = True)
+    post_name               = models.TextField(blank = True)
+    post_story              = models.TextField(blank = True)
+    post_updated_time       = models.DateTimeField(blank = True, null = True)
+
+    def __unicode__(self):
+            return self.post_message
