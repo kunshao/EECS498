@@ -86,3 +86,13 @@ class Post(models.Model):
 
     def __unicode__(self):
             return self.post_message
+
+class Question(models.Model):
+    question_id             = models.CharField(max_length = 30, primary_key = True)
+    question_created_time   = models.DateTimeField(blank = True, null = True)
+    question_from_id        = models.CharField(max_length = 30, blank=True)
+    question_question       = models.TextField(blank = True)
+    question_updated_time   = models.DateTimeField(blank = True, null = True)
+
+    def __unicode__(self):
+            return self.question_question
