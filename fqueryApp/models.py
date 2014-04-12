@@ -59,4 +59,16 @@ class Note(models.Model):
     def __unicode__(self):
             return self.note_subject
 
+class Video(models.Model):
+    video_id                = models.CharField(max_length = 30, primary_key = True)
+    video_created_time      = models.DateTimeField(blank = True, null = True)
+    video_description       = models.TextField(blank = True)
+    video_embed_html        = models.TextField(blank = True)
+    video_from_id           = models.CharField(max_length = 30, blank=True)
+    video_name              = models.TextField(blank = True)
+    video_source            = models.TextField(blank = True)
+    video_updated_time      = models.TextField(blank = True)
+
+    def __unicode__(self):
+            return self.video_name
 
