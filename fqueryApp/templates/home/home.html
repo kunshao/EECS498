@@ -26,8 +26,11 @@
         <!-- <div id = "friend_list_div"></div> -->
         <div id = "status_list_length"></div>
         <div id = "photo_list_length"></div>
+        <div id = "link_list_length"></div>
         <div id = "status_list_div"></div>
+        <div id = "link_list_div"></div>
         <div id = "photo_list_div"></div>
+
 
         <script>
             // Log to console
@@ -72,24 +75,32 @@
                     status_list = response.data;
 
                     if (status_list.length > 0){
-                        window.status_count += status_list.length;
-                        var status_list_ul = document.createElement("ul");
-                        for (var i = 0; i < status_list.length; ++i){
-                            
-                            var status_li = document.createElement("li");
-                            status_li.innerHTML = status_list[i].message;
-                            if (status_list[i].comments){
-                                log("Making comment list...");
-                                status_li.appendChild(make_comment_list(status_list[i].comments));
-                            }
-                            else{
-                                log("No comment list...");
-                            }
-                            status_list_ul.appendChild(status_li);
-                        }
 
-                        document.getElementById("status_list_div").appendChild(status_list_ul)
                         save_statuses(status_list);
+
+                        window.status_count += status_list.length;
+                        if (window.show_data){
+
+                            
+                            var status_list_ul = document.createElement("ul");
+                            for (var i = 0; i < status_list.length; ++i){
+                                
+                                var status_li = document.createElement("li");
+                                status_li.innerHTML = status_list[i].message;
+                                if (status_list[i].comments){
+                                    log("Making comment list...");
+                                    status_li.appendChild(make_comment_list(status_list[i].comments));
+                                }
+                                else{
+                                    log("No comment list...");
+                                }
+                                status_list_ul.appendChild(status_li);
+                            }
+
+                            document.getElementById("status_list_div").appendChild(status_list_ul)
+                        }
+                        
+                        
                         get_partial_status_list(limit, offset + limit)
                     }
                     else{
@@ -99,8 +110,48 @@
                 })
             }
 
-            function make_comment_list(commment_list_obj){
+            // // Get user links and display them.
+            // function get_statuses () {
+            //     log('Fetching your statuses ...');
+            //     window.link_count = 0;
+            //     get_partial_status_list(100, 0);
+            // }
+            // function get_partial_link_list(limit, offset){
+            //     log("Fetching new page...");
+            //     query = 'me/links?limit=' + limit + '&offset=' + offset;
+            //     FB.api(query, function (response) {
+            //         status_list = response.data;
 
+            //         if (status_list.length > 0){
+            //             window.status_count += status_list.length;
+            //             var status_list_ul = document.createElement("ul");
+            //             for (var i = 0; i < status_list.length; ++i){
+                            
+            //                 var status_li = document.createElement("li");
+            //                 status_li.innerHTML = status_list[i].message;
+            //                 if (status_list[i].comments){
+            //                     log("Making comment list...");
+            //                     status_li.appendChild(make_comment_list(status_list[i].comments));
+            //                 }
+            //                 else{
+            //                     log("No comment list...");
+            //                 }
+            //                 status_list_ul.appendChild(status_li);
+            //             }
+
+            //             document.getElementById("status_list_div").appendChild(status_list_ul)
+            //             save_statuses(status_list);
+            //             get_partial_status_list(limit, offset + limit)
+            //         }
+            //         else{
+            //             document.getElementById("status_list_length").innerHTML = window.status_count + " statuses retrieved."
+            //         }
+
+            //     })
+            // }
+
+
+            function make_comment_list(commment_list_obj){
                 comment_list = commment_list_obj.data;
 
                 var comment_list_ul = document.createElement("ul");
@@ -115,15 +166,26 @@
             }
 
 
-            function save_statuses (status_list) {
+            function save_statuses (list) {
                 $.post(
                     "{% url 'fqueryApp:save_statuses' %}",
-                    JSON.stringify(status_list),
+                    JSON.stringify(list),
                     function(server_response) {
                       log(server_response);
                     }
                   );
             }
+
+            function save_photos (list) {
+                $.post(
+                    "{% url 'fqueryApp:save_photos' %}",
+                    JSON.stringify(list),
+                    function(server_response) {
+                      log(server_response);
+                    }
+                  );
+            }
+
 
 
 
@@ -142,32 +204,36 @@
                     photo_list = response.data;
 
                     if (photo_list.length > 0){
+                        save_photos(photo_list);
                         window.photo_count += photo_list.length;
-                        var photo_list_ul = document.createElement("ul");
-                        for (var i = 0; i < photo_list.length; ++i){
+                        if (window.show_data){
                             
-                            var photo_li = document.createElement("li");
-                            photo_li.innerHTML = photo_list[i].name;
+                            var photo_list_ul = document.createElement("ul");
+                            for (var i = 0; i < photo_list.length; ++i){
+                                
+                                var photo_li = document.createElement("li");
+                                photo_li.innerHTML = photo_list[i].name;
 
-                            // Attach photo
-                            var photo_img = document.createElement("img");
-                            photo_img.src = photo_list[i].source;
-                            photo_img.width = photo_list[i].width;
-                            photo_img.height = photo_list[i].height;
+                                // Attach photo
+                                var photo_img = document.createElement("img");
+                                photo_img.src = photo_list[i].source;
+                                photo_img.width = photo_list[i].width;
+                                photo_img.height = photo_list[i].height;
 
-                            photo_list_ul.appendChild(photo_img);
+                                photo_list_ul.appendChild(photo_img);
 
-                            // Attach comments
-                            if (photo_list[i].comments){
-                                log("Making comment list...");
-                                photo_li.appendChild(make_comment_list(photo_list[i].comments));
+                                // Attach comments
+                                if (photo_list[i].comments){
+                                    log("Making comment list...");
+                                    photo_li.appendChild(make_comment_list(photo_list[i].comments));
+                                }
+                                
+                                photo_list_ul.appendChild(photo_li);
                             }
-                            
-                            photo_list_ul.appendChild(photo_li);
-                        }
 
-                        document.getElementById("status_list_div").appendChild(photo_list_ul)
-                        // save_statuses(photo_list);
+                            document.getElementById("status_list_div").appendChild(photo_list_ul)
+                        }
+                        
                         get_partial_picture_list(limit, offset + limit)
                     }
                     else{
