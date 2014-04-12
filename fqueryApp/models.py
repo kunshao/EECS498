@@ -39,13 +39,24 @@ class Link(models.Model):
         return self.link_name
 
 class Photo(models.Model):
-    photo_id              = models.CharField(max_length = 30, primary_key = True)
-    photo_created_time     = models.DateTimeField(blank = True, null = True)
-    photo_from_id         = models.CharField(max_length = 30, blank=True)
-    photo_link = models.TextField(blank = True)
-    photo_name = models.NullBooleanField(null = True)
+    photo_id                = models.CharField(max_length = 30, primary_key = True)
+    photo_created_time      = models.DateTimeField(blank = True, null = True)
+    photo_from_id           = models.CharField(max_length = 30, blank=True)
+    photo_link              = models.TextField(blank = True)
+    photo_name              = models.TextField(blank = True)
 
     def __unicode__(self):
         return self.photo_name
+
+class Note(models.Model):
+    note_id                 = models.CharField(max_length = 30, primary_key = True)
+    note_created_time       = models.DateTimeField(blank = True, null = True)
+    note_from_id            = models.CharField(max_length = 30, blank=True)
+    note_message            = models.TextField(blank = True)
+    note_subject            = models.TextField(blank = True)
+    note_updated_time       = models.DateTimeField(blank = True, null = True)
+
+    def __unicode__(self):
+            return self.note_subject
 
 
