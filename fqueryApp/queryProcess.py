@@ -5,6 +5,7 @@ import porterstemmer
 sub_dir = "fqueryApp"
 
 def openFile(fname):
+    fh = None;
     try:
         fh = open(fname)
     except:
