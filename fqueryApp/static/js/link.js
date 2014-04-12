@@ -23,11 +23,6 @@ function get_partial_link_list(limit, offset){
 }
 
 
-function make_comment_list(commment_list_obj){
-    @@ -186,6 +173,18 @@
-        );
-}
-
 function save_links (list) {
     $.post(
             "{% url 'fqueryApp:save_links' %}",
