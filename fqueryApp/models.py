@@ -23,3 +23,17 @@ class Comment(models.Model):
     def __unicode__(self):
         return self.comment_message
 
+class Link(models.Model):
+    link_id                 = models.CharField(max_length = 30, primary_key = True)
+    link_created_time       = models.DateTimeField(blank = True, null = True)
+    link_description        = models.TextField(blank = True)
+    link_from_id            = models.CharField(max_length = 30, blank=True)
+    link_icon               = models.TextField(blank = True)
+    link_link               = models.TextField(blank = True)
+    link_message            = models.TextField(blank = True)
+    link_name               = models.TextField(blank = True)
+    link_picture            = models.TextField(blank = True)
+
+    def __unicode__(self):
+        return self.link_name
+
