@@ -1,5 +1,6 @@
 import re
-import os, sys
+import os
+from collections import defaultdict 
 import porterstemmer
     
 sub_dir = "fqueryApp"
@@ -42,6 +43,23 @@ def stemword(token):
             output += c.lower() 
     output = output.rstrip()
     return output
+
+
+def stemmer(tokens_lst, stopwords):
+
+    stemmed_tokens_lst  = defaultdict(dict)
+
+    for token, doc_lst in tokens_lst.items():
+        if token in stopwords:
+            continue
+        if token == '':
+            break
+        output = stemword(token)
+        for doc_no, doc_freq in doc_lst.items():
+            stemmed_tokens_lst[output][doc_no] = stemmed_tokens_lst.get(output, {}).get(doc_no, 0) + doc_freq
+
+    return stemmed_tokens_lst
+
 
 def processLine(line):
 
