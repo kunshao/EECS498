@@ -23,6 +23,7 @@ class Comment(models.Model):
     def __unicode__(self):
         return self.comment_message
 
+
 class Link(models.Model):
     link_id                 = models.CharField(max_length = 30, primary_key = True)
     link_created_time       = models.DateTimeField(blank = True, null = True)
@@ -36,4 +37,15 @@ class Link(models.Model):
 
     def __unicode__(self):
         return self.link_name
+
+class Photo(models.Model):
+    photo_id              = models.CharField(max_length = 30, primary_key = True)
+    photo_created_time     = models.DateTimeField(blank = True, null = True)
+    photo_from_id         = models.CharField(max_length = 30, blank=True)
+    photo_link = models.TextField(blank = True)
+    photo_name = models.NullBooleanField(null = True)
+
+    def __unicode__(self):
+        return self.photo_name
+
 
