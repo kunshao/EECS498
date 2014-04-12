@@ -13,6 +13,9 @@ urlpatterns = patterns('',
 
     # url to save all pictures of the user. Shouldn't be called by user.
     url(r'^save_photos/$', views.save_photos, name = 'save_photos'),    
+
+    # url to save all links of the user. Shouldn't be called by user.
+    url(r'^save_links/$', views.save_links, name = 'save_links'),    
     
     # url(r'^render_login/$', views.render_login, name = 'render_login'),
     url(r'^search/$', views.index, name='search')

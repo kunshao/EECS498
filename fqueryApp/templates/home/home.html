@@ -27,6 +27,9 @@
         <div id = "status_list_length"></div>
         <div id = "photo_list_length"></div>
         <div id = "link_list_length"></div>
+
+
+
         <div id = "status_list_div"></div>
         <div id = "link_list_div"></div>
         <div id = "photo_list_div"></div>
@@ -110,45 +113,29 @@
                 })
             }
 
-            // // Get user links and display them.
-            // function get_statuses () {
-            //     log('Fetching your statuses ...');
-            //     window.link_count = 0;
-            //     get_partial_status_list(100, 0);
-            // }
-            // function get_partial_link_list(limit, offset){
-            //     log("Fetching new page...");
-            //     query = 'me/links?limit=' + limit + '&offset=' + offset;
-            //     FB.api(query, function (response) {
-            //         status_list = response.data;
+            // Get user links and display them.
+            function get_links () {
+                log('Fetching your statuses ...');
+                window.link_count = 0;
+                get_partial_link_list(100, 0);
+            }
+            function get_partial_link_list(limit, offset){
+                log("Fetching new page...");
+                query = 'me/links?limit=' + limit + '&offset=' + offset;
+                FB.api(query, function (response) {
+                    link_list = response.data;
 
-            //         if (status_list.length > 0){
-            //             window.status_count += status_list.length;
-            //             var status_list_ul = document.createElement("ul");
-            //             for (var i = 0; i < status_list.length; ++i){
-                            
-            //                 var status_li = document.createElement("li");
-            //                 status_li.innerHTML = status_list[i].message;
-            //                 if (status_list[i].comments){
-            //                     log("Making comment list...");
-            //                     status_li.appendChild(make_comment_list(status_list[i].comments));
-            //                 }
-            //                 else{
-            //                     log("No comment list...");
-            //                 }
-            //                 status_list_ul.appendChild(status_li);
-            //             }
+                    if (link_list.length > 0){
+                        window.link_count += link_list.length;
+                        save_links(link_list);
+                        get_partial_link_list(limit, offset + limit)
+                    }
+                    else{
+                        document.getElementById("link_list_length").innerHTML = window.link_count + " links retrieved."
+                    }
 
-            //             document.getElementById("status_list_div").appendChild(status_list_ul)
-            //             save_statuses(status_list);
-            //             get_partial_status_list(limit, offset + limit)
-            //         }
-            //         else{
-            //             document.getElementById("status_list_length").innerHTML = window.status_count + " statuses retrieved."
-            //         }
-
-            //     })
-            // }
+                })
+            }
 
 
             function make_comment_list(commment_list_obj){
@@ -185,6 +172,18 @@
                     }
                   );
             }
+
+            function save_links (list) {
+                $.post(
+                    "{% url 'fqueryApp:save_links' %}",
+                    JSON.stringify(list),
+                    function(server_response) {
+                      log(server_response);
+                    }
+                  );
+            }
+
+
 
 
 
@@ -285,6 +284,7 @@
               // get_friend_list();
               get_statuses();
               get_pictures();
+              get_links();
           }
         </script>
     

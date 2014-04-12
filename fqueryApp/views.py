@@ -5,7 +5,8 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import simplejson
 
-from fqueryApp.models import Status, Comment, Photo
+from fqueryApp.models import Status, Comment, Photo, Link, Note, Video, Post, Question, QuestionOption
+
 from fquery import settings
 
 
@@ -63,6 +64,34 @@ def local_save_photos(arrary):
             photo_obj.photo_name = json_obj['name']
         photo_obj.photo_created_time = json_obj['created_time']
         photo_obj.save()
+
+
+
+@csrf_exempt
+def save_links(request):
+    print 'save_links'
+    json_data = simplejson.load(request)
+    local_save_links(json_data)
+    return HttpResponse("Finished storing links for user")
+
+def local_save_links(arrary):
+    print 'local_save_links'
+    
+    for json_obj in arrary:
+
+        link_obj, created = Link.objects.get_or_create(link_id = json_obj['id'])
+        link_obj.link_created_time = json_obj['created_time']
+        link_obj.link_from_id = json_obj['from']['id']
+        link_obj.link_link = json_obj['link']
+        if ('message' in json_obj):
+            link_obj.link_message = json_obj['message']
+        if ('name' in json_obj):
+            link_obj.photo_name = json_obj['name']
+
+        link_obj.save()
+
+
+
 
 
 def index(request):
