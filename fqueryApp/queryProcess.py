@@ -5,6 +5,7 @@ import porterstemmer
 sub_dir = "fqueryApp"
 
 def openFile(fname):
+    fh = None
     try:
         fh = open(fname)
     except:
@@ -17,6 +18,9 @@ def importStopwords():
    
     fh = openFile(os.path.join(sub_dir,fname))
     stopwords = list()
+
+    if fh is None: return stopwords
+
     for stopword in fh:
         stopword = stopword.rstrip()
         stopwords.append(stopword)
