@@ -38,6 +38,29 @@
         <div id = "link_list_div"></div>
 
         <script>
+        function foo(){
+            var txt     = document.getElementById("txtKeyword").value;
+            var type    = document.getElementById("listSearchType").value;
+            // alert("You searched " + txt + " of type " + type);
+            document.getElementById("query_content_div").innerHTML = "You searched: " + txt;
+        }
+        </script>
+        <table>
+            <tr>
+                <td><label>Search</label></td>
+                <td><input type="text" name="keyword" id="txtKeyword"></td>
+                <td><label>Within</label></td>
+                <td>
+                    <select id="listSearchType">
+                        <option value="status">Status</option>
+                    </select>
+                </td>
+                <td><button type="button" OnClick="foo()">GO</button></td>
+        </table>
+
+        <div id = "query_content_div"></div>
+
+        <script>
 	         function save_statuses (status_list) {
 		            $.post(
   				            "{% url 'fqueryApp:save_statuses' %}",
