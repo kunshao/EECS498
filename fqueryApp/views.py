@@ -140,7 +140,7 @@ def local_save_links(array):
 
 
 def index(request):
-    status_list = status.objects.all()
+    status_list = Status.objects.all()
     template = loader.get_template('status/index.html')
     context = RequestContext(request, {
             'status_list': status_list,})
