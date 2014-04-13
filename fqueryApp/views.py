@@ -21,17 +21,34 @@ CONTENT_TYPE_VIDEO          = 1 << 6
 CONTENT_TYPE_QUESTION       = 1 << 7
 CONTENT_TYPE_QUESTION_OPTION = 1 << 8
 
+
+
+
 # query is the string user puts down. content_type is 
 def get_relevant_contents(query, content_type):
     # Example use:
-    # content_dict = {};
-    # if ((content_type & CONTENT_TYPE_POST) == CONTENT_TYPE_POST){
-    #     content_dict[CONTENT_TYPE_POST] = get_relevant_posts;
-    # }
-    # if ((content_type & CONTENT_TYPE_STATUS) == CONTENT_TYPE_STATUS){
-    #     content_dict[CONTENT_TYPE_STATUS] = get_relevant_statuses;
-    # }
-    pass
+    content_dict = {}
+    if ((content_type & CONTENT_TYPE_POST) == CONTENT_TYPE_POST):
+        content_dict[CONTENT_TYPE_POST] = get_relevant_posts(query)
+
+    if ((content_type & CONTENT_TYPE_STATUS) == CONTENT_TYPE_STATUS):
+        content_dict[CONTENT_TYPE_STATUS] = get_relevant_statuses(query)
+
+    return content_dict
+    
+def get_relevant_posts(query):
+    
+    relevant_posts = []
+    for i in xrange(0,5):
+        relevant_posts.append({'msg' : 'post ' + str(i)})
+    return relevant_posts
+
+def get_relevant_statuses(query):
+    relevant_statuses = []
+    for i in xrange(0,5):
+        relevant_statuses.append({'msg' : 'status ' + str(i)})
+    return relevant_statuses
+
 
 
 
@@ -53,16 +70,40 @@ def home(request):
 
 
 @csrf_exempt
+def make_query(request):
+    query_str = request.GET['query']
+    content_flags = int(request.GET['content_flags'])
+
+    relevant_content = get_relevant_contents(query_str, content_flags)
+    # json_obj = {}
+    # num_content_flags = 9;
+    # for i in xrange(0, num_content_flags):
+    #     if ((1 << i) in relevant_content):
+    #         json_obj_one_type_list = []
+    #         for obj in relevant_content[1 << i]:
+    #             one_msg = {
+    #                 'msg' : obj[
+    #             }
+    #             json_obj_one_type_list.append(one_msg)
+    #     json_obj[1 << i] = json_obj_one_type_list
+
+    data_obj = {
+        'data' : relevant_content
+    }
+    return HttpResponse(simplejson.dumps(data_obj), content_type = "text/json")
+
+    
+
+@csrf_exempt
 def save_statuses(request):
-    print 'save_statuses'
+    # print 'save_statuses'
     json_data = simplejson.load(request)
     local_save_statuses(json_data)
     return HttpResponse("Finished storing statuses for user")
 
 def local_save_statuses(status_arrary):
-    print 'local_save_statuses'
+    # print 'local_save_statuses'
     
-
     for json_obj in status_arrary:
         status, created = Status.objects.get_or_create(status_id = json_obj['id'])
         status.status_from_id = json_obj['from']['id']
@@ -75,13 +116,13 @@ def local_save_statuses(status_arrary):
 
 @csrf_exempt
 def save_photos(request):
-    print 'save_pictures'
+    # print 'save_pictures'
     json_data = simplejson.load(request)
     local_save_photos(json_data)
     return HttpResponse("Finished storing pictures for user")
 
 def local_save_photos(array):
-    print 'local_save_pictures'
+    # print 'local_save_pictures'
     
     for json_obj in array:
 
@@ -96,7 +137,7 @@ def local_save_photos(array):
         photo_obj.save()
 
 def local_save_comments(array):
-    print 'local_save_comments'
+    # print 'local_save_comments'
     for json_obj in array:
         comment_obj, created = Comment.objects.get_or_create(comment_id = json_obj['id'])
         comment_obj.comment_from_id = json_obj['from']['id']
@@ -109,13 +150,13 @@ def local_save_comments(array):
 
 @csrf_exempt
 def save_links(request):
-    print 'save_links'
+    # print 'save_links'
     json_data = simplejson.load(request)
     local_save_links(json_data)
     return HttpResponse("Finished storing links for user")
 
 def local_save_links(array):
-    print 'local_save_links'
+    # print 'local_save_links'
     
     for json_obj in array:
 

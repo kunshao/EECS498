@@ -37,28 +37,69 @@
         <div id = "photo_list_div"></div>
         <div id = "link_list_div"></div>
 
-        <script>
-        function foo(){
-            var txt     = document.getElementById("txtKeyword").value;
-            var type    = document.getElementById("listSearchType").value;
-            // alert("You searched " + txt + " of type " + type);
-            document.getElementById("query_content_div").innerHTML = "You searched: " + txt;
-        }
-        </script>
-        <table>
-            <tr>
-                <td><label>Search</label></td>
-                <td><input type="text" name="keyword" id="txtKeyword"></td>
-                <td><label>Within</label></td>
-                <td>
-                    <select id="listSearchType">
-                        <option value="status">Status</option>
-                    </select>
-                </td>
-                <td><button type="button" OnClick="foo()">GO</button></td>
-        </table>
+        <div>
+            <label>Search</label>
+            <input type="text" name="keyword" id="txtKeyword">
+            <label>within</label><br>
+            <input type="checkbox" name="content_type_box" checked=yes, value=1>statuses<br>
+            <input type="checkbox" name="content_type_box" checked=yes, value=2>comments<br>
+            <input type="checkbox" name="content_type_box" value=4>links<br>
+            <input type="checkbox" name="content_type_box" value=8>photos<br>
+            <input type="checkbox" name="content_type_box" value=16>notes<br>
+            <input type="checkbox" name="content_type_box" value=32>posts<br>
+            <input type="checkbox" name="content_type_box" value=64>videos<br>
+            <button type="button" OnClick="makeQuery()">GO</button>
+        </div>
 
         <div id = "query_content_div"></div>
+        <div id = "query_response_content_div"></div>
+
+
+        <script>
+        function makeQuery(){
+            var query     = document.getElementById("txtKeyword").value;
+            var content_type_flags = get_content_type_flags();
+            document.getElementById("query_content_div").innerHTML = "You searched: " + query + " within " + content_type_flags;
+            sendQuery(query, content_type_flags)
+        }
+
+        function get_content_type_flags(){
+
+            var content_type_flags = 0;
+            var content_type_box = $('input[name="content_type_box"]');
+
+            for (var i = 0; i < content_type_box.length; i++) {
+                if (content_type_box[i].checked){
+                    content_type_flags = content_type_flags | content_type_box[i].value;
+                }
+            };
+            return content_type_flags
+        }
+
+        function sendQuery(query, content_type){
+            $.getJSON(
+                "{% url 'fqueryApp:make_query' %}",
+                {query : query, content_flags : content_type},
+                function(server_response) {
+                    content_list_obj = server_response.data;
+                    var content_list_ul = document.createElement("ul");
+
+                    for (content_type in content_list_obj){
+                        log('parsing content type: ' + content_type);
+                        
+                        for (var i = 0; i < content_list_obj[content_type].length; ++i){
+
+                            var content_li = document.createElement("li");
+                            content_li.innerHTML = content_list_obj[content_type][i].msg;
+                            content_list_ul.appendChild(content_li);
+
+                        }
+                    }
+                    document.getElementById("query_response_content_div").appendChild(content_list_ul);
+                })
+        }
+
+        </script>
 
         <script>
 	         function save_statuses (status_list) {

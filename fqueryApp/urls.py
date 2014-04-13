@@ -16,8 +16,12 @@ urlpatterns = patterns('',
 
     # url to save all links of the user. Shouldn't be called by user.
     url(r'^save_links/$', views.save_links, name = 'save_links'),    
+
+    # url to make a query.
+    url(r'^make_query/$', views.make_query, name = 'make_query'),    
+
     
     # url(r'^render_login/$', views.render_login, name = 'render_login'),
-    url(r'^search/$', views.index, name='search')
+    url(r'^search/$', views.index, name='search'),
     
 )
