@@ -11,21 +11,32 @@ ADMINS = (
 MANAGERS = ADMINS
 
 
-DB_PASSWORD = '123456'
-if 'Developer' in os.getcwd():
-    DB_PASSWORD = ''
+# EC2 setttings
+db_name = 'fquery_db'
+db_user = 'root'
+db_pwd = ''
+domain = 'http://ec2-54-186-203-32.us-west-2.compute.amazonaws.com/'
+FACEBOOK_APP_ID = '244771369040880'
 
+cwd = os.getcwd()
+# Kun's laptop settings.
+if 'Developer' in cwd:
+    db_pwd = ''
 
+# Shu's laptop settings.
+if 'linshu' in cwd:
+    db_pwd = '123456'
+    domain = 'http://127.0.0.1:8000/'
+    FACEBOOK_APP_ID = '417780338366291'
 
-FACEBOOK_APP_ID = '417780338366291'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'fquery_db',                      # Or path to database file if using sqlite3.
+        'NAME': db_name,                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': 'root',
-        'PASSWORD': DB_PASSWORD,
+        'USER': db_user,
+        'PASSWORD': db_pwd,
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
     },
