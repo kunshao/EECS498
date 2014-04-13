@@ -10,6 +10,31 @@ from fqueryApp.models import Status, Comment, Photo, Link, Note, Video, Post, Qu
 from fquery import settings
 
 
+
+CONTENT_TYPE_STATUS         = 1
+CONTENT_TYPE_COMMENT        = 1 << 1
+CONTENT_TYPE_LINK           = 1 << 2
+CONTENT_TYPE_PHOTO          = 1 << 3
+CONTENT_TYPE_NOTE           = 1 << 4
+CONTENT_TYPE_POST           = 1 << 5
+CONTENT_TYPE_VIDEO          = 1 << 6
+CONTENT_TYPE_QUESTION       = 1 << 7
+CONTENT_TYPE_QUESTION_OPTION = 1 << 8
+
+# query is the string user puts down. content_type is 
+def get_relevant_contents(query, content_type):
+    # Example use:
+    # content_dict = {};
+    # if ((content_type & CONTENT_TYPE_POST) == CONTENT_TYPE_POST){
+    #     content_dict[CONTENT_TYPE_POST] = get_relevant_posts;
+    # }
+    # if ((content_type & CONTENT_TYPE_STATUS) == CONTENT_TYPE_STATUS){
+    #     content_dict[CONTENT_TYPE_STATUS] = get_relevant_statuses;
+    # }
+    pass
+
+
+
 def render_login(request):
     print 'render_login'
     return render_to_response('home/login.html', 
@@ -105,6 +130,10 @@ def local_save_links(array):
         if ('comments' in json_obj):
             local_save_comments(json_obj['comments']['data'])
         link_obj.save()
+
+
+
+
 
 
 
