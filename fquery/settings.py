@@ -14,8 +14,8 @@ MANAGERS = ADMINS
 # EC2 setttings
 db_name = 'fquery_db'
 db_user = 'root'
-db_pwd = ''
-domain = 'http://ec2-54-186-203-32.us-west-2.compute.amazonaws.com/'
+db_pwd = '123456'
+domain = 'http://ec2-54-186-181-177.us-west-2.compute.amazonaws.com/'
 FACEBOOK_APP_ID = '244771369040880'
 
 cwd = os.getcwd()
