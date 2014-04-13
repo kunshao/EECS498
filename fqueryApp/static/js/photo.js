@@ -19,30 +19,28 @@ function get_partial_picture_list(limit, offset){
             //     var photo_li = document.createElement("li");
             //     photo_li.innerHTML = photo_list[i].name;
 
-            // // Attach photo
-            // var photo_img = document.createElement("img");
-            // photo_img.src = photo_list[i].source;
-            // photo_img.width = photo_list[i].width;
-            // photo_img.height = photo_list[i].height;
+            //     // Attach photo
+            //     var photo_img = document.createElement("img");
+            //     photo_img.src = photo_list[i].source;
+            //     photo_img.width = photo_list[i].width;
+            //     photo_img.height = photo_list[i].height;
 
-            // photo_list_ul.appendChild(photo_img);
+            //     photo_list_ul.appendChild(photo_img);
 
-            // // Attach comments
-            // if (photo_list[i].comments){
-            //     log("Making comment list...");
-            //     photo_li.appendChild(make_comment_list(photo_list[i].comments));
-            // }
+            //     // Attach comments
+            //     if (photo_list[i].comments){
+            //         log("Making comment list...");
+            //         photo_li.appendChild(make_comment_list(photo_list[i].comments));
+            //     }
 
             // photo_list_ul.appendChild(photo_li);
+            // document.getElementById("photo_list_div").appendChild(photo_list_ul)
+            get_partial_picture_list(limit, offset + limit)
+        }
+        else{
+            document.getElementById("photo_list_length").innerHTML =
+            window.photo_count + " photos retrieved."
         }
 
-        document.getElementById("photo_list_div").appendChild(photo_list_ul)
-        get_partial_picture_list(limit, offset + limit)
-    }
-    else{
-        document.getElementById("photo_list_length").innerHTML =
-        window.photo_count + " photos retrieved."
-    }
-
-})
+    })
 }
