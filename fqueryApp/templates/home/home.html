@@ -81,12 +81,14 @@
                 "{% url 'fqueryApp:make_query' %}",
                 {query : query, content_flags : content_type},
                 function(server_response) {
+
                     content_list_obj = server_response.data;
+                    log(content_list_obj);
                     var content_list_ul = document.createElement("ul");
 
                     for (content_type in content_list_obj){
                         log('parsing content type: ' + content_type);
-                        
+
                         for (var i = 0; i < content_list_obj[content_type].length; ++i){
 
                             var content_li = document.createElement("li");
@@ -95,7 +97,11 @@
 
                         }
                     }
-                    document.getElementById("query_response_content_div").appendChild(content_list_ul);
+                    var query_response_content_div = document.getElementById("query_response_content_div");
+                    while (query_response_content_div.firstChild) {
+                        query_response_content_div.removeChild(query_response_content_div.firstChild);
+                    }
+                    query_response_content_div.appendChild(content_list_ul);
                 })
         }
 
