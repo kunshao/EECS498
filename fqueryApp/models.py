@@ -32,7 +32,7 @@ class Link(models.Model):
     link_picture            = models.TextField(blank = True)
 
     def __unicode__(self):
-        return self.link_name
+        return self.link_link
 
 class Photo(models.Model):
     photo_id                = models.CharField(max_length = 30, primary_key = True)

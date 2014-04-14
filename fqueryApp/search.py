@@ -38,7 +38,16 @@ def get_tokens(c_type):
             for token in tokens:
                 tokens_lst[token][comment.comment_id] = tokens_lst.get(token, {}).get(comment.comment_id, 0) + 1
 
-
+    elif (c_type == CONTENT_TYPE_LINK):
+        docs_all = Link.objects.all()
+        num_docs  = Link.objects.count()
+        print num_docs
+        for link in docs_all:
+            print link
+            print link.link_name + ' '+ link.link_description + ' '+ link.link_message
+            tokens = queryProcess.processLine(link.link_name + link.link_description + link.link_message)
+            for token in tokens:
+                tokens_lst[token][link.link_id] = tokens_lst.get(token, {}).get(link.link_id, 0) + 1
 
     return [tokens_lst, num_docs]
 
@@ -58,12 +67,15 @@ def get_results(doc_set, c_type):
             for comment in comments:
                 results.append(comment.comment_message)
 
+    elif (c_type == CONTENT_TYPE_LINK):
+        for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
+            links = Link.objects.filter(link_id = str(doc_no))
+            for link in links:
+                results.append(link.link_link)
+
     return results
 
 def apply_search(query, c_type):
-
-    # # for testing purpose
-    # c_type = CONTENT_TYPE_STATUS
 
     # tokens_lst is a dictionary of token and its occurrences in document
     # Each word is mapped to a list of (document number, document frequency) pair
@@ -76,6 +88,8 @@ def apply_search(query, c_type):
 
     # eliminate stopwords and stemming
     tokens_lst = queryProcess.stemmer(tokens_lst, stopwords)
+
+    print tokens_lst
 
     # ===== Applying weighting scheme ===== #
 
