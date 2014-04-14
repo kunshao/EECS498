@@ -18,13 +18,6 @@ CONTENT_TYPE_QUESTION_OPTION = 1 << 8
 stopwords = queryProcess.importStopwords()
 
 def get_tokens(content_type):
-    # =========== Extract Token Set ============ #
-    # query_set = Status.objects.none()
-    # for word in query.split():
-    #     if word in stopwords:
-    #         continue
-    #     word = queryProcess.stemword(word)
-    #     query_set = query_set| Status.objects.filter(status_message__contains = word)
 
     tokens_lst = defaultdict(dict)
     num_docs = 0
