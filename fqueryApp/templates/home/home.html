@@ -1,5 +1,9 @@
 <html>
     <head>
+        <script>
+            var status_url = "{% url 'fqueryApp:save_statuses' %}";
+            var link_url = "{% url 'fqueryApp:save_links' %}";
+        </script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"> </script>
         {% load static %}
         <script src="{% static 'js/utilities.js' %}"> </script>
@@ -60,7 +64,6 @@
 
 
         <script>
-
         function sendQuery(query, content_type){
             $.getJSON(
                 "{% url 'fqueryApp:make_query' %}",
@@ -103,25 +106,7 @@
         </script>
 
         <script>
-	         function save_statuses (status_list) {
-		            $.post(
-  				            "{% url 'fqueryApp:save_statuses' %}",
-              				JSON.stringify(status_list),
-              				function(server_response) {
-              				log(server_response);
-            			   	}
-		            );
-            }
 
-            function save_links (list) {
-                $.post(
-                        "{% url 'fqueryApp:save_links' %}",
-                        JSON.stringify(list),
-                        function(server_response) {
-                        log(server_response);
-                        }
-                );
-            }
 
             function save_posts(list){
                 $.post(
