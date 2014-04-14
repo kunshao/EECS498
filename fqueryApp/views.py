@@ -124,7 +124,7 @@ def save_posts(request):
 
 
 def local_save_posts(post_array):
-    # print 'local_save_statuses'
+    print 'local_save_posts'
     
     for json_obj in post_array:
         post, created = Post.objects.get_or_create(post_id = json_obj['id'])
@@ -194,12 +194,14 @@ def local_save_links(array):
 
         link_obj, created = Link.objects.get_or_create(link_id = json_obj['id'])
         link_obj.link_created_time = json_obj['created_time']
+        checkAndCopy(link_obj.link_description, json_obj, 'description')
+        
         link_obj.link_from_id = json_obj['from']['id']
         link_obj.link_link = json_obj['link']
         if ('message' in json_obj):
             link_obj.link_message = json_obj['message'].encode('ascii', 'ignore')
         if ('name' in json_obj):
-            link_obj.photo_name = json_obj['name']
+            link_obj.link_name = json_obj['name']
         if ('comments' in json_obj):
             local_save_comments(json_obj['comments']['data'])
         link_obj.save()
