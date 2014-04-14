@@ -15,6 +15,9 @@ CONTENT_TYPE_QUESTION       = 1 << 7
 CONTENT_TYPE_QUESTION_OPTION = 1 << 8
 
 
+CONTENT_TYPE_LIST = [CONTENT_TYPE_STATUS, CONTENT_TYPE_POST, CONTENT_TYPE_COMMENT,CONTENT_TYPE_LINK, CONTENT_TYPE_PHOTO ]
+
+
 stopwords = queryProcess.importStopwords()
 
 def get_tokens(c_type):
@@ -110,8 +113,6 @@ def get_results(doc_set, c_type):
             for photo in photos:
                 results.append(photo.photo_name + '('+ photo.photo_link + ')')
 
-
-
     return results
 
 def apply_search(query, c_type):
@@ -188,4 +189,18 @@ def apply_search(query, c_type):
     return results
 
 
+def get_relevant_contents(query, content_type):
 
+    content_dict = {}
+ 
+
+    for c_type in CONTENT_TYPE_LIST:
+
+        if ((content_type & c_type) == c_type):
+            results_list = []
+            results = apply_search(query, c_type)
+            for result in results:
+                results_list.append({'msg' : result})
+            content_dict[c_type] = results_list
+
+    return content_dict

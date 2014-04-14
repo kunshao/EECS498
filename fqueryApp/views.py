@@ -9,42 +9,7 @@ from fqueryApp.models import Status, Comment, Photo, Link, Note, Video, Post, Qu
 
 from fqueryApp import search
 from fquery import settings
-
-CONTENT_TYPE_STATUS         = 1
-CONTENT_TYPE_POST           = 1 << 1
-CONTENT_TYPE_COMMENT        = 1 << 2
-CONTENT_TYPE_LINK           = 1 << 3
-CONTENT_TYPE_PHOTO          = 1 << 4
-CONTENT_TYPE_NOTE           = 1 << 5
-CONTENT_TYPE_VIDEO          = 1 << 6
-CONTENT_TYPE_QUESTION       = 1 << 7
-CONTENT_TYPE_QUESTION_OPTION = 1 << 8
-
-CONTENT_TYPE_LIST = [CONTENT_TYPE_STATUS, CONTENT_TYPE_POST, CONTENT_TYPE_COMMENT,CONTENT_TYPE_LINK, CONTENT_TYPE_PHOTO ]
-
-
-
-# query is the string user puts down. content_type is 
-def get_relevant_contents(query, content_type):
-
-    content_dict = {}
  
-
-    for c_type in CONTENT_TYPE_LIST:
-
-        if ((content_type & c_type) == c_type):
-            results_list = []
-            results = search.apply_search(query, c_type)
-            for result in results:
-                results_list.append({'msg' : result})
-            content_dict[c_type] = results_list
-
-
-    # if ((content_type & CONTENT_TYPE_STATUS) == CONTENT_TYPE_STATUS):
-    #     content_dict[CONTENT_TYPE_STATUS] = results_list
-
-    return content_dict
-    
 
 def render_login(request):
     print 'render_login'
@@ -68,7 +33,7 @@ def make_query(request):
     query_str = request.GET['query']
     content_flags = int(request.GET['content_flags'])
 
-    relevant_content = get_relevant_contents(query_str, content_flags)
+    relevant_content = search.get_relevant_contents(query_str, content_flags)
     # json_obj = {}
     # num_content_flags = 9;
     # for i in xrange(0, num_content_flags):
