@@ -7,6 +7,7 @@ import simplejson
 
 from fqueryApp.models import Status, Comment, Photo, Link, Note, Video, Post, Question, QuestionOption
 
+from fqueryApp import search
 from fquery import settings
 
 
@@ -45,8 +46,9 @@ def get_relevant_posts(query):
 
 def get_relevant_statuses(query):
     relevant_statuses = []
-    for i in xrange(0,5):
-        relevant_statuses.append({'msg' : 'status ' + str(i)})
+    results = search.searchStatuses(query)
+    for result in results:
+        relevant_statuses.append({'msg' : result})
     return relevant_statuses
 
 
