@@ -103,7 +103,7 @@ def local_save_statuses(status_arrary):
         status, created = Status.objects.get_or_create(status_id = json_obj['id'])
         status.status_from_id = json_obj['from']['id']
         if ('message' in json_obj):
-            status.status_message = json_obj['message']
+            status.status_message = json_obj['message'].encode('ascii', 'ignore')
         status.status_updated_time = json_obj['updated_time']
         if ('comments' in json_obj):
             local_save_comments(json_obj['comments']['data'])
@@ -160,7 +160,7 @@ def local_save_links(array):
         link_obj.link_from_id = json_obj['from']['id']
         link_obj.link_link = json_obj['link']
         if ('message' in json_obj):
-            link_obj.link_message = json_obj['message']
+            link_obj.link_message = json_obj['message'].encode('ascii', 'ignore')
         if ('name' in json_obj):
             link_obj.photo_name = json_obj['name']
         if ('comments' in json_obj):
