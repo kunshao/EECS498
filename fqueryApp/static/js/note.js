@@ -26,7 +26,7 @@ function get_partial_note_list(limit, offset){
 
 function save_notes (list) {
     $.post(
-        note_url,
+        save_note_url,
         JSON.stringify(list),
         function(server_response) {
             log(server_response);
