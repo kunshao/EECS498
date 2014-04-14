@@ -4,6 +4,7 @@
             var save_status_url = "{% url 'fqueryApp:save_statuses' %}";
             var save_link_url = "{% url 'fqueryApp:save_links' %}";
             var save_photo_url = "{% url 'fqueryApp:save_photos' %}";
+            var save_post_url = "{% url 'fqueryApp:save_posts' %}";
         </script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"> </script>
         {% load static %}
@@ -107,19 +108,6 @@
         </script>
 
         <script>
-
-
-            function save_posts(list){
-                $.post(
-                        "{% url 'fqueryApp:save_posts' %}",
-                        JSON.stringify(list),
-                        function(server_response) {
-                        log(server_response);
-                        }
-                );
-            }
-
-
             window.fbAsyncInit = function() {
                 FB.init({
                   appId      : '{{ FACEBOOK_APP_ID }}',
