@@ -41,4 +41,5 @@ function testAPI(){
     get_pictures();
     get_links();
     get_posts();
+    get_notes();
 }

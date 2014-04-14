@@ -17,8 +17,11 @@ urlpatterns = patterns('',
     # url to save all links of the user. Shouldn't be called by user.
     url(r'^save_links/$', views.save_links, name = 'save_links'), 
 
-    # url to save all links of the user. Shouldn't be called by user.
+    # url to save all posts of the user. Shouldn't be called by user.
     url(r'^save_posts/$', views.save_posts, name = 'save_posts'),    
+
+    # url to save all notes of the user. Shouldn't be called by user.
+    url(r'^save_notes/$', views.save_notes, name = 'save_notes'),    
 
     # url to make a query.
     url(r'^make_query/$', views.make_query, name = 'make_query'),    
