@@ -35,11 +35,11 @@ function getFlagDictionary(){
 
     var flagDict = {}
     flagDict[1] = 'status';
-    flagDict[1<<1] = 'comment';
-    flagDict[1<<2] = 'link';
-    flagDict[1<<3] = 'photo';
-    flagDict[1<<4] = 'note';
-    flagDict[1<<5] = 'post';
+    flagDict[1<<1] = 'post';
+    flagDict[1<<2] = 'comment';
+    flagDict[1<<3] = 'link';
+    flagDict[1<<4] = 'photo';
+    flagDict[1<<5] = 'note';
     flagDict[1<<6] = 'video';
     flagDict[1<<7] = 'question';
     flagDict[1<<8] = 'question option';

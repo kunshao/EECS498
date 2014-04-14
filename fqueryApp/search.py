@@ -32,7 +32,6 @@ def get_tokens(c_type):
 
     elif (c_type == CONTENT_TYPE_POST):
         docs_all = Post.objects.all()
-        print docs_all
         num_docs  = Post.objects.count()
         for post in docs_all:
             tokens = queryProcess.processLine(post.post_message)
@@ -52,7 +51,6 @@ def get_tokens(c_type):
     elif (c_type == CONTENT_TYPE_LINK):
         docs_all = Link.objects.all()
         num_docs  = Link.objects.count()
-        print num_docs
         for link in docs_all:
             tokens = queryProcess.processLine(link.link_name + link.link_description + link.link_message)
             for token in tokens:
