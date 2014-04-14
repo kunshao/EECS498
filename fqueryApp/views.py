@@ -20,7 +20,7 @@ CONTENT_TYPE_VIDEO          = 1 << 6
 CONTENT_TYPE_QUESTION       = 1 << 7
 CONTENT_TYPE_QUESTION_OPTION = 1 << 8
 
-CONTENT_TYPE_LIST = [CONTENT_TYPE_STATUS, CONTENT_TYPE_POST, CONTENT_TYPE_COMMENT,CONTENT_TYPE_LINK]
+CONTENT_TYPE_LIST = [CONTENT_TYPE_STATUS, CONTENT_TYPE_POST, CONTENT_TYPE_COMMENT,CONTENT_TYPE_LINK, CONTENT_TYPE_PHOTO ]
 
 
 
@@ -33,7 +33,6 @@ def get_relevant_contents(query, content_type):
     for c_type in CONTENT_TYPE_LIST:
 
         if ((content_type & c_type) == c_type):
-            print content_type, c_type
             results_list = []
             results = search.apply_search(query, c_type)
             for result in results:
