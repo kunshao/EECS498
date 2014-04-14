@@ -43,8 +43,6 @@ def get_tokens(c_type):
         num_docs  = Link.objects.count()
         print num_docs
         for link in docs_all:
-            print link
-            print link.link_name + ' '+ link.link_description + ' '+ link.link_message
             tokens = queryProcess.processLine(link.link_name + link.link_description + link.link_message)
             for token in tokens:
                 tokens_lst[token][link.link_id] = tokens_lst.get(token, {}).get(link.link_id, 0) + 1
@@ -88,8 +86,6 @@ def apply_search(query, c_type):
 
     # eliminate stopwords and stemming
     tokens_lst = queryProcess.stemmer(tokens_lst, stopwords)
-
-    print tokens_lst
 
     # ===== Applying weighting scheme ===== #
 
