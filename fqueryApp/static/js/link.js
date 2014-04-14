@@ -22,10 +22,9 @@ function get_partial_link_list(limit, offset){
     })
 }
 
-
 function save_links (list) {
     $.post(
-        "{% url 'fqueryApp:save_links' %}",
+        link_url,
         JSON.stringify(list),
         function(server_response) {
             log(server_response);
