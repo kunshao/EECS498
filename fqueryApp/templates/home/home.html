@@ -1,6 +1,10 @@
 <html>
     <head>
         <script>
+            var fb_app_id = '{{ FACEBOOK_APP_ID }}';
+            var render_login_url = "{% url 'fqueryApp:render_login' %}";
+            var make_query_url = "{% url 'fqueryApp:make_query' %}";
+
             var save_status_url = "{% url 'fqueryApp:save_statuses' %}";
             var save_link_url = "{% url 'fqueryApp:save_links' %}";
             var save_photo_url = "{% url 'fqueryApp:save_photos' %}";
@@ -9,6 +13,7 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"> </script>
         {% load static %}
         <script src="{% static 'js/utilities.js' %}"> </script>
+        <script src="{% static 'js/init.js' %}"> </script>
         <script src="{% static 'js/status.js' %}"> </script>
         <script src="{% static 'js/photo.js' %}"> </script>
         <script src="{% static 'js/friend.js' %}"> </script>
@@ -63,95 +68,5 @@
         <div id = "query_content_div"></div>
         <br>
         <div id = "query_response_content_div"></div>
-
-
-        <script>
-        function sendQuery(query, content_type){
-            $.getJSON(
-                "{% url 'fqueryApp:make_query' %}",
-                {query : query, content_flags : content_type},
-                function(server_response) {
-
-                    content_list_obj = server_response.data;
-                    log(content_list_obj);
-                    
-                    var flagDict = getFlagDictionary();
-
-                    var content_list_div = document.createElement("div");
-                    for (content_type in content_list_obj){
-                        log('parsing content type: ' + flagDict[content_type]);
-
-                        var one_type_list = document.createElement("ul");
-
-                        var one_type_div = document.createElement("div");
-                        one_type_div.innerHTML = flagDict[content_type] + ": ";
-                        content_list_div.appendChild(one_type_div);
-
-                        for (var i = 0; i < content_list_obj[content_type].length; ++i){
-
-                            var one_piece_content = document.createElement("li");
-                            one_piece_content.innerHTML = content_list_obj[content_type][i].msg;
-                            one_type_list.appendChild(one_piece_content);
-
-                        }
-
-                        content_list_div.appendChild(one_type_list);
-                    }
-                    var query_response_content_div = document.getElementById("query_response_content_div");
-                    while (query_response_content_div.firstChild) {
-                        query_response_content_div.removeChild(query_response_content_div.firstChild);
-                    }
-                    query_response_content_div.appendChild(content_list_div);
-                })
-        }
-
-        </script>
-
-        <script>
-            window.fbAsyncInit = function() {
-                FB.init({
-                  appId      : '{{ FACEBOOK_APP_ID }}',
-                  status     : true,
-                  xfbml      : true
-                });
-          
-
-                FB.Event.subscribe('auth.authResponseChange', function(response) {
-                    if (response.status === 'connected') {
-                      console.log("Logged in!");
-                      testAPI();
-
-                    } else {
-                      window.location = "{% url 'fqueryApp:render_login' %}";
-                      console.log("Not loggedin");
-                    }
-                  });
-            };
-
-          (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-             if (d.getElementById(id)) {return;}
-             js = d.createElement(s); js.id = id;
-             js.src = "//connect.facebook.net/en_US/all.js";
-             fjs.parentNode.insertBefore(js, fjs);
-           }(document, 'script', 'facebook-jssdk'));
-
-
-          function testAPI(){
-              console.log('Welcome!  Fetching your information.... ');
-              FB.api('/me', function(response) {
-                console.log('Good to see you, ' + response.name + '.');
-                window.my_id = response.id;
-                window.my_name = response.name;
-                console.log('ID: ', response.id);
-              })
-              // get_friend_list();
-              get_statuses();
-              get_pictures();
-              get_links();
-              get_posts();
-          }
-        </script>
-    
     </body>
 </html>
