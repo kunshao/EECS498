@@ -17,12 +17,12 @@ CONTENT_TYPE_QUESTION_OPTION = 1 << 8
 
 stopwords = queryProcess.importStopwords()
 
-def get_tokens(content_type):
+def get_tokens(c_type):
 
     tokens_lst = defaultdict(dict)
     num_docs = 0
 
-    if ((content_type & CONTENT_TYPE_STATUS) == CONTENT_TYPE_STATUS):
+    if (c_type == CONTENT_TYPE_STATUS):
         status_all = Status.objects.all()
         num_docs  = Status.objects.count()
         for status in status_all:
@@ -32,11 +32,11 @@ def get_tokens(content_type):
 
     return [tokens_lst, num_docs]
 
-def get_results(doc_set, content_type):
+def get_results(doc_set, c_type):
 
     results = []
 
-    if ((content_type & CONTENT_TYPE_STATUS) == CONTENT_TYPE_STATUS):
+    if (c_type == CONTENT_TYPE_STATUS):
         for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
             statuses = Status.objects.filter(status_id = str(doc_no))
             for status in statuses:
@@ -44,10 +44,10 @@ def get_results(doc_set, content_type):
 
     return results
 
-def apply_search(query, content_type):
+def apply_search(query, c_type):
 
     # for testing purpose
-    content_type = CONTENT_TYPE_STATUS
+    c_type = CONTENT_TYPE_STATUS
 
     # tokens_lst is a dictionary of token and its occurrences in document
     # Each word is mapped to a list of (document number, document frequency) pair
@@ -56,7 +56,7 @@ def apply_search(query, content_type):
 
     tokens_lst = defaultdict(dict)
 
-    [tokens_lst, num_docs] = get_tokens(content_type)
+    [tokens_lst, num_docs] = get_tokens(c_type)
 
     # eliminate stopwords and stemming
     tokens_lst = queryProcess.stemmer(tokens_lst, stopwords)
@@ -115,7 +115,7 @@ def apply_search(query, content_type):
         doc_set[doc_no] = doc_set[doc_no]/(doc_length[doc_no] * query_length[query_doc_no])
 
 
-    results = get_results(doc_set, content_type)
+    results = get_results(doc_set, c_type)
 
 
     return results
