@@ -110,11 +110,6 @@ def local_save_statuses(status_arrary):
         status.save()
 
 
-def checkAndCopy(dest, src_obj, key_name):
-    if (key_name in src_obj):
-        dest = src_obj[key_name]
-
-
 @csrf_exempt
 def save_posts(request):
     # print 'save_statuses'
@@ -131,18 +126,28 @@ def local_save_posts(post_array):
         if ('caption' in json_obj):
             post.post_caption = json_obj['caption']
 
-        # post.post_description = json_obj['description']
-        checkAndCopy(post.post_description, json_obj, 'description')
-        checkAndCopy(post.post_message, json_obj, 'message')
+        if ('description' in json_obj):
+            post.post_description = json_obj['description']
+        
+        if ('message' in json_obj):
+            post.post_message = json_obj['message']
 
-        checkAndCopy(post.post_name, json_obj, 'name')
-        checkAndCopy(post.post_story, json_obj, 'story')
+        if ('name' in json_obj):
+            post.post_name = json_obj['name']
+
+        if ('story' in json_obj):
+            post.post_story = json_obj['story']
+
 
         post.post_from_id = json_obj['from']['id']
 
         post.post_updated_time = json_obj['updated_time']
         if ('comments' in json_obj):
             local_save_comments(json_obj['comments']['data'])
+        # print 'json: ' + str(json_obj)
+        if ('name' in json_obj):
+            print 'json: ' + str(json_obj['name'])
+            print 'obj: ' + str(post.post_name)
         post.save()
 
 
@@ -184,9 +189,17 @@ def local_save_notes(array):
         note_obj, created = Note.objects.get_or_create(note_id = json_obj['id'])
         note_obj.note_created_time = json_obj['created_time']
         note_obj.note_from_id = json_obj['from']['id']
-        checkAndCopy(note_obj.note_message, json_obj, 'message')
-        checkAndCopy(note_obj.note_subject, json_obj, 'subject')
-        checkAndCopy(note_obj.note_updated_time, json_obj, 'updated_time')
+        
+        if ('message' in json_obj):
+            note_obj.note_message = json_obj['message']
+
+        if ('subject' in json_obj):
+            note_obj.note_subject = json_obj['subject']
+
+        if ('updated_time' in json_obj):
+            note_obj.note_updated_time = json_obj['updated_time']
+
+
         if ('comments' in json_obj):
             local_save_comments(json_obj['comments']['data'])
         note_obj.save()
@@ -199,8 +212,6 @@ def local_save_comments(array):
         comment_obj.comment_message = json_obj['message'].encode('ascii', 'ignore')
         comment_obj.comment_created_time = json_obj['created_time']
         comment_obj.save()
-
-
 
 
 @csrf_exempt
@@ -217,7 +228,9 @@ def local_save_links(array):
 
         link_obj, created = Link.objects.get_or_create(link_id = json_obj['id'])
         link_obj.link_created_time = json_obj['created_time']
-        checkAndCopy(link_obj.link_description, json_obj, 'description')
+        
+        if ('description' in json_obj):
+            link_obj.link_description = json_obj['description']
 
         link_obj.link_from_id = json_obj['from']['id']
         link_obj.link_link = json_obj['link']
