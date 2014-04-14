@@ -10,8 +10,6 @@ from fqueryApp.models import Status, Comment, Photo, Link, Note, Video, Post, Qu
 from fqueryApp import search
 from fquery import settings
 
-
-
 CONTENT_TYPE_STATUS         = 1
 CONTENT_TYPE_COMMENT        = 1 << 1
 CONTENT_TYPE_LINK           = 1 << 2
@@ -24,35 +22,26 @@ CONTENT_TYPE_QUESTION_OPTION = 1 << 8
 
 
 
-
 # query is the string user puts down. content_type is 
 def get_relevant_contents(query, content_type):
-    # Example use:
+
     content_dict = {}
+    results_list = []
+
+    results = search.apply_search(query, content_type)
+
+    for result in results:
+        results_list.append({'msg' : result})
+
+
     if ((content_type & CONTENT_TYPE_POST) == CONTENT_TYPE_POST):
-        content_dict[CONTENT_TYPE_POST] = get_relevant_posts(query)
+        content_dict[CONTENT_TYPE_POST] = results_list
 
     if ((content_type & CONTENT_TYPE_STATUS) == CONTENT_TYPE_STATUS):
-        content_dict[CONTENT_TYPE_STATUS] = get_relevant_statuses(query)
+        content_dict[CONTENT_TYPE_STATUS] = results_list
 
     return content_dict
     
-def get_relevant_posts(query):
-    
-    relevant_posts = []
-    for i in xrange(0,5):
-        relevant_posts.append({'msg' : 'post ' + str(i)})
-    return relevant_posts
-
-def get_relevant_statuses(query):
-    relevant_statuses = []
-    results = search.searchStatuses(query)
-    for result in results:
-        relevant_statuses.append({'msg' : result})
-    return relevant_statuses
-
-
-
 
 def render_login(request):
     print 'render_login'

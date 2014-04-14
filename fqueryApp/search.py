@@ -51,7 +51,7 @@ def get_results(doc_set, content_type):
 
     return results
 
-def searchStatuses(query):
+def apply_search(query, content_type):
 
     # for testing purpose
     content_type = CONTENT_TYPE_STATUS
