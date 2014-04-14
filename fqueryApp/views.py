@@ -11,11 +11,11 @@ from fqueryApp import search
 from fquery import settings
 
 CONTENT_TYPE_STATUS         = 1
-CONTENT_TYPE_COMMENT        = 1 << 1
-CONTENT_TYPE_LINK           = 1 << 2
-CONTENT_TYPE_PHOTO          = 1 << 3
-CONTENT_TYPE_NOTE           = 1 << 4
-CONTENT_TYPE_POST           = 1 << 5
+CONTENT_TYPE_POST           = 1 << 1
+CONTENT_TYPE_COMMENT        = 1 << 2
+CONTENT_TYPE_LINK           = 1 << 3
+CONTENT_TYPE_PHOTO          = 1 << 4
+CONTENT_TYPE_NOTE           = 1 << 5
 CONTENT_TYPE_VIDEO          = 1 << 6
 CONTENT_TYPE_QUESTION       = 1 << 7
 CONTENT_TYPE_QUESTION_OPTION = 1 << 8
