@@ -23,18 +23,28 @@ def get_tokens(c_type):
     num_docs = 0
 
     if (c_type == CONTENT_TYPE_STATUS):
-        status_all = Status.objects.all()
+        docs_all = Status.objects.all()
         num_docs  = Status.objects.count()
-        for status in status_all:
+        for status in docs_all:
             tokens = queryProcess.processLine(status.status_message)
             for token in tokens:
                 tokens_lst[token][status.status_id] = tokens_lst.get(token, {}).get(status.status_id, 0) + 1
+
+    elif (c_type == CONTENT_TYPE_COMMENT):
+        docs_all = Comment.objects.all()
+        num_docs  = Comment.objects.count()
+        for comment in docs_all:
+            tokens = queryProcess.processLine(comment.comment_message)
+            for token in tokens:
+                tokens_lst[token][comment.comment_id] = tokens_lst.get(token, {}).get(comment.comment_id, 0) + 1
+
+
 
     return [tokens_lst, num_docs]
 
 def get_results(doc_set, c_type):
 
-    results = []
+    results = [] 
 
     if (c_type == CONTENT_TYPE_STATUS):
         for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
@@ -42,12 +52,18 @@ def get_results(doc_set, c_type):
             for status in statuses:
                 results.append(status.status_message)
 
+    elif (c_type == CONTENT_TYPE_COMMENT):
+        for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
+            comments = Comment.objects.filter(comment_id = str(doc_no))
+            for comment in comments:
+                results.append(comment.comment_message)
+
     return results
 
 def apply_search(query, c_type):
 
-    # for testing purpose
-    c_type = CONTENT_TYPE_STATUS
+    # # for testing purpose
+    # c_type = CONTENT_TYPE_STATUS
 
     # tokens_lst is a dictionary of token and its occurrences in document
     # Each word is mapped to a list of (document number, document frequency) pair
