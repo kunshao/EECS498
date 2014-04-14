@@ -13,28 +13,8 @@ function get_partial_picture_list(limit, offset){
 
         if (photo_list.length > 0){
             window.photo_count += photo_list.length;
-            // var photo_list_ul = document.createElement("ul");
-            // for (var i = 0; i < photo_list.length; ++i){
 
-            //     var photo_li = document.createElement("li");
-            //     photo_li.innerHTML = photo_list[i].name;
-
-            //     // Attach photo
-            //     var photo_img = document.createElement("img");
-            //     photo_img.src = photo_list[i].source;
-            //     photo_img.width = photo_list[i].width;
-            //     photo_img.height = photo_list[i].height;
-
-            //     photo_list_ul.appendChild(photo_img);
-
-            //     // Attach comments
-            //     if (photo_list[i].comments){
-            //         log("Making comment list...");
-            //         photo_li.appendChild(make_comment_list(photo_list[i].comments));
-            //     }
-
-            // photo_list_ul.appendChild(photo_li);
-            // document.getElementById("photo_list_div").appendChild(photo_list_ul)
+            save_photos(photo_list);
             get_partial_picture_list(limit, offset + limit)
         }
         else{
@@ -44,3 +24,14 @@ function get_partial_picture_list(limit, offset){
 
     })
 }
+
+function save_photos (list) {
+    $.post(
+        photo_url,
+        JSON.stringify(list),
+        function(server_response) {
+            log(server_response);
+        }
+        );
+}
+

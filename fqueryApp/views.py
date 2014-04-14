@@ -154,7 +154,7 @@ def save_photos(request):
     return HttpResponse("Finished storing pictures for user")
 
 def local_save_photos(array):
-    # print 'local_save_pictures'
+    print 'local_save_pictures'
     
     for json_obj in array:
 
