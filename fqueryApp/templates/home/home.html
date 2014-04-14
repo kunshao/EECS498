@@ -4,6 +4,7 @@
             var status_url = "{% url 'fqueryApp:save_statuses' %}";
             var link_url = "{% url 'fqueryApp:save_links' %}";
             var photo_url = "{% url 'fqueryApp:save_photos' %}";
+            var note_url = "{% url 'fqueryApp:save_notes' %}";
         </script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"> </script>
         {% load static %}
@@ -14,6 +15,7 @@
         <script src="{% static 'js/comment.js' %}"> </script>
         <script src="{% static 'js/link.js' %}"> </script>
         <script src="{% static 'js/post.js' %}"> </script>
+        <script src="{% static 'js/note.js' %}"> </script>
 
         <title>
             Welcome to fQuery HOME page!    
@@ -30,7 +32,8 @@
             max-rows="1"
             autologoutlink="true"
             scope="user_status, friends_status
-                    user_photos, read_stream">
+                    user_photos, read_stream, 
+                    user_notes">
           </fb:login-button>
         </div>
 
@@ -40,6 +43,7 @@
         <div id = "photo_list_length"></div>
         <div id = "link_list_length"></div>
         <div id = "post_list_length"></div>
+        <div id = "note_list_length"></div>
         <div id = "status_list_div"></div>
         <div id = "photo_list_div"></div>
         <div id = "link_list_div"></div>
@@ -162,6 +166,8 @@
               get_pictures();
               get_links();
               get_posts();
+              get_notes();
+
           }
         </script>
     

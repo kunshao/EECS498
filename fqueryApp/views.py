@@ -168,6 +168,29 @@ def local_save_photos(array):
             local_save_comments(json_obj['comments']['data'])
         photo_obj.save()
 
+
+@csrf_exempt
+def save_notes(request):
+    print 'save_notes'
+    json_data = simplejson.load(request)
+    local_save_notes(json_data)
+    return HttpResponse("Finished storing pictures for user")
+
+def local_save_notes(array):
+    print 'local_save_notes'
+    
+    for json_obj in array:
+
+        note_obj, created = Note.objects.get_or_create(note_id = json_obj['id'])
+        note_obj.note_created_time = json_obj['created_time']
+        note_obj.note_from_id = json_obj['from']['id']
+        checkAndCopy(note_obj.note_message, json_obj, 'message')
+        checkAndCopy(note_obj.note_subject, json_obj, 'subject')
+        checkAndCopy(note_obj.note_updated_time, json_obj, 'updated_time')
+        if ('comments' in json_obj):
+            local_save_comments(json_obj['comments']['data'])
+        note_obj.save()
+
 def local_save_comments(array):
     # print 'local_save_comments'
     for json_obj in array:
@@ -195,7 +218,7 @@ def local_save_links(array):
         link_obj, created = Link.objects.get_or_create(link_id = json_obj['id'])
         link_obj.link_created_time = json_obj['created_time']
         checkAndCopy(link_obj.link_description, json_obj, 'description')
-        
+
         link_obj.link_from_id = json_obj['from']['id']
         link_obj.link_link = json_obj['link']
         if ('message' in json_obj):
