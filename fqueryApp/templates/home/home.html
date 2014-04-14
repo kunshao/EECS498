@@ -39,7 +39,8 @@
 
         <div>
             <label>Search</label>
-            <input type="text" name="keyword" id="txtKeyword">
+            <input type="text" name="keyword" id="txtKeyword" onkeypress="return runmakeQuery(event)">
+            <button type="button" OnClick="makeQuery()">GO</button><br>
             <label>within</label><br>
             <input type="checkbox" name="content_type_box" checked=yes, value=1>statuses<br>
             <input type="checkbox" name="content_type_box" checked=yes, value=2>comments<br>
@@ -48,7 +49,7 @@
             <input type="checkbox" name="content_type_box" value=16>notes<br>
             <input type="checkbox" name="content_type_box" value=32>posts<br>
             <input type="checkbox" name="content_type_box" value=64>videos<br>
-            <button type="button" OnClick="makeQuery()">GO</button>
+
         </div>
 
         <div id = "query_content_div"></div>
@@ -57,6 +58,13 @@
 
 
         <script>
+
+        function runmakeQuery(event){
+            if (event.keyCode == 13) {
+                makeQuery()
+            }
+        }
+
         function makeQuery(){
             var query     = document.getElementById("txtKeyword").value;
             var content_type_flags = get_content_type_flags();
