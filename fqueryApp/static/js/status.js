@@ -26,7 +26,7 @@ function get_partial_status_list(limit, offset){
 
 function save_statuses (status_list) {
     $.post(
-            status_url,
+            save_status_url,
             JSON.stringify(status_list),
             function(server_response) {
             log(server_response);

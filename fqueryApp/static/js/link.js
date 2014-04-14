@@ -24,7 +24,7 @@ function get_partial_link_list(limit, offset){
 
 function save_links (list) {
     $.post(
-        link_url,
+        save_link_url,
         JSON.stringify(list),
         function(server_response) {
             log(server_response);

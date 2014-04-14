@@ -27,7 +27,7 @@ function get_partial_picture_list(limit, offset){
 
 function save_photos (list) {
     $.post(
-        photo_url,
+        save_photo_url,
         JSON.stringify(list),
         function(server_response) {
             log(server_response);
