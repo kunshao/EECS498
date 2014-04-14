@@ -18,6 +18,45 @@ function makeQuery(){
     sendQuery(query, content_type_flags)
 }
 
+function sendQuery(query, content_type){
+    $.getJSON(
+            make_query_url,
+            {query : query, content_flags : content_type},
+            function(server_response) {
+
+                content_list_obj = server_response.data;
+                log(content_list_obj);
+
+                var flagDict = getFlagDictionary();
+
+                var content_list_div = document.createElement("div");
+                for (content_type in content_list_obj){
+                    log('parsing content type: ' + flagDict[content_type]);
+
+                    var one_type_list = document.createElement("ul");
+
+                    var one_type_div = document.createElement("div");
+                    one_type_div.innerHTML = flagDict[content_type] + ": ";
+                    content_list_div.appendChild(one_type_div);
+
+                    for (var i = 0; i < content_list_obj[content_type].length; ++i){
+
+                        var one_piece_content = document.createElement("li");
+                        one_piece_content.innerHTML = content_list_obj[content_type][i].msg;
+                        one_type_list.appendChild(one_piece_content);
+
+                    }
+
+                    content_list_div.appendChild(one_type_list);
+                }
+                var query_response_content_div = document.getElementById("query_response_content_div");
+                while (query_response_content_div.firstChild) {
+                    query_response_content_div.removeChild(query_response_content_div.firstChild);
+                }
+                query_response_content_div.appendChild(content_list_div);
+            })
+}
+
 function get_content_type_flags(){
 
     var content_type_flags = 0;

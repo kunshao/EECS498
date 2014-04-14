@@ -30,14 +30,21 @@ def get_tokens(c_type):
             for token in tokens:
                 tokens_lst[token][status.status_id] = tokens_lst.get(token, {}).get(status.status_id, 0) + 1
 
-    elif (c_type == CONTENT_TYPE_POST):
-        docs_all = Post.objects.all()
-        num_docs  = Post.objects.count()
-        for post in docs_all:
-            tokens = queryProcess.processLine(post.post_message)
-            for token in tokens:
-                tokens_lst[token][post.post_id] = tokens_lst.get(token, {}).get(post.post_id, 0) + 1
-
+    # elif (c_type == CONTENT_TYPE_POST):
+    #     docs_all = Post.objects.all()
+    #     num_docs  = Post.objects.count()
+    #     for post in docs_all:
+    #         print "id", post.post_id
+    #         print "caption:", post.post_caption
+    #         print "description:", post.post_description
+    #         print "message:", post.post_message
+    #         print "story:", post.post_story
+    #         print "name:", post.post_name
+    #         tokens = queryProcess.processLine(
+    #             post.post_caption + ' '+  post.post_description + ' '+ post.post_message + ' '+ 
+    #             post.post_story + ' '+ post.post_name)
+    #         for token in tokens:
+    #             tokens_lst[token][post.post_id] = tokens_lst.get(token, {}).get(post.post_id, 0) + 1
 
 
     elif (c_type == CONTENT_TYPE_COMMENT):
@@ -52,9 +59,19 @@ def get_tokens(c_type):
         docs_all = Link.objects.all()
         num_docs  = Link.objects.count()
         for link in docs_all:
-            tokens = queryProcess.processLine(link.link_name + link.link_description + link.link_message)
+            tokens = queryProcess.processLine(link.link_name + ' '+ link.link_description + ' '+ link.link_message)
             for token in tokens:
                 tokens_lst[token][link.link_id] = tokens_lst.get(token, {}).get(link.link_id, 0) + 1
+
+    elif (c_type == CONTENT_TYPE_PHOTO):
+        docs_all = Photo.objects.all()
+        print docs_all
+        num_docs  = Photo.objects.count()
+        print num_docs
+        for photo in docs_all:
+            tokens = queryProcess.processLine(photo.photo_name)
+            for token in tokens:
+                tokens_lst[token][photo.photo_id] = tokens_lst.get(token, {}).get(photo.photo_id, 0) + 1
 
     return [tokens_lst, num_docs]
 
@@ -68,11 +85,12 @@ def get_results(doc_set, c_type):
             for status in statuses:
                 results.append(status.status_message)
 
-    elif (c_type == CONTENT_TYPE_POST):
-        for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
-            posts = Post.objects.filter(post_id = str(doc_no))
-            for post in posts:
-                results.append(post.post_message)
+    # elif (c_type == CONTENT_TYPE_POST):
+    #     for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
+    #         posts = Post.objects.filter(post_id = str(doc_no))
+    #         for post in posts:
+    #             results.append(post.post_caption + '\n'+  post.post_description + '\n'+ post.post_message + 
+    #                 '\n'+ post.post_story + '\n'+ post.post_name)
 
     elif (c_type == CONTENT_TYPE_COMMENT):
         for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
@@ -85,6 +103,12 @@ def get_results(doc_set, c_type):
             links = Link.objects.filter(link_id = str(doc_no))
             for link in links:
                 results.append(link.link_link)
+
+    elif (c_type == CONTENT_TYPE_PHOTO):
+        for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
+            photos = Photo.objects.filter(photo_id = str(doc_no))
+            for photo in photos:
+                results.append(photo.photo_name + '('+ photo.photo_link + ')')
 
 
 
