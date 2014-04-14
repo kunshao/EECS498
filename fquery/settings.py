@@ -20,6 +20,12 @@ FACEBOOK_APP_ID = '244771369040880'
 
 
 cwd = os.getcwd()
+# Eyad's laptop settings.
+if 'Eyad' in cwd:
+    db_pwd = ''
+    domain = 'http://127.0.0.1:8000/'
+    FACEBOOK_APP_ID = '417780338366291'
+
 # Kun's laptop settings.
 if 'Developer' in cwd:
     db_pwd = ''
