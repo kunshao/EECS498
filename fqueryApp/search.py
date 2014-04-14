@@ -5,11 +5,11 @@ import queryProcess, index
 
 
 CONTENT_TYPE_STATUS         = 1
-CONTENT_TYPE_COMMENT        = 1 << 1
-CONTENT_TYPE_LINK           = 1 << 2
-CONTENT_TYPE_PHOTO          = 1 << 3
-CONTENT_TYPE_NOTE           = 1 << 4
-CONTENT_TYPE_POST           = 1 << 5
+CONTENT_TYPE_POST           = 1 << 1
+CONTENT_TYPE_COMMENT        = 1 << 2
+CONTENT_TYPE_LINK           = 1 << 3
+CONTENT_TYPE_PHOTO          = 1 << 4
+CONTENT_TYPE_NOTE           = 1 << 5
 CONTENT_TYPE_VIDEO          = 1 << 6
 CONTENT_TYPE_QUESTION       = 1 << 7
 CONTENT_TYPE_QUESTION_OPTION = 1 << 8
@@ -30,6 +30,16 @@ def get_tokens(c_type):
             for token in tokens:
                 tokens_lst[token][status.status_id] = tokens_lst.get(token, {}).get(status.status_id, 0) + 1
 
+    elif (c_type == CONTENT_TYPE_POST):
+        docs_all = Post.objects.all()
+        num_docs  = Post.objects.count()
+        for post in docs_all:
+            tokens = queryProcess.processLine(post.post_message)
+            for token in tokens:
+                tokens_lst[token][post.post_id] = tokens_lst.get(token, {}).get(post.post_id, 0) + 1
+
+
+
     elif (c_type == CONTENT_TYPE_COMMENT):
         docs_all = Comment.objects.all()
         num_docs  = Comment.objects.count()
@@ -41,7 +51,6 @@ def get_tokens(c_type):
     elif (c_type == CONTENT_TYPE_LINK):
         docs_all = Link.objects.all()
         num_docs  = Link.objects.count()
-        print num_docs
         for link in docs_all:
             tokens = queryProcess.processLine(link.link_name + link.link_description + link.link_message)
             for token in tokens:
@@ -59,6 +68,12 @@ def get_results(doc_set, c_type):
             for status in statuses:
                 results.append(status.status_message)
 
+    elif (c_type == CONTENT_TYPE_POST):
+        for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
+            posts = Post.objects.filter(post_id = str(doc_no))
+            for post in posts:
+                results.append(post.post_message)
+
     elif (c_type == CONTENT_TYPE_COMMENT):
         for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
             comments = Comment.objects.filter(comment_id = str(doc_no))
@@ -70,6 +85,8 @@ def get_results(doc_set, c_type):
             links = Link.objects.filter(link_id = str(doc_no))
             for link in links:
                 results.append(link.link_link)
+
+
 
     return results
 
