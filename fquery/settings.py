@@ -18,10 +18,13 @@ db_pwd = '123456'
 domain = 'http://ec2-54-186-181-177.us-west-2.compute.amazonaws.com/'
 FACEBOOK_APP_ID = '244771369040880'
 
+
 cwd = os.getcwd()
 # Kun's laptop settings.
 if 'Developer' in cwd:
     db_pwd = ''
+    domain = 'http://127.0.0.1:8000/'
+    FACEBOOK_APP_ID = '417780338366291'
 
 # Shu's laptop settings.
 if 'linshu' in cwd:
