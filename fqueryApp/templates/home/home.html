@@ -33,6 +33,7 @@
         <div id = "status_list_length"></div>
         <div id = "photo_list_length"></div>
         <div id = "link_list_length"></div>
+        <div id = "post_list_length"></div>
         <div id = "status_list_div"></div>
         <div id = "photo_list_div"></div>
         <div id = "link_list_div"></div>
@@ -163,6 +164,16 @@
                 );
             }
 
+            function save_posts(list){
+                $.post(
+                        "{% url 'fqueryApp:save_posts' %}",
+                        JSON.stringify(list),
+                        function(server_response) {
+                        log(server_response);
+                        }
+                );
+            }
+
 
             window.fbAsyncInit = function() {
                 FB.init({
@@ -203,7 +214,7 @@
               })
               // get_friend_list();
               get_statuses();
-              // get_pictures();
+              get_pictures();
               get_links();
           }
         </script>

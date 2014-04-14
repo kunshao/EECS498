@@ -108,6 +108,35 @@ def local_save_statuses(status_arrary):
             local_save_comments(json_obj['comments']['data'])
         status.save()
 
+
+@csrf_exempt
+def save_posts(request):
+    # print 'save_statuses'
+    json_data = simplejson.load(request)
+    local_save_posts(json_data)
+    return HttpResponse("Finished storing statuses for user")
+
+def local_save_posts(post_array):
+    # print 'local_save_statuses'
+    
+    for json_obj in post_array:
+        post, created = Post.objects.get_or_create(post_id = json_obj['id'])
+        post.post_caption = json_obj['caption']
+        post.post_description = json_obj['description']
+        post.post_from_id = json_obj['from']['id']
+
+
+        if ('message' in json_obj):
+            post.post_message = json_obj['message']
+
+        post.post_name = json_obj['name']
+        post.post_story = json_obj['story']
+        post.post_updated_time = json_obj['updated_time']
+        if ('comments' in json_obj):
+            local_save_comments(json_obj['comments']['data'])
+        post.save()
+
+
 @csrf_exempt
 def save_photos(request):
     # print 'save_pictures'
