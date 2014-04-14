@@ -224,7 +224,7 @@ def local_save_links(array):
         if ('message' in json_obj):
             link_obj.link_message = json_obj['message'].encode('ascii', 'ignore')
         if ('name' in json_obj):
-            link_obj.link_name = json_obj['name']
+            link_obj.link_name = json_obj['name'].encode('ascii', 'ignore')
         if ('comments' in json_obj):
             local_save_comments(json_obj['comments']['data'])
         link_obj.save()

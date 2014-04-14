@@ -23,3 +23,13 @@ function get_partial_post_list(limit, offset){
 
     })
 }
+
+function save_posts(list){
+    $.post(
+            save_post_url,
+            JSON.stringify(list),
+            function(server_response) {
+            log(server_response);
+            }
+          );
+}
