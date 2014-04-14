@@ -20,61 +20,78 @@ CONTENT_TYPE_LIST = [CONTENT_TYPE_STATUS, CONTENT_TYPE_POST, CONTENT_TYPE_COMMEN
 
 stopwords = queryProcess.importStopwords()
 
-def get_tokens(c_type):
+def tokenize_status():
+    tokens_lst = defaultdict(dict)
 
+    docs_all = Status.objects.all()
+    num_docs  = Status.objects.count()
+    for status in docs_all:
+        tokens = queryProcess.processLine(status.status_message)
+        for token in tokens:
+            tokens_lst[token][status.status_id] = tokens_lst.get(token, {}).get(status.status_id, 0) + 1
+
+    return tokens_lst, num_docs
+
+def tokenize_comment():
+    tokens_lst = defaultdict(dict)
+
+    docs_all = Comment.objects.all()
+    num_docs  = Comment.objects.count()
+    for comment in docs_all:
+        tokens = queryProcess.processLine(comment.comment_message)
+        for token in tokens:
+            tokens_lst[token][comment.comment_id] = tokens_lst.get(token, {}).get(comment.comment_id, 0) + 1
+    return tokens_lst, num_docs
+
+def tokenize_link():
+    tokens_lst = defaultdict(dict)
+
+    docs_all = Link.objects.all()
+    num_docs  = Link.objects.count()
+    for link in docs_all:
+        tokens = queryProcess.processLine(link.link_name + ' '+ link.link_description + ' '+ link.link_message)
+        for token in tokens:
+            tokens_lst[token][link.link_id] = tokens_lst.get(token, {}).get(link.link_id, 0) + 1
+    return tokens_lst, num_docs
+
+def tokenize_link():
+    tokens_lst = defaultdict(dict)
+
+    docs_all = Link.objects.all()
+    num_docs  = Link.objects.count()
+    for link in docs_all:
+        tokens = queryProcess.processLine(link.link_name + ' '+ link.link_description + ' '+ link.link_message)
+        for token in tokens:
+            tokens_lst[token][link.link_id] = tokens_lst.get(token, {}).get(link.link_id, 0) + 1
+    return tokens_lst, num_docs
+    
+
+def tokenize_photo():
+    tokens_lst = defaultdict(dict)
+
+    docs_all = Photo.objects.all()
+    print docs_all
+    num_docs  = Photo.objects.count()
+    print num_docs
+    for photo in docs_all:
+        tokens = queryProcess.processLine(photo.photo_name)
+        for token in tokens:
+            tokens_lst[token][photo.photo_id] = tokens_lst.get(token, {}).get(photo.photo_id, 0) + 1
+    return tokens_lst, num_docs
+
+token_funcs = {
+    CONTENT_TYPE_STATUS : tokenize_status,
+    CONTENT_TYPE_COMMENT : tokenize_comment,
+    CONTENT_TYPE_LINK : tokenize_link,
+    CONTENT_TYPE_PHOTO : tokenize_photo,
+    }
+
+def get_tokens(c_type):
     tokens_lst = defaultdict(dict)
     num_docs = 0
 
-    if (c_type == CONTENT_TYPE_STATUS):
-        docs_all = Status.objects.all()
-        num_docs  = Status.objects.count()
-        for status in docs_all:
-            tokens = queryProcess.processLine(status.status_message)
-            for token in tokens:
-                tokens_lst[token][status.status_id] = tokens_lst.get(token, {}).get(status.status_id, 0) + 1
-
-    # elif (c_type == CONTENT_TYPE_POST):
-    #     docs_all = Post.objects.all()
-    #     num_docs  = Post.objects.count()
-    #     for post in docs_all:
-    #         print "id", post.post_id
-    #         print "caption:", post.post_caption
-    #         print "description:", post.post_description
-    #         print "message:", post.post_message
-    #         print "story:", post.post_story
-    #         print "name:", post.post_name
-    #         tokens = queryProcess.processLine(
-    #             post.post_caption + ' '+  post.post_description + ' '+ post.post_message + ' '+ 
-    #             post.post_story + ' '+ post.post_name)
-    #         for token in tokens:
-    #             tokens_lst[token][post.post_id] = tokens_lst.get(token, {}).get(post.post_id, 0) + 1
-
-
-    elif (c_type == CONTENT_TYPE_COMMENT):
-        docs_all = Comment.objects.all()
-        num_docs  = Comment.objects.count()
-        for comment in docs_all:
-            tokens = queryProcess.processLine(comment.comment_message)
-            for token in tokens:
-                tokens_lst[token][comment.comment_id] = tokens_lst.get(token, {}).get(comment.comment_id, 0) + 1
-
-    elif (c_type == CONTENT_TYPE_LINK):
-        docs_all = Link.objects.all()
-        num_docs  = Link.objects.count()
-        for link in docs_all:
-            tokens = queryProcess.processLine(link.link_name + ' '+ link.link_description + ' '+ link.link_message)
-            for token in tokens:
-                tokens_lst[token][link.link_id] = tokens_lst.get(token, {}).get(link.link_id, 0) + 1
-
-    elif (c_type == CONTENT_TYPE_PHOTO):
-        docs_all = Photo.objects.all()
-        print docs_all
-        num_docs  = Photo.objects.count()
-        print num_docs
-        for photo in docs_all:
-            tokens = queryProcess.processLine(photo.photo_name)
-            for token in tokens:
-                tokens_lst[token][photo.photo_id] = tokens_lst.get(token, {}).get(photo.photo_id, 0) + 1
+    if c_type in token_funcs:
+        return token_funcs[c_type]()
 
     return [tokens_lst, num_docs]
 
@@ -87,13 +104,6 @@ def get_results(doc_set, c_type):
             statuses = Status.objects.filter(status_id = str(doc_no))
             for status in statuses:
                 results.append(status.status_message)
-
-    # elif (c_type == CONTENT_TYPE_POST):
-    #     for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
-    #         posts = Post.objects.filter(post_id = str(doc_no))
-    #         for post in posts:
-    #             results.append(post.post_caption + '\n'+  post.post_description + '\n'+ post.post_message + 
-    #                 '\n'+ post.post_story + '\n'+ post.post_name)
 
     elif (c_type == CONTENT_TYPE_COMMENT):
         for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
@@ -136,6 +146,7 @@ def apply_search(query, c_type):
     for token, doc_list in tokens_lst.items(): 
         doc_freq_lst[token] = len(doc_list)
 
+    print "num docs: ", num_docs
     weight_index = index.calcWeight(tokens_lst, num_docs)
     doc_length = index.calcDocLen(weight_index)
 
@@ -192,7 +203,6 @@ def apply_search(query, c_type):
 def get_relevant_contents(query, content_type):
 
     content_dict = {}
- 
 
     for c_type in CONTENT_TYPE_LIST:
 
