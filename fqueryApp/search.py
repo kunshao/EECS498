@@ -43,15 +43,24 @@ def tokenize_comment():
             tokens_lst[token][comment.comment_id] = tokens_lst.get(token, {}).get(comment.comment_id, 0) + 1
     return tokens_lst, num_docs
 
-def tokenize_link():
+def tokenize_post():
     tokens_lst = defaultdict(dict)
-
-    docs_all = Link.objects.all()
-    num_docs  = Link.objects.count()
-    for link in docs_all:
-        tokens = queryProcess.processLine(link.link_name + ' '+ link.link_description + ' '+ link.link_message)
+    docs_all = Post.objects.all()
+    num_docs  = Post.objects.count()
+    for post in docs_all:
+        print "id", post.post_id
+        print "caption:", post.post_caption
+        print "description:", post.post_description
+        print "message:", post.post_message
+        print "story:", post.post_story
+        print "name:", post.post_name
+        print "link:", post.post_link
+        tokens = queryProcess.processLine(
+            post.post_caption + ' '+  post.post_description + ' '+ post.post_message + ' '+ 
+            post.post_story + ' '+ post.post_name)
         for token in tokens:
-            tokens_lst[token][link.link_id] = tokens_lst.get(token, {}).get(link.link_id, 0) + 1
+            tokens_lst[token][post.post_id] = tokens_lst.get(token, {}).get(post.post_id, 0) + 1
+
     return tokens_lst, num_docs
 
 def tokenize_link():
@@ -70,9 +79,7 @@ def tokenize_photo():
     tokens_lst = defaultdict(dict)
 
     docs_all = Photo.objects.all()
-    print docs_all
     num_docs  = Photo.objects.count()
-    print num_docs
     for photo in docs_all:
         tokens = queryProcess.processLine(photo.photo_name)
         for token in tokens:
@@ -82,6 +89,7 @@ def tokenize_photo():
 token_funcs = {
     CONTENT_TYPE_STATUS : tokenize_status,
     CONTENT_TYPE_COMMENT : tokenize_comment,
+    CONTENT_TYPE_POST : tokenize_post,
     CONTENT_TYPE_LINK : tokenize_link,
     CONTENT_TYPE_PHOTO : tokenize_photo,
     }
@@ -111,11 +119,22 @@ def get_results(doc_set, c_type):
             for comment in comments:
                 results.append(comment.comment_message)
 
+    elif (c_type == CONTENT_TYPE_POST):
+        for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
+            posts = Post.objects.filter(post_id = str(doc_no))
+            for post in posts:
+                if post.post_link:
+                    results.append(post.post_story + "|" + post.post_description + post.post_link)
+                elif post.post_message:
+                    results.append(post.post_story + "|"  + post.post_message + " "+ post.post_description )
+                else:
+                    results.append(post.post_story+ " "+ post.post_description)
+
     elif (c_type == CONTENT_TYPE_LINK):
         for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
             links = Link.objects.filter(link_id = str(doc_no))
             for link in links:
-                results.append(link.link_link)
+                results.append(link.link_name + '(' + link.link_link + ')')
 
     elif (c_type == CONTENT_TYPE_PHOTO):
         for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
@@ -146,7 +165,6 @@ def apply_search(query, c_type):
     for token, doc_list in tokens_lst.items(): 
         doc_freq_lst[token] = len(doc_list)
 
-    print "num docs: ", num_docs
     weight_index = index.calcWeight(tokens_lst, num_docs)
     doc_length = index.calcDocLen(weight_index)
 

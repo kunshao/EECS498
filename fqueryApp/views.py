@@ -91,6 +91,8 @@ def local_save_posts(post_array):
         if ('story' in json_obj):
             post.post_story = json_obj['story'].encode('ascii', 'ignore')
 
+        if ('link' in json_obj):
+            post.post_story = json_obj['link']
 
         post.post_from_id = json_obj['from']['id']
 
@@ -98,9 +100,9 @@ def local_save_posts(post_array):
         if ('comments' in json_obj):
             local_save_comments(json_obj['comments']['data'])
         # print 'json: ' + str(json_obj)
-        if ('name' in json_obj):
-            print 'json: ' + str(json_obj['name'].encode('ascii', 'ignore'))
-            print 'obj: ' + str(post.post_name)
+        # if ('name' in json_obj):
+            # print 'json: ' + str(json_obj['name'].encode('ascii', 'ignore'))
+            # print 'obj: ' + str(post.post_name)
         post.save()
 
 
@@ -194,13 +196,6 @@ def local_save_links(array):
         if ('comments' in json_obj):
             local_save_comments(json_obj['comments']['data'])
         link_obj.save()
-
-
-
-
-
-
-
 
 
 def index(request):
