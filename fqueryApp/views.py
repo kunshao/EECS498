@@ -34,17 +34,6 @@ def make_query(request):
     content_flags = int(request.GET['content_flags'])
 
     relevant_content = search.get_relevant_contents(query_str, content_flags)
-    # json_obj = {}
-    # num_content_flags = 9;
-    # for i in xrange(0, num_content_flags):
-    #     if ((1 << i) in relevant_content):
-    #         json_obj_one_type_list = []
-    #         for obj in relevant_content[1 << i]:
-    #             one_msg = {
-    #                 'msg' : obj[
-    #             }
-    #             json_obj_one_type_list.append(one_msg)
-    #     json_obj[1 << i] = json_obj_one_type_list
 
     data_obj = {
         'data' : relevant_content
@@ -194,7 +183,7 @@ def local_save_links(array):
         link_obj.link_created_time = json_obj['created_time']
         
         if ('description' in json_obj):
-            link_obj.link_description = json_obj['description']
+            link_obj.link_description = json_obj['description'].encode('ascii', 'ignore')
 
         link_obj.link_from_id = json_obj['from']['id']
         link_obj.link_link = json_obj['link']
