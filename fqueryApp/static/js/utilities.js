@@ -41,8 +41,28 @@ function sendQuery(query, content_type){
 
                     for (var i = 0; i < content_list_obj[content_type].length; ++i){
 
-                        var one_piece_content = document.createElement("li");
-                        one_piece_content.innerHTML = content_list_obj[content_type][i].msg;
+                        var one_piece_content = document.createElement("a");
+                        var msg = content_list_obj[content_type][i].msg;
+
+                        if (content_type == 16) {
+                            //I absolutely do not like this, need a better way
+                            var open_paran_loc = msg.lastIndexOf('(');
+                            var desc = msg.substr(0, open_paran_loc);
+
+                            ++open_paran_loc;
+                            var close_paran_loc = msg.lastIndexOf(')');
+                            var url = msg.substr(open_paran_loc, close_paran_loc-open_paran_loc);
+
+                            one_piece_content.innerHTML = desc;
+                            one_piece_content.href = url;
+                            one_piece_content.target = "_blank";
+                        }
+                        else {
+                            var one_piece_content = document.createElement("li");
+                            one_piece_content.innerHTML = msg;
+                        }
+
+                        //one_piece_content.innerHTML = content_list_obj[content_type][i].msg;
                         one_type_list.appendChild(one_piece_content);
 
                     }
