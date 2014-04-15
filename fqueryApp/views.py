@@ -88,19 +88,19 @@ def local_save_posts(post_array):
     for json_obj in post_array:
         post, created = Post.objects.get_or_create(post_id = json_obj['id'])
         if ('caption' in json_obj):
-            post.post_caption = json_obj['caption']
+            post.post_caption = json_obj['caption'].encode('ascii', 'ignore')
 
         if ('description' in json_obj):
-            post.post_description = json_obj['description']
+            post.post_description = json_obj['description'].encode('ascii', 'ignore')
         
         if ('message' in json_obj):
-            post.post_message = json_obj['message']
+            post.post_message = json_obj['message'].encode('ascii', 'ignore')
 
         if ('name' in json_obj):
-            post.post_name = json_obj['name']
+            post.post_name = json_obj['name'].encode('ascii', 'ignore')
 
         if ('story' in json_obj):
-            post.post_story = json_obj['story']
+            post.post_story = json_obj['story'].encode('ascii', 'ignore')
 
 
         post.post_from_id = json_obj['from']['id']
@@ -110,7 +110,7 @@ def local_save_posts(post_array):
             local_save_comments(json_obj['comments']['data'])
         # print 'json: ' + str(json_obj)
         if ('name' in json_obj):
-            print 'json: ' + str(json_obj['name'])
+            print 'json: ' + str(json_obj['name'].encode('ascii', 'ignore'))
             print 'obj: ' + str(post.post_name)
         post.save()
 
