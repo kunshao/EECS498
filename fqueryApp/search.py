@@ -20,6 +20,7 @@ CONTENT_TYPE_LIST = [CONTENT_TYPE_STATUS, CONTENT_TYPE_POST, CONTENT_TYPE_COMMEN
 
 stopwords = queryProcess.importStopwords()
 
+######## tokenizing ###########
 def tokenize_status():
     tokens_lst = defaultdict(dict)
 
@@ -86,7 +87,7 @@ def tokenize_photo():
             tokens_lst[token][photo.photo_id] = tokens_lst.get(token, {}).get(photo.photo_id, 0) + 1
     return tokens_lst, num_docs
 
-token_funcs = {
+token_funcs_g = {
     CONTENT_TYPE_STATUS : tokenize_status,
     CONTENT_TYPE_COMMENT : tokenize_comment,
     CONTENT_TYPE_POST : tokenize_post,
@@ -98,49 +99,70 @@ def get_tokens(c_type):
     tokens_lst = defaultdict(dict)
     num_docs = 0
 
-    if c_type in token_funcs:
-        return token_funcs[c_type]()
+    if c_type in token_funcs_g:
+        return token_funcs_g[c_type]()
 
     return [tokens_lst, num_docs]
+
+
+######## results ###########
+def get_statuses(doc_set):
+    results = []
+    for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
+        statuses = Status.objects.filter(status_id = str(doc_no))
+        for status in statuses:
+            results.append(status.status_message)
+    return results
+
+def get_comments(doc_set):
+    results = []
+    for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
+        comments = Comment.objects.filter(comment_id = str(doc_no))
+        for comment in comments:
+            results.append(comment.comment_message)
+    return results
+
+def get_posts(doc_set):
+    results = []
+    for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
+        posts = Post.objects.filter(post_id = str(doc_no))
+        for post in posts:
+            if post.post_link:
+                results.append(post.post_story + "|" + post.post_description + post.post_link)
+            elif post.post_message:
+                results.append(post.post_story + "|"  + post.post_message + " "+ post.post_description )
+            else:
+                results.append(post.post_story+ " "+ post.post_description)
+    return results
+def get_links(doc_set):
+    results = []
+    for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
+        links = Link.objects.filter(link_id = str(doc_no))
+        for link in links:
+            results.append(link.link_name + '(' + link.link_link + ')')
+    return results
+def get_photos(doc_set):
+    results = []
+    for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
+        photos = Photo.objects.filter(photo_id = str(doc_no))
+        for photo in photos:
+            results.append(photo.photo_name + '('+ photo.photo_link + ')')
+    return results
+
+result_funcs_g = {
+    CONTENT_TYPE_STATUS : get_statuses,
+    CONTENT_TYPE_COMMENT : get_comments,
+    CONTENT_TYPE_POST : get_posts,
+    CONTENT_TYPE_LINK : get_links,
+    CONTENT_TYPE_PHOTO : get_photos,
+    }
 
 def get_results(doc_set, c_type):
 
     results = [] 
 
-    if (c_type == CONTENT_TYPE_STATUS):
-        for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
-            statuses = Status.objects.filter(status_id = str(doc_no))
-            for status in statuses:
-                results.append(status.status_message)
-
-    elif (c_type == CONTENT_TYPE_COMMENT):
-        for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
-            comments = Comment.objects.filter(comment_id = str(doc_no))
-            for comment in comments:
-                results.append(comment.comment_message)
-
-    elif (c_type == CONTENT_TYPE_POST):
-        for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
-            posts = Post.objects.filter(post_id = str(doc_no))
-            for post in posts:
-                if post.post_link:
-                    results.append(post.post_story + "|" + post.post_description + post.post_link)
-                elif post.post_message:
-                    results.append(post.post_story + "|"  + post.post_message + " "+ post.post_description )
-                else:
-                    results.append(post.post_story+ " "+ post.post_description)
-
-    elif (c_type == CONTENT_TYPE_LINK):
-        for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
-            links = Link.objects.filter(link_id = str(doc_no))
-            for link in links:
-                results.append(link.link_name + '(' + link.link_link + ')')
-
-    elif (c_type == CONTENT_TYPE_PHOTO):
-        for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
-            photos = Photo.objects.filter(photo_id = str(doc_no))
-            for photo in photos:
-                results.append(photo.photo_name + '('+ photo.photo_link + ')')
+    if c_type in result_funcs_g:
+        return result_funcs_g[c_type](doc_set)
 
     return results
 
