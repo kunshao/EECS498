@@ -1,5 +1,6 @@
 <html>
     <head>
+
         <script>
             var fb_app_id = '{{ FACEBOOK_APP_ID }}';
             var render_login_url = "{% url 'fqueryApp:render_login' %}";
@@ -24,6 +25,8 @@
         <script src="{% static 'js/post.js' %}"> </script>
         <script src="{% static 'js/note.js' %}"> </script>
 
+        <link rel="stylesheet" type="text/css" href="{% static 'js/normalize.css' %}">
+        
         <title>
             Welcome to fQuery HOME page!    
         </title>
