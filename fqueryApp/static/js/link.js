@@ -25,7 +25,7 @@ function get_partial_link_list(limit, offset){
 function save_links (list) {
     $.post(
         save_link_url,
-        JSON.stringify(list),
+        JSON.stringify({link_list : list, fb_owner_id : window.my_id}),
         function(server_response) {
             log(server_response);
         }

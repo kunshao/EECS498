@@ -60,7 +60,7 @@ def local_save_statuses(status_arrary, fb_owner_id):
             status.status_message = json_obj['message'].encode('ascii', 'ignore')
         status.status_updated_time = json_obj['updated_time']
         if ('comments' in json_obj):
-            local_save_comments(json_obj['comments']['data'])
+            local_save_comments(json_obj['comments']['data'], fb_owner_id)
         status.save()
 
 
@@ -68,11 +68,11 @@ def local_save_statuses(status_arrary, fb_owner_id):
 def save_posts(request):
     # print 'save_statuses'
     json_data = simplejson.load(request)
-    local_save_posts(json_data)
+    local_save_posts(json_data['post_list'], json_data['fb_owner_id'])
     return HttpResponse("Finished storing statuses for user")
 
 
-def local_save_posts(post_array):
+def local_save_posts(post_array, fb_owner_id):
     print 'local_save_posts'
     
     for json_obj in post_array:
@@ -96,10 +96,11 @@ def local_save_posts(post_array):
             post.post_story = json_obj['link']
 
         post.post_from_id = json_obj['from']['id']
+        post.owner_id = fb_owner_id
 
         post.post_updated_time = json_obj['updated_time']
         if ('comments' in json_obj):
-            local_save_comments(json_obj['comments']['data'])
+            local_save_comments(json_obj['comments']['data'], fb_owner_id)
         # print 'json: ' + str(json_obj)
         # if ('name' in json_obj):
             # print 'json: ' + str(json_obj['name'].encode('ascii', 'ignore'))
@@ -111,22 +112,23 @@ def local_save_posts(post_array):
 def save_photos(request):
     # print 'save_pictures'
     json_data = simplejson.load(request)
-    local_save_photos(json_data)
+    local_save_photos(json_data['photo_list'], json_data['fb_owner_id'])
     return HttpResponse("Finished storing pictures for user")
 
-def local_save_photos(array):
+def local_save_photos(array, fb_owner_id):
     print 'local_save_pictures'
     
     for json_obj in array:
 
         photo_obj, created = Photo.objects.get_or_create(photo_id = json_obj['id'])
         photo_obj.photo_from_id = json_obj['from']['id']
+        photo_obj.owner_id = fb_owner_id
         photo_obj.photo_link = json_obj['link']
         if ('name' in json_obj):
             photo_obj.photo_name = json_obj['name']
         photo_obj.photo_created_time = json_obj['created_time']
         if ('comments' in json_obj):
-            local_save_comments(json_obj['comments']['data'])
+            local_save_comments(json_obj['comments']['data'], fb_owner_id)
         photo_obj.save()
 
 
@@ -134,10 +136,10 @@ def local_save_photos(array):
 def save_notes(request):
     print 'save_notes'
     json_data = simplejson.load(request)
-    local_save_notes(json_data)
+    local_save_notes(json_data['note_list'], json_data['fb_owner_id'])
     return HttpResponse("Finished storing pictures for user")
 
-def local_save_notes(array):
+def local_save_notes(array, fb_owner_id):
     print 'local_save_notes'
     
     for json_obj in array:
@@ -145,6 +147,7 @@ def local_save_notes(array):
         note_obj, created = Note.objects.get_or_create(note_id = json_obj['id'])
         note_obj.note_created_time = json_obj['created_time']
         note_obj.note_from_id = json_obj['from']['id']
+        note_obj.owner_id = fb_owner_id
         
         if ('message' in json_obj):
             note_obj.note_message = json_obj['message']
@@ -157,13 +160,14 @@ def local_save_notes(array):
 
 
         if ('comments' in json_obj):
-            local_save_comments(json_obj['comments']['data'])
+            local_save_comments(json_obj['comments']['data'], fb_owner_id)
         note_obj.save()
 
-def local_save_comments(array):
+def local_save_comments(array, fb_owner_id):
     # print 'local_save_comments'
     for json_obj in array:
         comment_obj, created = Comment.objects.get_or_create(comment_id = json_obj['id'])
+        comment_obj.owner_id = fb_owner_id
         comment_obj.comment_from_id = json_obj['from']['id']
         comment_obj.comment_message = json_obj['message'].encode('ascii', 'ignore')
         comment_obj.comment_created_time = json_obj['created_time']
@@ -174,10 +178,10 @@ def local_save_comments(array):
 def save_links(request):
     # print 'save_links'
     json_data = simplejson.load(request)
-    local_save_links(json_data)
+    local_save_links(json_data['link_list'], json_data['fb_owner_id'])
     return HttpResponse("Finished storing links for user")
 
-def local_save_links(array):
+def local_save_links(array, fb_owner_id):
     # print 'local_save_links'
     
     for json_obj in array:
@@ -189,13 +193,14 @@ def local_save_links(array):
             link_obj.link_description = json_obj['description'].encode('ascii', 'ignore')
 
         link_obj.link_from_id = json_obj['from']['id']
+        link_obj.owner_id = fb_owner_id
         link_obj.link_link = json_obj['link']
         if ('message' in json_obj):
             link_obj.link_message = json_obj['message'].encode('ascii', 'ignore')
         if ('name' in json_obj):
             link_obj.link_name = json_obj['name'].encode('ascii', 'ignore')
         if ('comments' in json_obj):
-            local_save_comments(json_obj['comments']['data'])
+            local_save_comments(json_obj['comments']['data'], fb_owner_id)
         link_obj.save()
 
 

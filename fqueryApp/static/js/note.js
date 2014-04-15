@@ -27,7 +27,7 @@ function get_partial_note_list(limit, offset){
 function save_notes (list) {
     $.post(
         save_note_url,
-        JSON.stringify(list),
+        JSON.stringify({note_list : list, fb_owner_id : window.my_id}),
         function(server_response) {
             log(server_response);
         }

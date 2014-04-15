@@ -27,7 +27,7 @@ function get_partial_post_list(limit, offset){
 function save_posts(list){
     $.post(
             save_post_url,
-            JSON.stringify(list),
+            JSON.stringify({post_list : list, fb_owner_id : window.my_id}),
             function(server_response) {
             log(server_response);
             }

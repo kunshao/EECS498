@@ -28,7 +28,7 @@ function get_partial_picture_list(limit, offset){
 function save_photos (list) {
     $.post(
         save_photo_url,
-        JSON.stringify(list),
+        JSON.stringify({photo_list : list, fb_owner_id : window.my_id}),
         function(server_response) {
             log(server_response);
         }
