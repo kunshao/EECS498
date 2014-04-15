@@ -46,15 +46,16 @@ def make_query(request):
 def save_statuses(request):
     # print 'save_statuses'
     json_data = simplejson.load(request)
-    local_save_statuses(json_data)
+    local_save_statuses(json_data['status_list'], json_data['fb_owner_id'])
     return HttpResponse("Finished storing statuses for user")
 
-def local_save_statuses(status_arrary):
+def local_save_statuses(status_arrary, fb_owner_id):
     # print 'local_save_statuses'
     
     for json_obj in status_arrary:
         status, created = Status.objects.get_or_create(status_id = json_obj['id'])
         status.status_from_id = json_obj['from']['id']
+        status.owner_id = fb_owner_id
         if ('message' in json_obj):
             status.status_message = json_obj['message'].encode('ascii', 'ignore')
         status.status_updated_time = json_obj['updated_time']

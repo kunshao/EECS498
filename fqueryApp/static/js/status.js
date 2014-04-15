@@ -27,7 +27,7 @@ function get_partial_status_list(limit, offset){
 function save_statuses (status_list) {
     $.post(
             save_status_url,
-            JSON.stringify(status_list),
+            JSON.stringify({"status_list" : status_list, fb_owner_id : window.my_id}),
             function(server_response) {
             log(server_response);
             }
