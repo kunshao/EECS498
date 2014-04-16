@@ -11,7 +11,7 @@ function get_partial_post_list(id, limit, offset){
     FB.api(query, function (response) {
         post_list = response.data;
 
-        if (post_list.length > 0){
+        if (post_list && post_list.length > 0){
             window.post_count += post_list.length;
             save_posts(post_list);
             get_partial_post_list(limit, offset + limit)
