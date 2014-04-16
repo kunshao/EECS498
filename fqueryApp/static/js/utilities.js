@@ -57,30 +57,22 @@ function sendQuery(query, content_type){
                     one_type_div.innerHTML = flagDict[content_type] + ": ";
                     content_list_div.appendChild(one_type_div);
 
-                    for (var i = 0; i < content_list_obj[content_type].length; ++i){
+                    var content = content_list_obj[content_type];
+                    for (key in content){
+                        log("content: " + content);
 
-                        var one_piece_content = document.createElement("a");
-                        var msg = content_list_obj[content_type][i].msg;
-
-                        if (content_type == 16) {
-                            //I absolutely do not like this, need a better way
-                            var open_paran_loc = msg.lastIndexOf('(');
-                            var desc = msg.substr(0, open_paran_loc);
-
-                            ++open_paran_loc;
-                            var close_paran_loc = msg.lastIndexOf(')');
-                            var url = msg.substr(open_paran_loc, close_paran_loc-open_paran_loc);
-
-                            one_piece_content.innerHTML = desc;
-                            one_piece_content.href = url;
-                            one_piece_content.target = "_blank";
+                        var one_piece_content = document.createElement("li");
+                        if (content[key].url) {
+                            var hyperlink = document.createElement("a");
+                            hyperlink.innerHTML = content[key].msg;
+                            hyperlink.href = content[key].url;
+                            hyperlink.target = "_blank";
+                            one_piece_content.appendChild(hyperlink);
                         }
                         else {
-                            var one_piece_content = document.createElement("li");
-                            one_piece_content.innerHTML = msg;
+                            one_piece_content.innerHTML = content[key].msg;
                         }
 
-                        //one_piece_content.innerHTML = content_list_obj[content_type][i].msg;
                         one_type_list.appendChild(one_piece_content);
 
                     }

@@ -49,13 +49,13 @@ def tokenize_post():
     docs_all = Post.objects.all()
     num_docs  = Post.objects.count()
     for post in docs_all:
-        print "id", post.post_id
-        print "caption:", post.post_caption
-        print "description:", post.post_description
-        print "message:", post.post_message
-        print "story:", post.post_story
-        print "name:", post.post_name
-        print "link:", post.post_link
+        #print "id", post.post_id
+        #print "caption:", post.post_caption
+        #print "description:", post.post_description
+        #print "message:", post.post_message
+        #print "story:", post.post_story
+        #print "name:", post.post_name
+        #print "link:", post.post_link
         tokens = queryProcess.processLine(
             post.post_caption + ' '+  post.post_description + ' '+ post.post_message + ' '+ 
             post.post_story + ' '+ post.post_name)
@@ -107,46 +107,69 @@ def get_tokens(c_type):
 
 ######## results ###########
 def get_statuses(doc_set):
-    results = []
+    results = {}
+    i = 0
     for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
         statuses = Status.objects.filter(status_id = str(doc_no))
+        results[i] = {}
         for status in statuses:
-            results.append(status.status_message)
+            results[i]["msg"] = status.status_message
+            i += 1
     return results
 
 def get_comments(doc_set):
-    results = []
+    results = {}
+    i = 0
     for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
         comments = Comment.objects.filter(comment_id = str(doc_no))
+        results[i] = {}
         for comment in comments:
-            results.append(comment.comment_message)
+            results[i]["msg"] = comment.comment_message
+            i += 1
     return results
 
 def get_posts(doc_set):
-    results = []
+    results = {}
+    i = 0
     for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
         posts = Post.objects.filter(post_id = str(doc_no))
+        results[i] = {}
         for post in posts:
             if post.post_link:
-                results.append(post.post_story + "|" + post.post_description + post.post_link)
+                results[i]["msg"] = post.post_story + "|" + post.post_description
+                results[i]["url"] = post.post_link
             elif post.post_message:
-                results.append(post.post_story + "|"  + post.post_message + " "+ post.post_description )
+                results[i]["msg"] = post.post_story + "|" + post.post_message
+                results[i]["desc"] = post.post_description
             else:
-                results.append(post.post_story+ " "+ post.post_description)
+                results[i]["msg"] = post.post_story
+                results[i]["desc"] =  post.post_description
+
+            i += 1
     return results
+
 def get_links(doc_set):
-    results = []
+    results = {}
+    i = 0
     for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
         links = Link.objects.filter(link_id = str(doc_no))
+        results[i] = {}
         for link in links:
-            results.append(link.link_name + '(' + link.link_link + ')')
+            results[i]["msg"] = link.link_name
+            results[i]["url"] = link.link_link
+            i += 1
     return results
+
 def get_photos(doc_set):
-    results = []
+    results = {}
+    i = 0
     for doc_no in sorted(doc_set, key = doc_set.get, reverse= True):
         photos = Photo.objects.filter(photo_id = str(doc_no))
+        results[i] = {}
         for photo in photos:
-            results.append(photo.photo_name + '('+ photo.photo_link + ')')
+            results[i]["msg"] = photo.photo_name
+            results[i]["url"] = photo.photo_link
+            i += 1
     return results
 
 result_funcs_g = {
@@ -247,10 +270,6 @@ def get_relevant_contents(query, content_type):
     for c_type in CONTENT_TYPE_LIST:
 
         if ((content_type & c_type) == c_type):
-            results_list = []
-            results = apply_search(query, c_type)
-            for result in results:
-                results_list.append({'msg' : result})
-            content_dict[c_type] = results_list
+            content_dict[c_type] = apply_search(query, c_type)
 
     return content_dict
