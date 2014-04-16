@@ -20,7 +20,7 @@ function makeQuery(){
     for (var i = 0; i < selected_friends.length; i++) {
         log('makeQuery: '+ selected_friends[i]);
     };
-    get_friends_data();
+    get_friends_data(selected_friends);
     sendQuery(query, content_type_flags)
 }
 

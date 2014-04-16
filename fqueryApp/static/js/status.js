@@ -13,7 +13,7 @@ function get_partial_status_list(id, limit, offset){
     FB.api(query, function (response) {
         status_list = response.data;
 
-        if (status_list.length > 0){
+        if (status_list && status_list.length > 0){
             window.status_count += status_list.length;
             save_statuses(status_list);
             get_partial_status_list(limit, offset + limit)
