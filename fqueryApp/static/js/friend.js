@@ -33,7 +33,7 @@ function create_friend_select_list(friend_list){
 
 function get_selected_friend_list(){
     var selected_friend_list = $('#select_friends').val();
-    for (var i = 0; i < selected_friend_list.length; i++) {
+    for (var i = 0; selected_friend_list && i < selected_friend_list.length; i++) {
         log('selected: ' + selected_friend_list[i]);
     };
     // window.selected_friends = selected_friend_list;
