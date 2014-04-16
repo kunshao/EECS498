@@ -1,13 +1,15 @@
 // Get user statuses and display them.
-function get_statuses () {
-    log('Fetching your statuses ...');
+function get_statuses (id) {
+    log('Fetching ' + id + ' statuses ...');
     window.status_count = 0;
-    get_partial_status_list(100, 0);
+    get_partial_status_list(id, 100, 0);
 }
 
-function get_partial_status_list(limit, offset){
+function get_partial_status_list(id, limit, offset){
     log("Fetching new page...");
-    query = 'me/statuses?limit=' + limit + '&offset=' + offset;
+    
+    query = id + '/statuses?limit=' + limit + '&offset=' + offset;
+    log(query)
     FB.api(query, function (response) {
         status_list = response.data;
 

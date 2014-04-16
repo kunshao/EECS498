@@ -15,7 +15,25 @@ function makeQuery(){
     var query     = document.getElementById("txtKeyword").value;
     var content_type_flags = get_content_type_flags();
     document.getElementById("query_content_div").innerHTML = "You searched: " + query + " within " + content_type_flags;
+    // get_selected_friend_list();
+    var selected_friends = get_selected_friend_list();
+    for (var i = 0; i < selected_friends.length; i++) {
+        log('makeQuery: '+ selected_friends[i]);
+    };
+    get_friends_data();
     sendQuery(query, content_type_flags)
+}
+
+function get_friends_data(selected_friends){
+    log("selected_friends size: ", selected_friends.length);
+    for (var i = 0; i < selected_friends.length; i++) {
+
+        var id = selected_friends[i];
+        log("Hi");
+        get_statuses(id);
+        get_posts(id);
+        
+    };
 }
 
 function sendQuery(query, content_type){

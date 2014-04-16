@@ -34,12 +34,14 @@ function testAPI(){
         window.my_id = response.id;
         window.my_name = response.name;
         console.log('ID: ', response.id);
+        get_friend_list();
+        log(window.my_id);
+        get_statuses(window.my_id);
+        get_pictures();
+        get_links();
+        log(window.my_id);
+        get_posts(window.my_id);
+        get_notes();
     })
 
-    // get_friend_list();
-    get_statuses();
-    get_pictures();
-    get_links();
-    get_posts();
-    get_notes();
 }

@@ -41,9 +41,10 @@
             width="200"
             max-rows="1"
             autologoutlink="true"
-            scope="user_status, friends_status
+            scope="user_status, friends_status,
                     user_photos, read_stream, 
-                    user_notes">
+                    user_notes, friends_status,
+                    friends_notes, friends_photos">
           </fb:login-button>
         </div>
 
@@ -62,6 +63,29 @@
             <label id = "search">Search
             <input type="text" name="keyword" id="txtKeyword" onkeypress="return runmakeQuery(event)">
             <button type="button" OnClick="makeQuery()">GO</button></label>
+            <label>select friends</label><br>
+            <form action="form_action.asp">
+                <select id="select_friends" name="cars" multiple size=30>
+                    <!-- <option value="volvo">Volvo</option>
+                    <option value="saab">Saaasdfasdfb</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option> -->
+                </select>
+                <!-- <input type="submit"> -->
+                <button type="button" OnClick="get_selected_friend_list()">submit</button>
+            </form>
             <label>within</label><br>
         </div>
         <div>
