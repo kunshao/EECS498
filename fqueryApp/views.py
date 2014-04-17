@@ -30,10 +30,11 @@ def home(request):
 
 @csrf_exempt
 def make_query(request):
+    owner_id = request.GET['owner_id']
     query_str = request.GET['query']
     content_flags = int(request.GET['content_flags'])
 
-    relevant_content = search.get_relevant_contents(query_str, content_flags)
+    relevant_content = search.get_relevant_contents(owner_id, query_str, content_flags)
 
     data_obj = {
         'data' : relevant_content
