@@ -21,6 +21,7 @@ function get_partial_status_list(id, limit, offset){
         else{
             document.getElementById("status_list_length").innerHTML =
             window.status_count + " statuses retrieved."
+            ++num_types_retrieved_g;
         }
 
     })

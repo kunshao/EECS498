@@ -16,6 +16,7 @@ function get_partial_link_list(id, limit, offset){
             get_partial_link_list(id, limit, offset + limit)
         } else{
             document.getElementById("link_list_length").innerHTML = window.link_count + " links retrieved."
+            ++num_types_retrieved_g;
         }
 
     })

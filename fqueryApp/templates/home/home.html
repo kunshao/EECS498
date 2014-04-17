@@ -11,6 +11,7 @@
             var save_photo_url = "{% url 'fqueryApp:save_photos' %}";
             var save_post_url = "{% url 'fqueryApp:save_posts' %}";
             var save_note_url = "{% url 'fqueryApp:save_notes' %}";
+            var num_types_retrieved_g = 0;
 
         </script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"> </script>
@@ -73,8 +74,8 @@
         <div id = "search_main"> 
             <div id="header"> 
             <label id = "search_txt">Search
-            <input type="text" name="keyword" id="txtKeyword" onkeypress="return runmakeQuery(event)">
-            <button type="button" OnClick="makeQuery()">GO</button></label>
+            <input type="text" name="keyword" id="txtKeyword" onkeypress="return runmakeQuery(event)" disabled>
+            <button type="button" id="btnMakeQuery" OnClick="makeQuery()" disabled>GO</button></label>
             </div>
             
             <div id= "content">

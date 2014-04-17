@@ -19,6 +19,7 @@ function get_partial_post_list(id, limit, offset){
         else{
             document.getElementById("post_list_length").innerHTML =
             window.post_count + " posts retrieved."
+            ++num_types_retrieved_g;
         }
 
     })

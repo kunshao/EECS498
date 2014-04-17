@@ -42,6 +42,9 @@ function testAPI(){
         log(window.my_id);
         get_posts(window.my_id);
         get_notes(window.my_id);
+
+        num_types_retrieved_g = 0;
+        enableSearch(5);
     })
 
 }
