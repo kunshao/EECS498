@@ -21,17 +21,23 @@ CONTENT_TYPE_LIST = [CONTENT_TYPE_STATUS, CONTENT_TYPE_POST, CONTENT_TYPE_COMMEN
 stopwords = queryProcess.importStopwords()
 
 ######## tokenizing ###########
-def tokenize_status(fb_owner_id, selected_friends):
-    tokens_lst = defaultdict(dict)
+def get_docs(fb_owner_id, selected_friends, type_obj, filter_id):
+    docs_all = type_obj.objects.none()
 
-    docs_all = Status.objects.none()
     if selected_friends is None:
-        docs_all = Status.objects.filter(owner_id = fb_owner_id)
+        docs_all = type_obj.objects.filter(owner_id = fb_owner_id)
         selected_friends = []
 
     for friend_id in selected_friends:
-        docs_all = docs_all|Status.objects.filter(status_from_id = friend_id)
+        filter_opts = {filter_id : friend_id}
+        docs_all = docs_all|type_obj.objects.filter(**filter_opts)
 
+    return docs_all
+
+def tokenize_status(fb_owner_id, selected_friends):
+    docs_all = get_docs(fb_owner_id, selected_friends, Status, "status_from_id")
+
+    tokens_lst = defaultdict(dict)
     num_docs  = docs_all.count()
     for status in docs_all:
         tokens = queryProcess.processLine(status.status_message)
@@ -41,9 +47,9 @@ def tokenize_status(fb_owner_id, selected_friends):
     return tokens_lst, num_docs
 
 def tokenize_comment(fb_owner_id, selected_friends):
-    tokens_lst = defaultdict(dict)
+    docs_all = get_docs(fb_owner_id, selected_friends, Comment, "comment_from_id")
 
-    docs_all = Comment.objects.filter(owner_id = fb_owner_id)
+    tokens_lst = defaultdict(dict)
     num_docs  = docs_all.count()
     for comment in docs_all:
         tokens = queryProcess.processLine(comment.comment_message)
@@ -52,8 +58,9 @@ def tokenize_comment(fb_owner_id, selected_friends):
     return tokens_lst, num_docs
 
 def tokenize_post(fb_owner_id, selected_friends):
+    docs_all = get_docs(fb_owner_id, selected_friends, Post, "post_from_id")
+
     tokens_lst = defaultdict(dict)
-    docs_all = Post.objects.filter(owner_id = fb_owner_id)
     num_docs  = docs_all.count()
     for post in docs_all:
         #print "id", post.post_id
@@ -72,9 +79,9 @@ def tokenize_post(fb_owner_id, selected_friends):
     return tokens_lst, num_docs
 
 def tokenize_link(fb_owner_id, selected_friends):
-    tokens_lst = defaultdict(dict)
+    docs_all = get_docs(fb_owner_id, selected_friends, Link, "link_from_id")
 
-    docs_all = Link.objects.filter(owner_id = fb_owner_id)
+    tokens_lst = defaultdict(dict)
     num_docs  = docs_all.count()
     for link in docs_all:
         tokens = queryProcess.processLine(link.link_name + ' '+ link.link_description + ' '+ link.link_message)
@@ -84,9 +91,9 @@ def tokenize_link(fb_owner_id, selected_friends):
     
 
 def tokenize_photo(fb_owner_id, selected_friends):
-    tokens_lst = defaultdict(dict)
+    docs_all = get_docs(fb_owner_id, selected_friends, Photo, "photo_from_id")
 
-    docs_all = Photo.objects.filter(owner_id = fb_owner_id)
+    tokens_lst = defaultdict(dict)
     num_docs  = docs_all.count()
     for photo in docs_all:
         tokens = queryProcess.processLine(photo.photo_name)

@@ -36,15 +36,6 @@ def make_query(request):
     content_flags = int(json_data['content_flags'])
     selected_friends = json_data['friend_list']
 
-    # owner_id = request.GET['owner_id']
-    # query_str = request.GET['query']
-    # content_flags = int(request.GET['content_flags'])
-    # selected_friends = request.GET['friend_list[]']
-    print request
-    print selected_friends
-    # for friend in selected_friends:
-    #     print friend
-
     relevant_content = search.get_relevant_contents(owner_id, selected_friends,
             query_str, content_flags)
 
@@ -57,14 +48,11 @@ def make_query(request):
 
 @csrf_exempt
 def save_statuses(request):
-    # print 'save_statuses'
     json_data = simplejson.load(request)
     local_save_statuses(json_data['status_list'], json_data['fb_owner_id'])
     return HttpResponse("Finished storing statuses for user")
 
 def local_save_statuses(status_arrary, fb_owner_id):
-    # print 'local_save_statuses'
-    
     for json_obj in status_arrary:
         status, created = Status.objects.get_or_create(status_id = json_obj['id'])
         status.status_from_id = json_obj['from']['id']
@@ -79,15 +67,12 @@ def local_save_statuses(status_arrary, fb_owner_id):
 
 @csrf_exempt
 def save_posts(request):
-    # print 'save_statuses'
     json_data = simplejson.load(request)
     local_save_posts(json_data['post_list'], json_data['fb_owner_id'])
     return HttpResponse("Finished storing statuses for user")
 
 
 def local_save_posts(post_array, fb_owner_id):
-    print 'local_save_posts'
-    
     for json_obj in post_array:
         post, created = Post.objects.get_or_create(post_id = json_obj['id'])
         if ('caption' in json_obj):
@@ -114,16 +99,11 @@ def local_save_posts(post_array, fb_owner_id):
         post.post_updated_time = json_obj['updated_time']
         if ('comments' in json_obj):
             local_save_comments(json_obj['comments']['data'], fb_owner_id)
-        # print 'json: ' + str(json_obj)
-        # if ('name' in json_obj):
-            # print 'json: ' + str(json_obj['name'].encode('ascii', 'ignore'))
-            # print 'obj: ' + str(post.post_name)
         post.save()
 
 
 @csrf_exempt
 def save_photos(request):
-    # print 'save_pictures'
     json_data = simplejson.load(request)
     local_save_photos(json_data['photo_list'], json_data['fb_owner_id'])
     return HttpResponse("Finished storing pictures for user")
@@ -177,7 +157,6 @@ def local_save_notes(array, fb_owner_id):
         note_obj.save()
 
 def local_save_comments(array, fb_owner_id):
-    # print 'local_save_comments'
     for json_obj in array:
         comment_obj, created = Comment.objects.get_or_create(comment_id = json_obj['id'])
         comment_obj.owner_id = fb_owner_id
@@ -189,14 +168,11 @@ def local_save_comments(array, fb_owner_id):
 
 @csrf_exempt
 def save_links(request):
-    # print 'save_links'
     json_data = simplejson.load(request)
     local_save_links(json_data['link_list'], json_data['fb_owner_id'])
     return HttpResponse("Finished storing links for user")
 
 def local_save_links(array, fb_owner_id):
-    # print 'local_save_links'
-    
     for json_obj in array:
 
         link_obj, created = Link.objects.get_or_create(link_id = json_obj['id'])
