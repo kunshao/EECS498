@@ -99,7 +99,7 @@ label {
     text-indent: -15px;
 }
 
-button
+#btnMakeQuery
 {
   -webkit-box-shadow:rgba(0,0,0,0.0.1) 0 1px 0 0;
   -moz-box-shadow:rgba(0,0,0,0.0.1) 0 1px 0 0;
