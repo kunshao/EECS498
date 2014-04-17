@@ -33,8 +33,10 @@ def make_query(request):
     owner_id = request.GET['owner_id']
     query_str = request.GET['query']
     content_flags = int(request.GET['content_flags'])
+    selected_friends = request.GET['selected_friends']
 
-    relevant_content = search.get_relevant_contents(owner_id, query_str, content_flags)
+    relevant_content = search.get_relevant_contents(owner_id, selected_friends,
+            query_str, content_flags)
 
     data_obj = {
         'data' : relevant_content

@@ -21,7 +21,7 @@ function makeQuery(){
         log('makeQuery: '+ selected_friends[i]);
     };
     get_friends_data(selected_friends);
-    sendQuery(query, content_type_flags)
+    sendQuery(query, content_type_flags, selected_friends)
 }
 
 function get_friends_data(selected_friends){
@@ -33,14 +33,14 @@ function get_friends_data(selected_friends){
         log("Hi");
         get_statuses(id);
         get_posts(id);
-        
     };
 }
 
-function sendQuery(query, content_type){
+function sendQuery(query, content_type, selected_friends){
     $.getJSON(
             make_query_url,
-            {owner_id : window.my_id, query : query, content_flags : content_type},
+            {owner_id : window.my_id, query : query, content_flags : content_type, 
+                selected_friends : selected_friends},
             function(server_response) {
 
                 content_list_obj = server_response.data;
