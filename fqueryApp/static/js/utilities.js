@@ -40,7 +40,7 @@ function get_friends_data(selected_friends){
 function sendQuery(query, content_type){
     $.getJSON(
             make_query_url,
-            {query : query, content_flags : content_type},
+            {owner_id : window.my_id, query : query, content_flags : content_type},
             function(server_response) {
 
                 content_list_obj = server_response.data;
