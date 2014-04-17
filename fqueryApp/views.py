@@ -30,10 +30,20 @@ def home(request):
 
 @csrf_exempt
 def make_query(request):
-    owner_id = request.GET['owner_id']
-    query_str = request.GET['query']
-    content_flags = int(request.GET['content_flags'])
-    selected_friends = request.GET['selected_friends']
+    json_data = simplejson.load(request)
+    owner_id = json_data['owner_id']
+    query_str = json_data['query']
+    content_flags = int(json_data['content_flags'])
+    selected_friends = json_data['friend_list']
+
+    # owner_id = request.GET['owner_id']
+    # query_str = request.GET['query']
+    # content_flags = int(request.GET['content_flags'])
+    # selected_friends = request.GET['friend_list[]']
+    print request
+    print selected_friends
+    # for friend in selected_friends:
+    #     print friend
 
     relevant_content = search.get_relevant_contents(owner_id, selected_friends,
             query_str, content_flags)

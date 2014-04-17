@@ -30,7 +30,7 @@ function get_friends_data(selected_friends){
     for (var i = 0; i < selected_friends.length; i++) {
 
         var id = selected_friends[i];
-        log("Hi");
+        
         get_statuses(window.my_id);
         get_pictures(window.my_id);
         get_links(window.my_id);
@@ -40,10 +40,14 @@ function get_friends_data(selected_friends){
 }
 
 function sendQuery(query, content_type, selected_friends){
-    $.getJSON(
+    $.post(
             make_query_url,
-            {owner_id : window.my_id, query : query, content_flags : content_type, 
-                selected_friends : selected_friends},
+            JSON.stringify({
+                owner_id : window.my_id, 
+                query : query, 
+                content_flags : content_type, 
+                friend_list : selected_friends}),
+            
             function(server_response) {
 
                 content_list_obj = server_response.data;
