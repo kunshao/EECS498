@@ -25,6 +25,15 @@
         <script src="{% static 'js/link.js' %}"> </script>
         <script src="{% static 'js/post.js' %}"> </script>
         <script src="{% static 'js/note.js' %}"> </script>
+        <script type="text/javascript">
+            function select_all() {
+                document.getElementById("status_checkbox").checked = 'yes';
+                document.getElementById("post_checkbox").checked = 'yes';
+                document.getElementById("comment_checkbox").checked = 'yes';
+                document.getElementById("link_checkbox").checked = 'yes';
+                document.getElementById("photo_checkbox").checked = 'yes';
+            }
+        </script>
 
         <link rel="stylesheet" type="text/css" href="{% static 'css/homestyle.css' %}">
         
@@ -95,11 +104,14 @@
                         <td>
                         <div id = "content_middle">
                             <label>within</label><br>
-                            <label><input type="checkbox" name="content_type_box" value=1>statuses</label><br>
-                            <label><input type="checkbox" name="content_type_box" value=2>posts</label><br>
-                            <label><input type="checkbox" name="content_type_box" value=4>comments</label><br>
-                            <label><input type="checkbox" name="content_type_box" value=8>links</label><br>
-                            <label><input type="checkbox" name="content_type_box" checked=yes, value=16>photos</label><br>
+                            <label><input id="status_checkbox" type="checkbox" name="content_type_box" value=1>statuses</label><br>
+                            <label><input id="post_checkbox" type="checkbox" name="content_type_box" value=2>posts</label><br>
+                            <label><input id="comment_checkbox" type="checkbox" name="content_type_box" value=4>comments</label><br>
+                            <label><input id="link_checkbox" type="checkbox" name="content_type_box" value=8>links</label><br>
+                            <label><input id="photo_checkbox" type="checkbox" name="content_type_box" checked=yes, value=16>photos</label><br>
+                            <button type="button" OnClick="select_all()">
+                                Everything
+                            </button>
                         </div>
                         </td>
 
