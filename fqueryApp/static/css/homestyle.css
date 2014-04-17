@@ -64,23 +64,6 @@ h2 {
   vertical-align:text-top;
 }
 
-
-#query_response_content_div ul  {
-  padding-left:0;   
-}
-#query_response_content_div ul, #query_response_content_div li {
-  margin-left: 0;
-  text-align: left;
-  list-style-position:inside
-}
-
-/*.result_list{
-  text-align: left;
-  align: left;
-  margin-left:10px;
-}
-
-*/
 input[type = text]{
    border: 1px solid #CCC;
    color: #888;

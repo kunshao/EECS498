@@ -72,8 +72,9 @@ function sendQuery(query, content_type, selected_friends){
                     var one_type_div = document.createElement("div");
 
                     one_type_div.innerHTML = flagDict[content_type] + ": ";
-                    content_list_div.appendChild(document.createElement("br"));
                     content_list_div.appendChild(one_type_div);
+
+                    content_list_div.appendChild(document.createElement("br"));
 
                     var content = content_list_obj[content_type];
                     for (key in content){
