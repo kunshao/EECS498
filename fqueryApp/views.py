@@ -74,7 +74,6 @@ def save_posts(request):
 
 def local_save_posts(post_array, fb_owner_id):
     for json_obj in post_array:
-        print "post id: " + str(json_obj['id'])
         post, created = Post.objects.get_or_create(post_id = json_obj['id'])
         if ('caption' in json_obj):
             post.post_caption = json_obj['caption'].encode('ascii', 'ignore')
