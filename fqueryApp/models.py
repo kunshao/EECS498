@@ -75,7 +75,7 @@ class Video(models.Model):
             return self.video_name
 
 class Post(models.Model):
-    post_id                 = models.CharField(max_length = 30, primary_key = True)
+    post_id                 = models.CharField(max_length = 100, primary_key = True)
     owner_id                = models.CharField(max_length = 30, blank = False)
     post_caption            = models.TextField(blank = True)
     post_created_time       = models.DateTimeField(blank = True, null = True)
