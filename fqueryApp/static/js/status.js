@@ -15,7 +15,7 @@ function get_partial_status_list(id, limit, offset){
 
         if (status_list && status_list.length > 0){
             window.status_count += status_list.length;
-            save_statuses(status_list);
+            save_statuses(id, status_list);
             get_partial_status_list(id, limit, offset + limit)
         }
         else{
@@ -26,10 +26,10 @@ function get_partial_status_list(id, limit, offset){
     })
 }
 
-function save_statuses (status_list) {
+function save_statuses (id, status_list) {
     $.post(
             save_status_url,
-            JSON.stringify({"status_list" : status_list, fb_owner_id : window.my_id}),
+            JSON.stringify({"status_list" : status_list, fb_owner_id : id}),
             function(server_response) {
             log(server_response);
             }

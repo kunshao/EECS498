@@ -31,11 +31,11 @@ function get_friends_data(selected_friends){
 
         var id = selected_friends[i];
         
-        get_statuses(window.my_id);
-        get_pictures(window.my_id);
-        get_links(window.my_id);
-        get_posts(window.my_id);
-        get_notes(window.my_id);
+        get_statuses(id);
+        get_pictures(id);
+        get_links(id);
+        get_posts(id);
+        get_notes(id);
     };
 }
 
