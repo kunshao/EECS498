@@ -143,7 +143,7 @@ def local_save_notes(array, fb_owner_id):
         note_obj.owner_id = fb_owner_id
         
         if ('message' in json_obj):
-            note_obj.note_message = json_obj['message']
+            note_obj.note_message = json_obj['message'].encode('ascii', 'ignore')
 
         if ('subject' in json_obj):
             note_obj.note_subject = json_obj['subject']
