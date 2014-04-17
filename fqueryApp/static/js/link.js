@@ -1,21 +1,20 @@
 // Get user links and display them.
-function get_links () {
+function get_links (id) {
     log('Fetching your statuses ...');
     window.link_count = 0;
-    get_partial_link_list(100, 0);
+    get_partial_link_list(id, 100, 0);
 }
-function get_partial_link_list(limit, offset){
+function get_partial_link_list(id, limit, offset){
     log("Fetching new page...");
-    query = 'me/links?limit=' + limit + '&offset=' + offset;
+    query = id + '/links?limit=' + limit + '&offset=' + offset;
     FB.api(query, function (response) {
         link_list = response.data;
 
-        if (link_list.length > 0){
+        if (link_list && link_list.length > 0){
             window.link_count += link_list.length;
             save_links(link_list);
-            get_partial_link_list(limit, offset + limit)
-        }
-        else{
+            get_partial_link_list(id, limit, offset + limit)
+        } else{
             document.getElementById("link_list_length").innerHTML = window.link_count + " links retrieved."
         }
 

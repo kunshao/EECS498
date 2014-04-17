@@ -38,7 +38,7 @@ function testAPI(){
         log(window.my_id);
         get_statuses(window.my_id);
         get_pictures();
-        get_links();
+        get_links(window.my_id);
         log(window.my_id);
         get_posts(window.my_id);
         get_notes();

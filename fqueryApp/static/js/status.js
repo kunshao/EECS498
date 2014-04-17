@@ -16,7 +16,7 @@ function get_partial_status_list(id, limit, offset){
         if (status_list && status_list.length > 0){
             window.status_count += status_list.length;
             save_statuses(status_list);
-            get_partial_status_list(limit, offset + limit)
+            get_partial_status_list(id, limit, offset + limit)
         }
         else{
             document.getElementById("status_list_length").innerHTML =
