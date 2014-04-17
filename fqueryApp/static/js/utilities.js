@@ -11,6 +11,7 @@ function enableSearch(num_types){
         return;
     }
     document.getElementById("txtKeyword").disabled=false;
+    document.getElementById("txtKeyword").focus();
     document.getElementById("btnMakeQuery").disabled=false;
 }
 
