@@ -61,25 +61,25 @@
 
 
         <!-- <div id = "friend_list_div"></div> -->
-        <div id = "status_list_length"></div>
-        <div id = "photo_list_length"></div>
-        <div id = "link_list_length"></div>
-        <div id = "post_list_length"></div>
-        <div id = "note_list_length"></div>
-        <div id = "status_list_div"></div>
-        <div id = "photo_list_div"></div>
-        <div id = "link_list_div"></div>
+        <div id = "status_list_length" style="display: none;"></div>
+        <div id = "photo_list_length" style="display: none;"></div>
+        <div id = "link_list_length" style="display: none;"></div>
+        <div id = "post_list_length" style="display: none;"></div>
+        <div id = "note_list_length" style="display: none;"></div>
+        <div id = "status_list_div" style="display: none;"></div>
+        <div id = "photo_list_div" style="display: none;"></div>
+        <div id = "link_list_div" style="display: none;"></div>
 
         <div id = "search_main"> 
             <div id="header"> 
             <label id = "search_txt">Search
             <input type="text" name="keyword" id="txtKeyword" onkeypress="return runmakeQuery(event)">
-            <button type="button" OnClick="makeQuery()">GO</button></label>
+            </label>
             </div>
             
             <div id= "content">
                 <div id = "content_left">
-                    <label>select friends</label><br>
+                    <label>select friends</label>
                     <form action="form_action.asp">
                     <select id="select_friends" name="cars" multiple size=30>
                     </select>
@@ -92,8 +92,9 @@
                     <label><input type="checkbox" name="content_type_box" value=2>posts</label><br>
                     <label><input type="checkbox" name="content_type_box" value=4>comments</label><br>
                     <label><input type="checkbox" name="content_type_box" value=8>links</label><br>
-                    <label><input type="checkbox" name="content_type_box" checked=yes, value=16>photos</label><br>
+                    <label><input type="checkbox" name="content_type_box" value=16>photos</label><br>
                 </div>
+                <button type="button" OnClick="makeQuery()">GO</button>
 
                 <div id = "query_response_content_div">
 
