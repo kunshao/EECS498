@@ -21,11 +21,11 @@ CONTENT_TYPE_LIST = [CONTENT_TYPE_STATUS, CONTENT_TYPE_POST, CONTENT_TYPE_COMMEN
 stopwords = queryProcess.importStopwords()
 
 ######## tokenizing ###########
-def tokenize_status():
+def tokenize_status(own_id):
     tokens_lst = defaultdict(dict)
 
-    docs_all = Status.objects.all()
-    num_docs  = Status.objects.count()
+    docs_all = Status.objects.filter(owner_id = own_id)
+    num_docs  = docs_all.count()
     for status in docs_all:
         tokens = queryProcess.processLine(status.status_message)
         for token in tokens:
@@ -33,21 +33,21 @@ def tokenize_status():
 
     return tokens_lst, num_docs
 
-def tokenize_comment():
+def tokenize_comment(own_id):
     tokens_lst = defaultdict(dict)
 
-    docs_all = Comment.objects.all()
-    num_docs  = Comment.objects.count()
+    docs_all = Comment.objects.filter(owner_id = own_id)
+    num_docs  = docs_all.count()
     for comment in docs_all:
         tokens = queryProcess.processLine(comment.comment_message)
         for token in tokens:
             tokens_lst[token][comment.comment_id] = tokens_lst.get(token, {}).get(comment.comment_id, 0) + 1
     return tokens_lst, num_docs
 
-def tokenize_post():
+def tokenize_post(own_id):
     tokens_lst = defaultdict(dict)
-    docs_all = Post.objects.all()
-    num_docs  = Post.objects.count()
+    docs_all = Post.objects.filter(owner_id = own_id)
+    num_docs  = docs_all.count()
     for post in docs_all:
         #print "id", post.post_id
         #print "caption:", post.post_caption
@@ -64,11 +64,11 @@ def tokenize_post():
 
     return tokens_lst, num_docs
 
-def tokenize_link():
+def tokenize_link(own_id):
     tokens_lst = defaultdict(dict)
 
-    docs_all = Link.objects.all()
-    num_docs  = Link.objects.count()
+    docs_all = Link.objects.filter(owner_id = own_id)
+    num_docs  = docs_all.count()
     for link in docs_all:
         tokens = queryProcess.processLine(link.link_name + ' '+ link.link_description + ' '+ link.link_message)
         for token in tokens:
@@ -76,11 +76,11 @@ def tokenize_link():
     return tokens_lst, num_docs
     
 
-def tokenize_photo():
+def tokenize_photo(own_id):
     tokens_lst = defaultdict(dict)
 
-    docs_all = Photo.objects.all()
-    num_docs  = Photo.objects.count()
+    docs_all = Photo.objects.filter(owner_id = own_id)
+    num_docs  = docs_all.count()
     for photo in docs_all:
         tokens = queryProcess.processLine(photo.photo_name)
         for token in tokens:
@@ -95,12 +95,12 @@ token_funcs_g = {
     CONTENT_TYPE_PHOTO : tokenize_photo,
     }
 
-def get_tokens(c_type):
+def get_tokens(owner_id, c_type):
     tokens_lst = defaultdict(dict)
     num_docs = 0
 
     if c_type in token_funcs_g:
-        return token_funcs_g[c_type]()
+        return token_funcs_g[c_type](owner_id)
 
     return [tokens_lst, num_docs]
 
@@ -189,7 +189,7 @@ def get_results(doc_set, c_type):
 
     return results
 
-def apply_search(query, c_type):
+def apply_search(owner_id, query, c_type):
 
     # tokens_lst is a dictionary of token and its occurrences in document
     # Each word is mapped to a list of (document number, document frequency) pair
@@ -198,7 +198,7 @@ def apply_search(query, c_type):
 
     tokens_lst = defaultdict(dict)
 
-    [tokens_lst, num_docs] = get_tokens(c_type)
+    [tokens_lst, num_docs] = get_tokens(owner_id, c_type)
 
     # eliminate stopwords and stemming
     tokens_lst = queryProcess.stemmer(tokens_lst, stopwords)
@@ -263,13 +263,13 @@ def apply_search(query, c_type):
     return results
 
 
-def get_relevant_contents(query, content_type):
+def get_relevant_contents(owner_id, query, content_type):
 
     content_dict = {}
 
     for c_type in CONTENT_TYPE_LIST:
 
         if ((content_type & c_type) == c_type):
-            content_dict[c_type] = apply_search(query, c_type)
+            content_dict[c_type] = apply_search(owner_id, query, c_type)
 
     return content_dict
