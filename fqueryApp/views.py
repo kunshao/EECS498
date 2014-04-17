@@ -183,7 +183,8 @@ def local_save_links(array, fb_owner_id):
 
         link_obj.link_from_id = json_obj['from']['id']
         link_obj.owner_id = fb_owner_id
-        link_obj.link_link = json_obj['link']
+        if ('link' in json_obj):
+            link_obj.link_link = json_obj['link'].encode('ascii', 'ignore')
         if ('message' in json_obj):
             link_obj.link_message = json_obj['message'].encode('ascii', 'ignore')
         if ('name' in json_obj):
