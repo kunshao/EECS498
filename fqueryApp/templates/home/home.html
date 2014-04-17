@@ -75,7 +75,6 @@
             <div id="header"> 
             <label id = "search_txt">Search
             <input type="text" name="keyword" id="txtKeyword" onkeypress="return runmakeQuery(event)" disabled>
-            <button type="button" id="btnMakeQuery" OnClick="makeQuery()" disabled>GO</button></label>
             </label>
             </div>
             
@@ -96,7 +95,7 @@
                     <label><input type="checkbox" name="content_type_box" value=8>links</label><br>
                     <label><input type="checkbox" name="content_type_box" value=16>photos</label><br>
                 </div>
-                <button type="button" OnClick="makeQuery()">GO</button>
+                <button type="button" id="btnMakeQuery" OnClick="makeQuery()" disabled>GO</button></label>
 
                 <div id = "query_response_content_div">
 
