@@ -14,8 +14,6 @@ function runmakeQuery(event){
 function makeQuery(){
     var query     = document.getElementById("txtKeyword").value;
     var content_type_flags = get_content_type_flags();
-    document.getElementById("query_content_div").innerHTML = "You searched: " + query + " within " + content_type_flags;
-    // get_selected_friend_list();
     var selected_friends = get_selected_friend_list();
     for (var i = 0; selected_friends && i < selected_friends.length; i++) {
         log('makeQuery: '+ selected_friends[i]);

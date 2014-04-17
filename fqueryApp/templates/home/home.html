@@ -31,6 +31,12 @@
             Welcome to fQuery HOME page!    
         </title>
     </head>
+
+    <style>
+    a:link {color:#E9E9E9;}    /* unvisited link */
+    a:visited {color:#4EB1BA;} /* visited link */
+    </style>
+
     <body>
         <h1>
             Welcome to fQuery    
@@ -64,49 +70,39 @@
         <div id = "photo_list_div"></div>
         <div id = "link_list_div"></div>
 
-        <div> 
-            <label id = "search">Search
+        <div id = "search_main"> 
+            <div id="header"> 
+            <label id = "search_txt">Search
             <input type="text" name="keyword" id="txtKeyword" onkeypress="return runmakeQuery(event)">
             <button type="button" OnClick="makeQuery()">GO</button></label>
-            <label>select friends</label><br>
-            <form action="form_action.asp">
-                <select id="select_friends" name="cars" multiple size=30>
-                    <!-- <option value="volvo">Volvo</option>
-                    <option value="saab">Saaasdfasdfb</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
+            </div>
+            
+            <div id= "content">
+                <div id = "content_left">
+                    <label>select friends</label><br>
+                    <form action="form_action.asp">
+                    <select id="select_friends" name="cars" multiple size=30>
+                    </select>
+                    </form>
+                </div>
 
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
+                <div id = "content_middle">
+                    <label>within</label><br>
+                    <label><input type="checkbox" name="content_type_box" value=1>statuses</label><br>
+                    <label><input type="checkbox" name="content_type_box" value=2>posts</label><br>
+                    <label><input type="checkbox" name="content_type_box" value=4>comments</label><br>
+                    <label><input type="checkbox" name="content_type_box" value=8>links</label><br>
+                    <label><input type="checkbox" name="content_type_box" checked=yes, value=16>photos</label><br>
+                </div>
 
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option> -->
-                </select>
-                <!-- <input type="submit"> -->
-                <button type="button" OnClick="get_selected_friend_list()">submit</button>
-            </form>
-            <label>within</label><br>
+                <div id = "query_response_content_div">
+
+                </div>
+
+            </div>
+            
+            
         </div>
-        <div>
-            <label><input type="checkbox" name="content_type_box" value=1>statuses</label><br>
-            <label><input type="checkbox" name="content_type_box" value=2>posts</label><br>
-            <label><input type="checkbox" name="content_type_box" value=4>comments</label><br>
-            <label><input type="checkbox" name="content_type_box" value=8>links</label><br>
-            <label><input type="checkbox" name="content_type_box" checked=yes, value=16>photos</label><br>
-<!--             <label><input type="checkbox" name="content_type_box" value=32>notes</label><br>
-            <label><input type="checkbox" name="content_type_box" value=64>videos</label><br> -->
-
-        </div>
-
-        <div id = "query_content_div"></div>
-        <br>
-        <div id = "query_response_content_div"></div>
 
     </body>
 </html>

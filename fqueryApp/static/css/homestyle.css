@@ -5,6 +5,12 @@ html {
   -webkit-text-size-adjust: 100%; /* 2 */
 }
 
+a {
+  link
+}
+  a:link {color:#FF0000;}    /* unvisited link */
+  a:visited {color:#00FF00;} /* visited link */
+
 body {
   background-color: #222930;
 }
@@ -32,7 +38,10 @@ h2 {
   width: 450px;
 }
 
-#search{
+#search_main{
+  text-align: center;
+}
+#search_txt{
   font-family:'Lucida Grande',Tahoma,Verdana,Arial,sans-serif;
   color:#4EB1BA;
   font-size: 28px;
