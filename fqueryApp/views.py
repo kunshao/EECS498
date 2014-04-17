@@ -33,8 +33,7 @@ def make_query(request):
     owner_id = request.GET['owner_id']
     query_str = request.GET['query']
     content_flags = int(request.GET['content_flags'])
-    json_data = simplejson.load(request)
-    selected_friends = json_data['selected_friends']
+    selected_friends = request.GET['selected_friends']
 
     relevant_content = search.get_relevant_contents(owner_id, selected_friends,
             query_str, content_flags)
