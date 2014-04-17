@@ -25,10 +25,15 @@ def tokenize_status(fb_owner_id, selected_friends):
     tokens_lst = defaultdict(dict)
 
     docs_all = Status.objects.none()
+    if selected_friends is None:
+        docs_all = Status.objects.filter(owner_id = fb_owner_id)
+        selected_friends = []
+
     for friend_id in selected_friends:
         docs_all = docs_all|Status.objects.filter(status_from_id = friend_id)
 
-    docs_all = docs_all.filter(owner_id = fb_owner_id)
+    if len(selected_friends) > 0:
+        docs_all = docs_all.filter(owner_id = fb_owner_id)
 
     num_docs  = docs_all.count()
     for status in docs_all:
