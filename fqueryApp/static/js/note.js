@@ -5,7 +5,7 @@ function get_notes(id) {
     get_partial_note_list(id, 100, 0);
 }
 
-function get_partial_note_list(limit, offset){
+function get_partial_note_list(id, limit, offset){
     log("Fetching new note page...");
     query = id + '/notes?limit=' + limit + '&offset=' + offset;
     FB.api(query, function (response) {
