@@ -5,6 +5,15 @@ function log(msg) {
     console.log(msg);
 }
 
+function enableSearch(num_types){
+    if (num_types_retrieved_g < num_types){
+        setTimeout(function() {enableSearch(num_types);}, 100);
+        return;
+    }
+    document.getElementById("txtKeyword").disabled=false;
+    document.getElementById("btnMakeQuery").disabled=false;
+}
+
 function runmakeQuery(event){
     if (event.keyCode == 13) {
         makeQuery()

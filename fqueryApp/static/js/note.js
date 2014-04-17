@@ -19,6 +19,7 @@ function get_partial_note_list(id, limit, offset){
         else{
             document.getElementById("note_list_length").innerHTML =
             window.note_count + " notes retrieved."
+            ++num_types_retrieved_g;
         }
 
     })

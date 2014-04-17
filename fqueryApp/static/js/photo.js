@@ -20,6 +20,7 @@ function get_partial_picture_list(id, limit, offset){
         else{
             document.getElementById("photo_list_length").innerHTML =
             window.photo_count + " photos retrieved."
+            ++num_types_retrieved_g;
         }
 
     })
