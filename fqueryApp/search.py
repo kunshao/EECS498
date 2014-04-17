@@ -35,7 +35,7 @@ def get_docs(fb_owner_id, selected_friends, type_obj, filter_id):
     return docs_all
 
 def tokenize_status(fb_owner_id, selected_friends):
-    docs_all = get_docs(fb_owner_id, selected_friends, Status, "status_from_id")
+    docs_all = get_docs(fb_owner_id, selected_friends, Status, "owner_id")
 
     tokens_lst = defaultdict(dict)
     num_docs  = docs_all.count()
@@ -47,7 +47,7 @@ def tokenize_status(fb_owner_id, selected_friends):
     return tokens_lst, num_docs
 
 def tokenize_comment(fb_owner_id, selected_friends):
-    docs_all = get_docs(fb_owner_id, selected_friends, Comment, "comment_from_id")
+    docs_all = get_docs(fb_owner_id, selected_friends, Comment, "owner_id")
 
     tokens_lst = defaultdict(dict)
     num_docs  = docs_all.count()
@@ -58,7 +58,7 @@ def tokenize_comment(fb_owner_id, selected_friends):
     return tokens_lst, num_docs
 
 def tokenize_post(fb_owner_id, selected_friends):
-    docs_all = get_docs(fb_owner_id, selected_friends, Post, "post_from_id")
+    docs_all = get_docs(fb_owner_id, selected_friends, Post, "owner_id")
 
     tokens_lst = defaultdict(dict)
     num_docs  = docs_all.count()
@@ -79,7 +79,7 @@ def tokenize_post(fb_owner_id, selected_friends):
     return tokens_lst, num_docs
 
 def tokenize_link(fb_owner_id, selected_friends):
-    docs_all = get_docs(fb_owner_id, selected_friends, Link, "link_from_id")
+    docs_all = get_docs(fb_owner_id, selected_friends, Link, "owner_id")
 
     tokens_lst = defaultdict(dict)
     num_docs  = docs_all.count()
@@ -91,7 +91,7 @@ def tokenize_link(fb_owner_id, selected_friends):
     
 
 def tokenize_photo(fb_owner_id, selected_friends):
-    docs_all = get_docs(fb_owner_id, selected_friends, Photo, "photo_from_id")
+    docs_all = get_docs(fb_owner_id, selected_friends, Photo, "owner_id")
 
     tokens_lst = defaultdict(dict)
     num_docs  = docs_all.count()
