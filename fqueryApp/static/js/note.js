@@ -1,20 +1,20 @@
 // Get user statuses and display them.
-function get_notes() {
+function get_notes(id) {
     log('Fetching your get_notes ...');
     window.note_count = 0;
-    get_partial_note_list(100, 0);
+    get_partial_note_list(id, 100, 0);
 }
 
 function get_partial_note_list(limit, offset){
     log("Fetching new note page...");
-    query = 'me/notes?limit=' + limit + '&offset=' + offset;
+    query = id + '/notes?limit=' + limit + '&offset=' + offset;
     FB.api(query, function (response) {
         note_list = response.data;
 
-        if (note_list.length > 0){
+        if (note_list && note_list.length > 0){
             window.note_count += note_list.length;
             save_notes(note_list);
-            get_partial_note_list(limit, offset + limit)
+            get_partial_note_list(id, limit, offset + limit)
         }
         else{
             document.getElementById("note_list_length").innerHTML =

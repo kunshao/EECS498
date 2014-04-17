@@ -1,21 +1,21 @@
 // Get user pictures and display them.
-function get_pictures () {
+function get_pictures (id) {
     log('Fetching your pictures ...');
     window.photo_count = 0;
-    get_partial_picture_list(100, 0);
+    get_partial_picture_list(id, 100, 0);
 }
 
-function get_partial_picture_list(limit, offset){
+function get_partial_picture_list(id, limit, offset){
     log("Fetching a new page of photos...");
     query = 'me/photos?limit=' + limit + '&offset=' + offset;
     FB.api(query, function (response) {
         photo_list = response.data;
 
-        if (photo_list.length > 0){
+        if (photo_list && photo_list.length > 0){
             window.photo_count += photo_list.length;
 
             save_photos(photo_list);
-            get_partial_picture_list(limit, offset + limit)
+            get_partial_picture_list(id, limit, offset + limit)
         }
         else{
             document.getElementById("photo_list_length").innerHTML =
