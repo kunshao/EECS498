@@ -17,7 +17,7 @@ function makeQuery(){
     document.getElementById("query_content_div").innerHTML = "You searched: " + query + " within " + content_type_flags;
     // get_selected_friend_list();
     var selected_friends = get_selected_friend_list();
-    for (var i = 0; i < selected_friends && selected_friends.length; i++) {
+    for (var i = 0; selected_friends && i < selected_friends.length; i++) {
         log('makeQuery: '+ selected_friends[i]);
     };
     get_friends_data(selected_friends);
