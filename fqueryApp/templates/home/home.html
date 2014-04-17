@@ -78,28 +78,37 @@
             </div>
             
             <div id= "content">
-                <div id = "content_left">
-                    <label>select friends</label><br>
-                    <form action="form_action.asp">
-                    <select id="select_friends" name="cars" multiple size=30>
-                    </select>
-                    </form>
-                </div>
+                <table>
+                    <tr>
+                        <td>
+                        <div id = "content_left">
+                            <label>select friends</label><br>
+                            <form action="form_action.asp">
+                            <select id="select_friends" name="cars" multiple size=30>
+                            </select>
+                            </form>
+                        </div>
+                        </td>
 
-                <div id = "content_middle">
-                    <label>within</label><br>
-                    <label><input type="checkbox" name="content_type_box" value=1>statuses</label><br>
-                    <label><input type="checkbox" name="content_type_box" value=2>posts</label><br>
-                    <label><input type="checkbox" name="content_type_box" value=4>comments</label><br>
-                    <label><input type="checkbox" name="content_type_box" value=8>links</label><br>
-                    <label><input type="checkbox" name="content_type_box" checked=yes, value=16>photos</label><br>
-                </div>
+                        <td>
+                        <div id = "content_middle">
+                            <label>within</label><br>
+                            <label><input type="checkbox" name="content_type_box" value=1>statuses</label><br>
+                            <label><input type="checkbox" name="content_type_box" value=2>posts</label><br>
+                            <label><input type="checkbox" name="content_type_box" value=4>comments</label><br>
+                            <label><input type="checkbox" name="content_type_box" value=8>links</label><br>
+                            <label><input type="checkbox" name="content_type_box" checked=yes, value=16>photos</label><br>
+                        </div>
+                        </td>
 
-                <div id = "query_response_content_div">
-
-                </div>
-
+                        <td>
+                            <div id = "query_response_content_div"> </div>
+                        </td>
+                    <tr>
+                </table>
             </div>
+
+            
             
             
         </div>

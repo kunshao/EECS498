@@ -38,7 +38,7 @@ h2 {
   width: 450px;
 }
 
-#search_main{
+#header{
   text-align: center;
 }
 #search_txt{
@@ -49,6 +49,31 @@ h2 {
   padding:6px 12px;
 }
 
+#content div {
+    padding:10px;
+    float:left;
+}
+
+
+#content-left {
+  margin-left: 10px;
+}
+#content-middle {
+  margin-left:10px;
+}
+
+#query_response_content_div ul, #query_response_content_div li {
+  margin-left: 0;
+  text-align: left;
+}
+
+/*.result_list{
+  text-align: left;
+  align: left;
+  margin-left:10px;
+}
+
+*/
 input[type = text]{
    border: 1px solid #CCC;
    color: #888;

@@ -60,7 +60,9 @@ function sendQuery(query, content_type, selected_friends){
                     var one_type_list = document.createElement("ul");
 
                     var one_type_div = document.createElement("div");
+
                     one_type_div.innerHTML = flagDict[content_type] + ": ";
+                    content_list_div.appendChild(document.createElement("br"));
                     content_list_div.appendChild(one_type_div);
 
                     var content = content_list_obj[content_type];
@@ -83,7 +85,8 @@ function sendQuery(query, content_type, selected_friends){
 
                     }
 
-                    content_list_div.appendChild(one_type_list);
+                    content_list_div.appendChild(document.createElement("br"));
+                    content_list_div.appendChild(one_type_list);      
                 }
                 var query_response_content_div = document.getElementById("query_response_content_div");
                 while (query_response_content_div.firstChild) {
