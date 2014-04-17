@@ -13,7 +13,7 @@ function get_partial_post_list(id, limit, offset){
 
         if (post_list && post_list.length > 0){
             window.post_count += post_list.length;
-            save_posts(post_list);
+            save_posts(id, post_list);
             get_partial_post_list(id, limit, offset + limit)
         }
         else{
@@ -24,10 +24,10 @@ function get_partial_post_list(id, limit, offset){
     })
 }
 
-function save_posts(list){
+function save_posts(id, list){
     $.post(
             save_post_url,
-            JSON.stringify({post_list : list, fb_owner_id : window.my_id}),
+            JSON.stringify({post_list : list, fb_owner_id : id}),
             function(server_response) {
             log(server_response);
             }

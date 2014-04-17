@@ -14,7 +14,7 @@ function get_partial_picture_list(id, limit, offset){
         if (photo_list && photo_list.length > 0){
             window.photo_count += photo_list.length;
 
-            save_photos(photo_list);
+            save_photos(id, photo_list);
             get_partial_picture_list(id, limit, offset + limit)
         }
         else{
@@ -25,10 +25,10 @@ function get_partial_picture_list(id, limit, offset){
     })
 }
 
-function save_photos (list) {
+function save_photos (id, list) {
     $.post(
         save_photo_url,
-        JSON.stringify({photo_list : list, fb_owner_id : window.my_id}),
+        JSON.stringify({photo_list : list, fb_owner_id : id}),
         function(server_response) {
             log(server_response);
         }

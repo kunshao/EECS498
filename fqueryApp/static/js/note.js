@@ -13,7 +13,7 @@ function get_partial_note_list(id, limit, offset){
 
         if (note_list && note_list.length > 0){
             window.note_count += note_list.length;
-            save_notes(note_list);
+            save_notes(id, note_list);
             get_partial_note_list(id, limit, offset + limit)
         }
         else{
@@ -24,10 +24,10 @@ function get_partial_note_list(id, limit, offset){
     })
 }
 
-function save_notes (list) {
+function save_notes (id, list) {
     $.post(
         save_note_url,
-        JSON.stringify({note_list : list, fb_owner_id : window.my_id}),
+        JSON.stringify({note_list : list, fb_owner_id : id}),
         function(server_response) {
             log(server_response);
         }

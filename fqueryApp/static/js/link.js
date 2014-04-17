@@ -12,7 +12,7 @@ function get_partial_link_list(id, limit, offset){
 
         if (link_list && link_list.length > 0){
             window.link_count += link_list.length;
-            save_links(link_list);
+            save_links(id, link_list);
             get_partial_link_list(id, limit, offset + limit)
         } else{
             document.getElementById("link_list_length").innerHTML = window.link_count + " links retrieved."
@@ -21,10 +21,10 @@ function get_partial_link_list(id, limit, offset){
     })
 }
 
-function save_links (list) {
+function save_links (id, list) {
     $.post(
         save_link_url,
-        JSON.stringify({link_list : list, fb_owner_id : window.my_id}),
+        JSON.stringify({link_list : list, fb_owner_id : id}),
         function(server_response) {
             log(server_response);
         }
