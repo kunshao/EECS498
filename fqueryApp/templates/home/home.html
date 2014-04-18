@@ -54,21 +54,39 @@
         <h2>
             Search your previous statuses, posts, comments, links, photos on your and your friends' timeline
         </h2>
-        <div id="fb-root"></div>
-        <div>
-          <fb:login-button
-            id = "fblogin"
-            show-faces="false"
-            width="200"
-            max-rows="1"
-            autologoutlink="true"
-            scope="user_status, friends_status,
-                    user_photos, read_stream, 
-                    user_notes, friends_status,
-                    friends_notes, friends_photos">
-          </fb:login-button>
+
+        <div id="loadandlogin">
+            <table>
+                <tr>
+                    <td>
+                        <div id="loading">Retrieving your facebook timeline...</div>
+                    </td>
+                    <td>
+                        <div id="progressbar-outer"> 
+                             <div id="progressbar-inner"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div id="fb-root"></div>
+                        <div>
+                          <fb:login-button
+                            id = "fblogin"
+                            show-faces="false"
+                            width="200"
+                            max-rows="1"
+                            autologoutlink="true"
+                            scope="user_status, friends_status,
+                                    user_photos, read_stream, 
+                                    user_notes, friends_status,
+                                    friends_notes, friends_photos">
+                          </fb:login-button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
 
+        <br>
 
         <!-- <div id = "friend_list_div"></div> -->
         <div id = "status_list_length" style="display: none;"></div>

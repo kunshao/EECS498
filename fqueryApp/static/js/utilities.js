@@ -7,9 +7,12 @@ function log(msg) {
 
 function enableSearch(num_types){
     if (num_types_retrieved_g < num_types){
+        var percentage = num_types_retrieved_g/num_types * 100; 
+        document.getElementById("progressbar-inner").setAttribute("style", "width:"+ percentage.toString()+ "%;");
         setTimeout(function() {enableSearch(num_types);}, 100);
         return;
     }
+    document.getElementById("progressbar-inner").setAttribute("style", "width:100%;");
     document.getElementById("txtKeyword").disabled=false;
     document.getElementById("txtKeyword").focus();
     document.getElementById("btnMakeQuery").disabled=false;
