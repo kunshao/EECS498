@@ -13,6 +13,7 @@ function enableSearch(num_types){
         return;
     }
     document.getElementById("progressbar-inner").setAttribute("style", "width:100%;");
+    document.getElementById("loading").innerHTML = "Your facebook timeline is retrieved :)";
     document.getElementById("txtKeyword").disabled=false;
     document.getElementById("txtKeyword").focus();
     document.getElementById("btnMakeQuery").disabled=false;
