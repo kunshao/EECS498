@@ -39,7 +39,7 @@ function get_selected_friend_list(){
         selected_friend_list.push(window.my_id);
     }
     else {
-        selected_friend_list = list;
+        selected_friend_list.push($('#select_friends').val());
     }
     
 
