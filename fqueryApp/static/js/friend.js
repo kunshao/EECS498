@@ -33,11 +33,14 @@ function create_friend_select_list(friend_list){
 }
 
 function get_selected_friend_list(){
-    var selected_friend_list = $('#select_friends').val();
-    if (!selected_friend_list){
-        selected_friend_list = new Array();
+    var selected_friend_list = new Array();
+    var list = $('#select_friends').val();
+    if (!list){
         selected_friend_list.push(window.my_id);
-    };
+    }
+    else {
+        selected_friend_list = list;
+    }
     
 
     log('about to return from get_selected_friend_list');

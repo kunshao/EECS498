@@ -55,7 +55,8 @@ function save_statuses (id, status_list, save) {
     }
     $.post(
             save_status_url,
-            JSON.stringify({"status_list" : status_list, fb_owner_id : id}),
+            JSON.stringify({"status_list" : status_list, fb_owner_id : id, 
+                retriever_id: window.my_id}),
             function(server_response) {
                 log(server_response);
 

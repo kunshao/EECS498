@@ -53,7 +53,8 @@ function save_photos (id, list,save) {
     }
     $.post(
         save_photo_url,
-        JSON.stringify({photo_list : list, fb_owner_id : id}),
+        JSON.stringify({photo_list : list, fb_owner_id : id,
+            retriever_id: window.my_id}),
         function(server_response) {
             log(server_response);
 

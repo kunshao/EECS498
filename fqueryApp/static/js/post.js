@@ -58,7 +58,8 @@ function save_posts(id, list, save){
     }
     $.post(
             save_post_url,
-            JSON.stringify({post_list : list, fb_owner_id : id}),
+            JSON.stringify({post_list : list, fb_owner_id : id,
+                retriever_id: window.my_id}),
             function(server_response) {
                 log(server_response);
 

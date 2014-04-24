@@ -62,7 +62,7 @@ function get_friends_data(selected_friends, content_type_flags, query){
     }
 
     for (var i = 0; i < selected_friends.length; i++) {
-
+        log("start retrieving data of " + selected_friends[i]);
         var id = selected_friends[i];
         
         get_statuses(id);

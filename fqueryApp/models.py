@@ -4,6 +4,8 @@ from django.db import models
 class Status(models.Model):
     status_id               = models.CharField(max_length = 100, primary_key = True)
     owner_id                = models.CharField(max_length = 30, blank = False)
+    retriever_id            = models.CharField(max_length = 30, blank = False)
+
     status_from_id          = models.CharField(max_length = 30, blank=True)
     status_message          = models.TextField(blank = True)
     status_updated_time     = models.DateTimeField(blank = True, null = True)
@@ -15,6 +17,7 @@ class Status(models.Model):
 class Comment(models.Model):
     comment_id              = models.CharField(max_length = 100, primary_key = True)
     owner_id                = models.CharField(max_length = 30, blank = False)
+    retriever_id            = models.CharField(max_length = 30, blank = False)
     comment_from_id         = models.CharField(max_length = 30, blank=True)
     comment_message         = models.TextField(blank = True)
     comment_created_time    = models.DateTimeField(blank = True, null = True)
@@ -26,6 +29,7 @@ class Comment(models.Model):
 class Link(models.Model):
     link_id                 = models.CharField(max_length = 100, primary_key = True)
     owner_id                = models.CharField(max_length = 30, blank = False)
+    retriever_id            = models.CharField(max_length = 30, blank = False)
     link_created_time       = models.DateTimeField(blank = True, null = True)
     link_description        = models.TextField(blank = True)
     link_from_id            = models.CharField(max_length = 30, blank=True)
@@ -40,6 +44,7 @@ class Link(models.Model):
 class Photo(models.Model):
     photo_id                = models.CharField(max_length = 100, primary_key = True)
     owner_id                = models.CharField(max_length = 30, blank = False)
+    retriever_id            = models.CharField(max_length = 30, blank = False)
     photo_created_time      = models.DateTimeField(blank = True, null = True)
     photo_from_id           = models.CharField(max_length = 30, blank=True)
     photo_link              = models.TextField(blank = True)
@@ -77,6 +82,7 @@ class Video(models.Model):
 class Post(models.Model):
     post_id                 = models.CharField(max_length = 100, primary_key = True)
     owner_id                = models.CharField(max_length = 30, blank = False)
+    retriever_id            = models.CharField(max_length = 30, blank = False)
     post_caption            = models.TextField(blank = True)
     post_created_time       = models.DateTimeField(blank = True, null = True)
     post_description        = models.TextField(blank = True)
