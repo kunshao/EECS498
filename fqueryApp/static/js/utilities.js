@@ -32,13 +32,26 @@ function makeQuery(){
     for (var i = 0; selected_friends && i < selected_friends.length; i++) {
         log('makeQuery: '+ selected_friends[i]);
     };
-    get_friends_data(selected_friends);
-    sendQuery(query, content_type_flags, selected_friends)
+    get_friends_data(selected_friends, content_type_flags, query);
 }
 
-function get_friends_data(selected_friends){
+function get_friends_data(selected_friends, content_type_flags, query){
+
+    window.statuses_ready = 0;
+    window.pictures_ready = 0;
+    window.links_ready = 0;
+    window.posts_ready = 0;
+
+
+    while (query_response_content_div.firstChild) {
+        query_response_content_div.removeChild(query_response_content_div.firstChild);
+    }
     if (!selected_friends) return;
     log("selected_friends size: ", selected_friends.length);
+    window.query = query;
+    window.content_type_flags = content_type_flags;
+    window.selected_friends = selected_friends;
+
     for (var i = 0; i < selected_friends.length; i++) {
 
         var id = selected_friends[i];
@@ -47,11 +60,13 @@ function get_friends_data(selected_friends){
         get_pictures(id);
         get_links(id);
         get_posts(id);
-        get_notes(id);
+        // get_notes(id);
     };
+    // sendQuery(query, content_type_flags, selected_friends);
 }
 
 function sendQuery(query, content_type, selected_friends){
+    log("entering sendQuery");
     $.post(
             make_query_url,
             JSON.stringify({
@@ -104,9 +119,9 @@ function sendQuery(query, content_type, selected_friends){
                     content_list_div.appendChild(one_type_list);      
                 }
                 var query_response_content_div = document.getElementById("query_response_content_div");
-                while (query_response_content_div.firstChild) {
-                    query_response_content_div.removeChild(query_response_content_div.firstChild);
-                }
+                // while (query_response_content_div.firstChild) {
+                //     query_response_content_div.removeChild(query_response_content_div.firstChild);
+                // }
                 query_response_content_div.appendChild(content_list_div);
             })
 }

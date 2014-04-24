@@ -1,4 +1,5 @@
 function get_friend_list(){
+    
     log('Fetching your friend list...');
     FB.api('/me/friends', function(response){
         log("Total of " + response.data.length + " friends.");
@@ -23,7 +24,7 @@ function create_friend_select_list(friend_list){
     
     for (var i = 0; i < friend_list.length; i++) {
 
-        console.log("Processing " + friend_list[i].name);
+        // console.log("Processing " + friend_list[i].name);
         var friend_option = document.createElement("option");
         friend_option.setAttribute("value", friend_list[i].id);
         friend_option.text = friend_list[i].name;

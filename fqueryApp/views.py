@@ -49,6 +49,9 @@ def make_query(request):
 @csrf_exempt
 def save_statuses(request):
     json_data = simplejson.load(request)
+    print "about to load status_list"
+    for key in json_data:
+        print key
     local_save_statuses(json_data['status_list'], json_data['fb_owner_id'])
     return HttpResponse("Finished storing statuses for user")
 
@@ -68,6 +71,9 @@ def local_save_statuses(status_arrary, fb_owner_id):
 @csrf_exempt
 def save_posts(request):
     json_data = simplejson.load(request)
+    print "about to load post_list"
+    for key in json_data:
+        print key
     local_save_posts(json_data['post_list'], json_data['fb_owner_id'])
     return HttpResponse("Finished storing statuses for user")
 
@@ -169,6 +175,9 @@ def local_save_comments(array, fb_owner_id):
 @csrf_exempt
 def save_links(request):
     json_data = simplejson.load(request)
+    print "about to load link_list"
+    for key in json_data:
+        print key
     local_save_links(json_data['link_list'], json_data['fb_owner_id'])
     return HttpResponse("Finished storing links for user")
 

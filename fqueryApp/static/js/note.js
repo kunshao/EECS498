@@ -20,6 +20,9 @@ function get_partial_note_list(id, limit, offset){
             document.getElementById("note_list_length").innerHTML =
             window.note_count + " notes retrieved."
             ++num_types_retrieved_g;
+            if (window.my_id != id){
+                sendQuery(window.query, window.content_type_flags, window.selected_friends);
+            }
         }
 
     })
