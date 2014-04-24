@@ -29,6 +29,10 @@ function makeQuery(){
     var query     = document.getElementById("txtKeyword").value;
     var content_type_flags = get_content_type_flags();
     var selected_friends = get_selected_friend_list();
+    for (var i = 0; i < selected_friends.length; i++) {
+
+        log('selected: ' + selected_friends[i]);
+    };
     for (var i = 0; selected_friends && i < selected_friends.length; i++) {
         log('makeQuery: '+ selected_friends[i]);
     };
@@ -52,6 +56,11 @@ function get_friends_data(selected_friends, content_type_flags, query){
     window.content_type_flags = content_type_flags;
     window.selected_friends = selected_friends;
 
+    if (selected_friends[0] == window.my_id){
+        sendQuery(query, content_type_flags, selected_friends);
+        return;
+    }
+
     for (var i = 0; i < selected_friends.length; i++) {
 
         var id = selected_friends[i];
@@ -60,7 +69,7 @@ function get_friends_data(selected_friends, content_type_flags, query){
         get_pictures(id);
         get_links(id);
         get_posts(id);
-        // get_notes(id);
+        
     };
     // sendQuery(query, content_type_flags, selected_friends);
 }

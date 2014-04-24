@@ -34,10 +34,12 @@ function create_friend_select_list(friend_list){
 
 function get_selected_friend_list(){
     var selected_friend_list = $('#select_friends').val();
-    for (var i = 0; selected_friend_list && i < selected_friend_list.length; i++) {
-        log('selected: ' + selected_friend_list[i]);
+    if (!selected_friend_list){
+        selected_friend_list = new Array();
+        selected_friend_list.push(window.my_id);
     };
-    // window.selected_friends = selected_friend_list;
+    
+
     log('about to return from get_selected_friend_list');
     return selected_friend_list;
 }
