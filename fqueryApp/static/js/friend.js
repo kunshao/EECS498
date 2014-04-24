@@ -14,7 +14,7 @@ function get_friend_list(){
             // }
 
             // document.getElementById("friend_list_div").appendChild(friend_list_li)
-            create_friend_select_list(response.data);
+            create_friend_select_list(sortByKey(response.data, 'name'));
 
         });
 }
@@ -39,4 +39,11 @@ function get_selected_friend_list(){
     // window.selected_friends = selected_friend_list;
     log('about to return from get_selected_friend_list');
     return selected_friend_list;
+}
+
+function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
 }
