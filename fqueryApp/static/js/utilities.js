@@ -13,7 +13,8 @@ function enableSearch(num_types){
         return;
     }
     document.getElementById("progressbar-inner").setAttribute("style", "width:100%;");
-    document.getElementById("loading").innerHTML = "Your facebook timeline is retrieved :)";
+    document.getElementById("loading").style.visibility = "hidden";
+    document.getElementById("progressbar-outer").style.visibility = "hidden";
     document.getElementById("txtKeyword").disabled=false;
     document.getElementById("txtKeyword").focus();
     document.getElementById("btnMakeQuery").disabled=false;
@@ -46,7 +47,8 @@ function get_friends_data(selected_friends, content_type_flags, query){
     window.links_ready = 0;
     window.posts_ready = 0;
 
-
+    document.getElementById("loading").style.visibility = "visible";
+    document.getElementById("loading").innerHTML = "Retrieving";
     while (query_response_content_div.firstChild) {
         query_response_content_div.removeChild(query_response_content_div.firstChild);
     }
@@ -85,7 +87,7 @@ function sendQuery(query, content_type, selected_friends){
                 friend_list : selected_friends}),
             
             function(server_response) {
-
+                document.getElementById("loading").innerHTML = "Done";
                 content_list_obj = server_response.data;
                 log(content_list_obj);
 
