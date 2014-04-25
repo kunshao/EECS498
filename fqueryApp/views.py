@@ -129,7 +129,7 @@ def local_save_photos(array, fb_owner_id, retriever_id):
         photo_obj.retriever_id = retriever_id
         photo_obj.photo_link = json_obj['link']
         if ('name' in json_obj):
-            photo_obj.photo_name = json_obj['name']
+            photo_obj.photo_name = json_obj['name'].encode('ascii', 'ignore')
         photo_obj.photo_created_time = json_obj['created_time']
         if ('comments' in json_obj):
             local_save_comments(json_obj['comments']['data'], fb_owner_id, 
