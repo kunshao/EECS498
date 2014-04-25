@@ -11,7 +11,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 
-# general setttings
+# General setttings
 db_name = 'fquery_db'
 db_user = 'root'
 db_pwd = '123456'

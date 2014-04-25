@@ -3,7 +3,7 @@
     fquery.rambint.com
     
 
-You will need to login and give permission to our application to access your timeline.
+You will need to login to Facebook and give permission to our application to access your timeline.
 
 
 /* How to run the program locally*/
@@ -31,6 +31,8 @@ You will need to login and give permission to our application to access your tim
 2. Start the server with Django
 
     a. change directory to fQuery
+
+    b. Goto fquery/settings.py, under '# General setttings', modify db_user and db_pwd to your MySQL username and password. Make sure it has the permission to modify the database.
 
     b. Run the command 
         >> python manage.py syncdb
