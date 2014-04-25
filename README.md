@@ -2,7 +2,8 @@
 
     fquery.rambint.com
     
-    You will need to login and give permission to our application to access your timeline.
+
+You will need to login and give permission to our application to access your timeline.
 
 
 /* How to run the program locally*/
@@ -25,7 +26,9 @@
 
  
 2. Start the server with Django
+
     a. change directory to fQuery
+
     b. Run the command 
         >> python manage.py syncdb
 
