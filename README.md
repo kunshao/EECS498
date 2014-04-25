@@ -3,7 +3,7 @@
     fquery.rambint.com
     
 
-    You will need to login and give permission to our application to access your timeline.
+You will need to login and give permission to our application to access your timeline.
 
 
 /* How to run the program locally*/
