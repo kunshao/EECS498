@@ -11,13 +11,16 @@ You will need to login and give permission to our application to access your tim
 1. Set up MySQL database:
 
     a. Download MySQL from: http://dev.mysql.com/downloads/mysql/
+
     b. Follow the instruction and install MySQL on your computer
+
     c. Start your MySQL server:
         Mac: System Preferences > MySQL > Start MySQL Server
         Windows: enter the command 
             >> "C:\Program Files\MySQL\MySQL Server 5.6\bin\mysqld" --console
         For more information about running the server for the first time on Windows, see 
         https://dev.mysql.com/doc/refman/5.5/en/windows-server-first-start.html
+        
     d. Create fquery_db database:
         run MySQL shell 
             >> mysql -u root -p
@@ -32,7 +35,7 @@ You will need to login and give permission to our application to access your tim
     b. Run the command 
         >> python manage.py syncdb
 
-        You should see tables being created in the database:
+    You should see tables being created in the database:
 
             Creating tables ...
             Creating table auth_permission
@@ -57,7 +60,7 @@ You will need to login and give permission to our application to access your tim
             You just installed Django's auth system, which means you don't have any superusers defined.
             Would you like to create one now? (yes/no): 
 
-        Answer no, then you should see:
+    Answer no, then you should see:
 
             Installing custom SQL ...
             Installing indexes ...
@@ -67,7 +70,7 @@ You will need to login and give permission to our application to access your tim
     c. Run the  command
         >> python manage.py runserver
 
-        You should now see:
+    You should now see:
 
             Validating models...
 
