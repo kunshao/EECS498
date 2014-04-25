@@ -30,11 +30,11 @@ You will need to login to Facebook and give permission to our application to acc
  
 2. Start the server with Django
 
-    a. change directory to fQuery
+    a. Change directory to fQuery
 
     b. Goto fquery/settings.py, under '# General setttings', modify db_user and db_pwd to your MySQL username and password. Make sure it has the permission to modify the database.
 
-    b. Run the command 
+    c. Run the command 
         >> python manage.py syncdb
 
     You should see tables being created in the database:
@@ -69,7 +69,7 @@ You will need to login to Facebook and give permission to our application to acc
             Installed 0 object(s) from 0 fixture(s)
 
 
-    c. Run the  command
+    d. Run the  command
         >> python manage.py runserver
 
     You should now see:
