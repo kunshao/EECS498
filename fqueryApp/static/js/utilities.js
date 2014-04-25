@@ -80,7 +80,7 @@ function sendQuery(query, content_type, selected_friends){
             make_query_url,
             JSON.stringify({
                 owner_id : window.my_id, 
-                query : query, 
+                query : document.getElementById("txtKeyword").value, 
                 content_flags : content_type, 
                 friend_list : selected_friends}),
             
