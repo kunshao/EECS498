@@ -1,4 +1,4 @@
-// Get user statuses and display them.
+// Get user posts and display them.
 function get_posts (id) {
     log('Fetching your posts ...');
     window.post_count = 0;
@@ -35,9 +35,9 @@ function print_ready_signals(){
 
 function save_posts(id, list, save){
     if (!save){
-        if (window.statuses_ready == 1){
-            window.statuses_ready = 2;
-            log("statuses_ready");
+        if (window.posts_ready == 1){
+            window.posts_ready = 2;
+            log("posts_ready");
             print_ready_signals();
         }
 
@@ -51,7 +51,7 @@ function save_posts(id, list, save){
 
             sendQuery(window.query, window.content_type_flags, window.selected_friends);    
 
-            window.statuses_ready = 3;
+            window.posts_ready = 3;
 
         }
         return;

@@ -30,9 +30,9 @@ function get_partial_picture_list(id, limit, offset){
 
 function save_photos (id, list,save) {
     if (!save){
-        if (window.statuses_ready == 1){
-            window.statuses_ready = 2;
-            log("statuses_ready");
+        if (window.pictures_ready == 1){
+            window.pictures_ready = 2;
+            log("pictures_ready");
             print_ready_signals();
         }
 
@@ -46,7 +46,7 @@ function save_photos (id, list,save) {
 
             sendQuery(window.query, window.content_type_flags, window.selected_friends);    
 
-            window.statuses_ready = 3;
+            window.pictures_ready = 3;
 
         }
         return;

@@ -1,6 +1,6 @@
 // Get user links and display them.
 function get_links (id) {
-    log('Fetching your statuses ...');
+    log('Fetching your links ...');
     window.link_count = 0;
     get_partial_link_list(id, 100, 0);
 }
@@ -26,9 +26,9 @@ function get_partial_link_list(id, limit, offset){
 
 function save_links (id, list, save) {
     if (!save){
-        if (window.statuses_ready == 1){
-            window.statuses_ready = 2;
-            log("statuses_ready");
+        if (window.links_ready == 1){
+            window.links_ready = 2;
+            log("links_ready");
             print_ready_signals();
         }
 
@@ -42,7 +42,7 @@ function save_links (id, list, save) {
 
             sendQuery(window.query, window.content_type_flags, window.selected_friends);    
 
-            window.statuses_ready = 3;
+            window.links_ready = 3;
 
         }
         return;
