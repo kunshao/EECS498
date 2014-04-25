@@ -3,7 +3,7 @@
     fquery.rambint.com
     
 
-You will need to login and give permission to our application to access your timeline.
+    You will need to login and give permission to our application to access your timeline.
 
 
 /* How to run the program locally*/
@@ -77,7 +77,9 @@ You will need to login and give permission to our application to access your tim
             Starting development server at http://127.0.0.1:8000/
             Quit the server with CONTROL-C.
 
-3. Use any web browser and go to localhost:8000
+3. Use any web browser and go to 
+    
+        localhost:8000
 
     You should now see our website! Login and test it.
 
